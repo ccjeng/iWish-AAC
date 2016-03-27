@@ -15,4 +15,9 @@ public interface RealmTable {
     interface Item {
         String NAME = "name";
     }
+
+    interface SubItem {
+        String NAME = "name";
+    }
+
 }
