@@ -77,6 +77,20 @@ public class ItemRepository implements IItemRepository {
             callback.onSuccess();
     }
 
+
+    @Override
+    public void updateItemById(String id, String name, onUpdateCallback callback) {
+        Realm realm =Realm.getInstance(BaseApplication.realmConfiguration);
+        Item i = realm.where(Item.class).equalTo(RealmTable.ID, id).findFirst();
+        i.setName(name);
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(i);
+        realm.commitTransaction();
+
+        if (callback != null)
+            callback.onSuccess();
+    }
+
     @Override
     public void getAllItems(onGetAllItemsCallback callback) {
         Realm realm =Realm.getInstance(BaseApplication.realmConfiguration);

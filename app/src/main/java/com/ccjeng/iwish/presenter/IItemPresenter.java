@@ -11,9 +11,9 @@ public interface IItemPresenter extends IBasePresenter {
     void addItemByCategoryId(Item item, String categoryId);
     void deleteItemByPosition(int position);
     void deleteItemById(String id);
+    void updateItemById(String id, String name);
 
     void getItemById(String id);
     void getAllItemsByCategoryId(String categoryId);
     void getAllItems();
-    void getCategoryById(String categoryId);
 }

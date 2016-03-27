@@ -2,7 +2,9 @@ package com.ccjeng.iwish.view.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -27,6 +29,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     @Override
     public CategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_main, parent, false);
+
         return new CategoryViewHolder(view);
     }
 
@@ -40,7 +43,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         return categories.size();
     }
 
-    public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+
+    public class CategoryViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener, View.OnCreateContextMenuListener{
 
         TextView tvName;
 
@@ -50,6 +55,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
             tvName = (TextView) itemView.findViewById(R.id.tv_name);
             tvName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 100);
+
+            //itemView.setOnCreateContextMenuListener(this);
+
         }
 
         @Override
@@ -57,6 +65,21 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             Category category = categories.get(getAdapterPosition());
             onItemClickListener.onItemClick(category.getId(), category.getName());
         }
+
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v,
+                                        ContextMenu.ContextMenuInfo menuInfo) {
+
+            //menuInfo is null
+            menu.add(Menu.NONE, R.id.edit,
+                    Menu.NONE, R.string.edit);
+            menu.add(Menu.NONE, R.id.delete,
+                    Menu.NONE, R.string.delete);
+
+        }
+
+
     }
 
     public interface OnItemClickListener{

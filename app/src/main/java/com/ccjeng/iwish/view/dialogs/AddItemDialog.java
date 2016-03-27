@@ -2,7 +2,6 @@ package com.ccjeng.iwish.view.dialogs;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,22 +11,18 @@ import android.widget.EditText;
 
 import com.ccjeng.iwish.R;
 import com.ccjeng.iwish.model.Item;
+import com.ccjeng.iwish.view.base.BaseDialog;
 
 /**
  * Created by andycheng on 2016/3/26.
  */
-public class AddItemDialog extends DialogFragment implements View.OnClickListener {
+public class AddItemDialog extends BaseDialog implements View.OnClickListener {
 
     private EditText etName;
     private Button btAddData;
 
     private OnAddClickListener listener;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.AlertDialogStyle);
-    }
 
     @Nullable
     @Override

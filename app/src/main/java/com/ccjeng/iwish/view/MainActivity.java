@@ -6,16 +6,15 @@ import android.speech.tts.TextToSpeech;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.ccjeng.iwish.R;
 import com.ccjeng.iwish.controller.Speaker;
@@ -34,6 +33,8 @@ import io.realm.RealmResults;
 
 public class MainActivity extends BaseActivity {
 
+    private static final String TAG = "MainActivity";
+
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.toolbar_layout) CollapsingToolbarLayout collapsingToolbarLayout;
     @Bind(R.id.fab) FloatingActionButton fab;
@@ -45,9 +46,10 @@ public class MainActivity extends BaseActivity {
     private CategoryAdapter adapter;
 
     private final int CHECK_CODE = 0x1;
-    private final int LONG_DURATION = 5000;
-    private final int SHORT_DURATION = 1200;
     private Speaker speaker;
+    private static Mode mode;
+    private MenuItem editMenuItem;
+    private ItemTouchHelper swipeToDismissTouchHelper;
 
 
     @Override
@@ -69,6 +71,7 @@ public class MainActivity extends BaseActivity {
 
     private void initComponents() {
         setSupportActionBar(toolbar);
+        toolbar.setTitle(getString(R.string.app_name));
 
         initRecyclerListener();
 
@@ -85,7 +88,7 @@ public class MainActivity extends BaseActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        ItemTouchHelper swipeToDismissTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
+        swipeToDismissTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
                 ItemTouchHelper.RIGHT, ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
@@ -98,7 +101,8 @@ public class MainActivity extends BaseActivity {
                 adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
             }
         });
-        swipeToDismissTouchHelper.attachToRecyclerView(recyclerView);
+
+
     }
 
     public void showData(RealmResults<Category> categories) {
@@ -116,6 +120,7 @@ public class MainActivity extends BaseActivity {
 
                 Intent intent = new Intent(getApplicationContext(), ItemActivity.class);
                 intent.putExtra(RealmTable.ID, id);
+                intent.putExtra(RealmTable.Category.NAME, name);
 
                 startActivity(intent);
             }
@@ -124,18 +129,6 @@ public class MainActivity extends BaseActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    public void showMessage(CoordinatorLayout coordinatorLayout, String message) {
-
-        Snackbar snackbar = Snackbar
-                .make(coordinatorLayout, message, Snackbar.LENGTH_LONG);
-       // snackbar.getView().setBackgroundColor(Color.RED);
-
-       // TextView tv = (TextView) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
-       // tv.setTextColor(Color.WHITE);
-
-        snackbar.show();
-
-    }
 
     private void showAddDialog() {
         final AddCategoryDialog dialog = new AddCategoryDialog();
@@ -147,6 +140,46 @@ public class MainActivity extends BaseActivity {
                 presenter.addCategory(name);
             }
         });
+    }
+
+    private void startMode(Mode modeToStart){
+
+        switch (modeToStart) {
+            case NORMAL:
+                fab.setVisibility(View.GONE);
+                editMenuItem.setVisible(true);
+
+                swipeToDismissTouchHelper.attachToRecyclerView(null);
+
+                //toolbar.setLogo(null);
+                toolbar.setTitle(getString(R.string.app_name));
+
+                break;
+
+            case EDIT:
+                fab.setVisibility(View.VISIBLE);
+                editMenuItem.setVisible(false);
+
+                //can be deleted
+                swipeToDismissTouchHelper.attachToRecyclerView(recyclerView);
+
+                //toolbar.setLogo(R.mipmap.icon_toolbal_arrow_white);
+                toolbar.setTitle(getString(R.string.edit_mode));
+
+                break;
+        }
+
+        mode = modeToStart;
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mode != Mode.NORMAL) {
+            startMode(Mode.NORMAL);
+        } else {
+            finish();
+        }
     }
 
     @Override
@@ -164,18 +197,24 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        editMenuItem = menu.findItem(R.id.action_edit);
+        startMode(Mode.NORMAL);
+
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-       int id = item.getItemId();
-       if (id == R.id.action_settings) {
-            return true;
-        }
 
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                startActivity(new Intent(MainActivity.this, SettingActivity.class));
+                break;
+            case R.id.action_edit:
+                startMode(Mode.EDIT);
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -196,5 +235,20 @@ public class MainActivity extends BaseActivity {
                 startActivity(install);
             }
         }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        //item.getMenuInfo()
+        switch (item.getItemId()) {
+            case R.id.edit:
+                Log.d(TAG, "edit");
+                break;
+            case R.id.delete:
+                Log.d(TAG, "delete");
+                break;
+        }
+        return super.onContextItemSelected(item);
     }
 }

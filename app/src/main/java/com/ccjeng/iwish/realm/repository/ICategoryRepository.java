@@ -27,6 +27,8 @@ public interface ICategoryRepository extends IBaseRepository {
 
     void deleteCategoryByPosition(int position, onDeleteCallback callback);
 
+    void updateCategoryById(String id, String name, onUpdateCallback callback);
+
     void getAllCategories(onGetAllCategoryCallback callback);
 
     void getCategoryById(String id, onGetCategoryByIdCallback callback);

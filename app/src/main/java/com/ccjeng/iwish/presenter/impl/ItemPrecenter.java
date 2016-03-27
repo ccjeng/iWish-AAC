@@ -1,5 +1,6 @@
 package com.ccjeng.iwish.presenter.impl;
 
+import com.ccjeng.iwish.R;
 import com.ccjeng.iwish.model.Category;
 import com.ccjeng.iwish.model.Item;
 import com.ccjeng.iwish.presenter.IItemPresenter;
@@ -20,18 +21,16 @@ public class ItemPrecenter implements IItemPresenter{
     private ItemActivity view;
     private IItemRepository.onDeleteCallback onDeleteCallback;
     private IItemRepository.onSaveCallback onSaveCallback;
+    private IItemRepository.onUpdateCallback onUpdateCallback;
     private IItemRepository.onGetAllItemsCallback onGetAllItemsCallback;
     private IItemRepository.onGetItemByIdCallback onGetItemByIdCallback;
     private IItemRepository.onGetItemsCallback onGetItemsCallback;
-    private ICategoryRepository.onGetCategoryByIdCallback onGetCategoryByIdCallback;
 
     private IItemRepository itemRepository;
-    private ICategoryRepository categoryRepository;
 
     public ItemPrecenter(ItemActivity view) {
         this.view = view;
         itemRepository = new ItemRepository();
-        categoryRepository = new CategoryRepository();
     }
 
     @Override
@@ -55,6 +54,11 @@ public class ItemPrecenter implements IItemPresenter{
     }
 
     @Override
+    public void updateItemById(String id, String name) {
+        itemRepository.updateItemById(id, name, onUpdateCallback);
+    }
+
+    @Override
     public void getItemById(String id) {
         itemRepository.getItemById(id, onGetItemByIdCallback);
     }
@@ -69,10 +73,6 @@ public class ItemPrecenter implements IItemPresenter{
         itemRepository.getAllItems(onGetAllItemsCallback);
     }
 
-    @Override
-    public void getCategoryById(String categoryId) {
-        categoryRepository.getCategoryById(categoryId, onGetCategoryByIdCallback);
-    }
 
     @Override
     public void subscribeCallbacks() {
@@ -80,12 +80,12 @@ public class ItemPrecenter implements IItemPresenter{
 
             @Override
             public void onSuccess() {
-                view.showMessage(view.coordinatorlayout, "Saved");
+                view.showMessage(view.coordinatorlayout, R.string.saved);
             }
 
             @Override
             public void onError(String message) {
-                view.showMessage(view.coordinatorlayout, "Save Error");
+                view.showMessage(view.coordinatorlayout, R.string.error);
             }
         };
 
@@ -93,12 +93,24 @@ public class ItemPrecenter implements IItemPresenter{
 
             @Override
             public void onSuccess() {
-                view.showMessage(view.coordinatorlayout, "Deleted");
+                view.showMessage(view.coordinatorlayout, R.string.deleted);
             }
 
             @Override
             public void onError(String message) {
-                view.showMessage(view.coordinatorlayout, "Delete Error");
+                view.showMessage(view.coordinatorlayout, R.string.error);
+            }
+        };
+
+        onUpdateCallback = new IItemRepository.onUpdateCallback(){
+            @Override
+            public void onSuccess() {
+                view.showMessage(view.coordinatorlayout, R.string.saved);
+            }
+
+            @Override
+            public void onError(String message) {
+                view.showMessage(view.coordinatorlayout, R.string.error);
             }
         };
 
@@ -135,31 +147,19 @@ public class ItemPrecenter implements IItemPresenter{
 
             @Override
             public void onError(String message) {
-                view.showMessage(view.coordinatorlayout, "Get Data Error");
+                view.showMessage(view.coordinatorlayout, R.string.error);
             }
         };
 
-        onGetCategoryByIdCallback = new ICategoryRepository.onGetCategoryByIdCallback() {
-
-            @Override
-            public void onSuccess(Category category) {
-                view.updateToolbarTitle(category.getName());
-            }
-
-            @Override
-            public void onError(String message) {
-                view.showMessage(view.coordinatorlayout, "Get Data Error");
-            }
-        };
     }
 
     @Override
     public void unSubscribeCallbacks() {
         onDeleteCallback = null;
         onSaveCallback = null;
+        onUpdateCallback = null;
         onGetAllItemsCallback = null;
         onGetItemByIdCallback = null;
         onGetItemsCallback = null;
-        onGetCategoryByIdCallback = null;
     }
 }

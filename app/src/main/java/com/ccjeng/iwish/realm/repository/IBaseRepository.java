@@ -15,4 +15,8 @@ public interface IBaseRepository {
         void onError(String message);
     }
 
+    interface onUpdateCallback {
+        void onSuccess();
+        void onError(String message);
+    }
 }

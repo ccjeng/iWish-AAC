@@ -8,6 +8,7 @@ public interface ICategoryPresenter extends IBasePresenter {
     void addCategory(String name);
     void deleteCategoryByPosition(int position);
     void deleteCategoryById(String id);
+    void updateCategoryById(String id, String name);
     void getCategoryById(String id);
     void getAllCategories();
 

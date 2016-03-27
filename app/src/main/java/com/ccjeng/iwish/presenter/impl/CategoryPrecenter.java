@@ -1,5 +1,6 @@
 package com.ccjeng.iwish.presenter.impl;
 
+import com.ccjeng.iwish.R;
 import com.ccjeng.iwish.model.Category;
 import com.ccjeng.iwish.presenter.ICategoryPresenter;
 import com.ccjeng.iwish.realm.repository.ICategoryRepository;
@@ -18,8 +19,10 @@ public class CategoryPrecenter implements ICategoryPresenter {
 
     private ICategoryRepository.onGetAllCategoryCallback getAllCategoryCallback;
     private ICategoryRepository.onSaveCallback onSaveCallback;
+    private ICategoryRepository.onUpdateCallback onUpdateCallback;
     private ICategoryRepository.onGetCategoryByIdCallback onGetCategoryByIdCallback;
     private ICategoryRepository.onDeleteCallback onDeleteCallback;
+
 
     public CategoryPrecenter(MainActivity view) {
         this.view = view;
@@ -40,6 +43,11 @@ public class CategoryPrecenter implements ICategoryPresenter {
     @Override
     public void deleteCategoryById(String id) {
         repository.deleteCategoryById(id, onDeleteCallback);
+    }
+
+    @Override
+    public void updateCategoryById(String id, String name) {
+        repository.updateCategoryById(id, name, onUpdateCallback);
     }
 
     @Override
@@ -65,19 +73,31 @@ public class CategoryPrecenter implements ICategoryPresenter {
 
             @Override
             public void onError(String message) {
-                view.showMessage(view.coordinatorlayout, "Get Data Error");
+                view.showMessage(view.coordinatorlayout, R.string.error);
             }
         };
 
         onSaveCallback = new ICategoryRepository.onSaveCallback(){
             @Override
             public void onSuccess() {
-                view.showMessage(view.coordinatorlayout, "Saved");
+                view.showMessage(view.coordinatorlayout, R.string.saved);
             }
 
             @Override
             public void onError(String message) {
-                view.showMessage(view.coordinatorlayout, "Save Error");
+                view.showMessage(view.coordinatorlayout, R.string.error);
+            }
+        };
+
+        onUpdateCallback = new ICategoryRepository.onUpdateCallback(){
+            @Override
+            public void onSuccess() {
+                view.showMessage(view.coordinatorlayout, R.string.saved);
+            }
+
+            @Override
+            public void onError(String message) {
+                view.showMessage(view.coordinatorlayout, R.string.error);
             }
         };
 
@@ -95,12 +115,12 @@ public class CategoryPrecenter implements ICategoryPresenter {
         onDeleteCallback = new ICategoryRepository.onDeleteCallback() {
             @Override
             public void onSuccess() {
-                view.showMessage(view.coordinatorlayout, "Deleted");
+                view.showMessage(view.coordinatorlayout, R.string.deleted);
             }
 
             @Override
             public void onError(String message) {
-                view.showMessage(view.coordinatorlayout, "Delete Error");
+                view.showMessage(view.coordinatorlayout, R.string.error);
             }
         };
 
