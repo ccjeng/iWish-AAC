@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">善善的溝通版</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="add">新增</string>
+    <string name="input_hint">輸入名稱</string>
+    <string name="name">名稱</string>
+
+    <!-- dialog-->
+    <string name="ok">確定</string>ь
+    <string name="cancel">取消</string>
+    <string name="title_activity_item">ItemActivity</string>
+</resources>
