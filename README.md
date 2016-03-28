@@ -5,6 +5,8 @@ I will fork a general version afterwards.
 
 Features:
 * Big Text Size
+* Define phases by yourself
+* Phases can be combined to a sentence
 * Text to Speech
 
 Technical Part:
