@@ -1,6 +1,5 @@
 package com.ccjeng.iwish.view;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -9,18 +8,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.ccjeng.iwish.R;
 import com.ccjeng.iwish.controller.Speaker;
-import com.ccjeng.iwish.model.Item;
-import com.ccjeng.iwish.presenter.IItemPresenter;
-import com.ccjeng.iwish.presenter.impl.ItemPresenter;
+import com.ccjeng.iwish.model.SubItem;
+import com.ccjeng.iwish.presenter.ISubItemPresenter;
+import com.ccjeng.iwish.presenter.impl.SubItemPresenter;
 import com.ccjeng.iwish.realm.table.RealmTable;
-import com.ccjeng.iwish.view.adapter.ItemAdapter;
+import com.ccjeng.iwish.view.adapter.SubItemAdapter;
 import com.ccjeng.iwish.view.base.BaseActivity;
 import com.ccjeng.iwish.view.dialogs.AddDialog;
 import com.ccjeng.iwish.view.dialogs.EditDialog;
@@ -28,21 +26,18 @@ import com.ccjeng.iwish.view.dialogs.EditDialog;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.realm.RealmList;
-import io.realm.RealmResults;
 
-public class ItemActivity extends BaseActivity {
-
-    private static final String TAG = "ItemActivity";
+public class SubItemActivity extends BaseActivity {
 
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.fab) FloatingActionButton fab;
     @Bind(R.id.recyclerView) RecyclerView recyclerView;
     @Bind(R.id.coordinatorlayout) public CoordinatorLayout coordinatorlayout;
 
-    private IItemPresenter presenter;
-    private ItemAdapter adapter;
-    private RealmResults<Item> items;
-    private String categoryId;
+    private ISubItemPresenter presenter;
+    private SubItemAdapter adapter;
+    private RealmList<SubItem> subItems;
+    private String itemId;
     private String toolbarTitle;
 
     private final int CHECK_CODE = 0x1;
@@ -57,15 +52,16 @@ public class ItemActivity extends BaseActivity {
         setContentView(R.layout.activity_item);
         ButterKnife.bind(this);
 
-        presenter = new ItemPresenter(this);
-        categoryId = getIntent().getStringExtra(RealmTable.ID);
-        toolbarTitle = getIntent().getStringExtra(RealmTable.Category.NAME);
+        presenter = new SubItemPresenter(this);
+        itemId = getIntent().getStringExtra(RealmTable.ID);
+        toolbarTitle = getIntent().getStringExtra(RealmTable.Item.NAME);
 
         speaker = new Speaker(this);
-        initComponents();
 
+        initComponents();
         presenter.subscribeCallbacks();
-        presenter.getAllItems();
+        presenter.getAllSubItemsByItemId(itemId);
+
 
     }
 
@@ -86,33 +82,28 @@ public class ItemActivity extends BaseActivity {
         });
     }
 
+    public void showData(RealmList<SubItem> subItems) {
 
-    public void showData(RealmResults<Item> items) {
-        this.items = items;
-        adapter = new ItemAdapter(items);
+        this.subItems = subItems;
+        adapter = new SubItemAdapter(subItems);
 
-        adapter.setOnItemClickListener(new ItemAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new SubItemAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(String id, String name) {
-
                 if (mode.equals(Mode.EDIT)) {
                     showEditDialog(id, name);
 
                 } else {
                     if (speaker != null) {
-                       // speaker.allow(true);
-                       // speaker.speak(toolbarTitle + name);
+                        speaker.allow(true);
+                        speaker.speak(toolbarTitle + name);
                     }
-
-                    Intent intent = new Intent(getApplicationContext(), SubItemActivity.class);
-                    intent.putExtra(RealmTable.ID, id);
-                    intent.putExtra(RealmTable.Category.NAME, toolbarTitle + name);
-
-                    startActivity(intent);
                 }
+
             }
         });
         recyclerView.setAdapter(adapter);
+
     }
 
     protected void initRecyclerListener() {
@@ -129,7 +120,7 @@ public class ItemActivity extends BaseActivity {
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                presenter.deleteItemById(items.get(viewHolder.getAdapterPosition()).getId());
+                presenter.deleteSubItemById(subItems.get(viewHolder.getAdapterPosition()).getId());
                 adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
             }
         });
@@ -167,6 +158,7 @@ public class ItemActivity extends BaseActivity {
     }
 
     private void showAddDialog() {
+
         final AddDialog dialog = new AddDialog();
         dialog.show(getSupportFragmentManager(), dialog.getClass().getName());
         dialog.setListener(new AddDialog.OnAddClickListener() {
@@ -174,13 +166,13 @@ public class ItemActivity extends BaseActivity {
             public void OnAddClickListener(String name) {
                 dialog.dismiss();
 
-                Item item = new Item();
-                item.setName(name);
-
-                presenter.addItemByCategoryId(item, categoryId);
-                presenter.getAllItemsByCategoryId(categoryId);
+                SubItem subItem = new SubItem();
+                subItem.setName(name);
+                presenter.addSubItemByItemId(subItem, itemId);
+                presenter.getAllSubItemsByItemId(itemId);
             }
         });
+
     }
 
     private void showEditDialog(final String id, String name) {
@@ -191,7 +183,7 @@ public class ItemActivity extends BaseActivity {
             @Override
             public void OnEditClickListener(String name) {
                 dialog.dismiss();
-                presenter.updateItemById(id, name);
+                presenter.updateSubItemById(id, name);
                 adapter.notifyDataSetChanged();
             }
         });
@@ -227,6 +219,7 @@ public class ItemActivity extends BaseActivity {
 
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -239,6 +232,4 @@ public class ItemActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 }

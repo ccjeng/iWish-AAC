@@ -57,9 +57,9 @@ public class CategoryRepository implements ICategoryRepository {
     @Override
     public void updateCategoryById(String id, String name, onUpdateCallback callback) {
         Realm realm =Realm.getInstance(BaseApplication.realmConfiguration);
+        realm.beginTransaction();
         Category c = realm.where(Category.class).equalTo(RealmTable.ID, id).findFirst();
         c.setName(name);
-        realm.beginTransaction();
         realm.copyToRealmOrUpdate(c);
         realm.commitTransaction();
 

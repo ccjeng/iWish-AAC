@@ -76,9 +76,9 @@ public class SubItemRepository implements ISubItemRepository {
     @Override
     public void updateSubItemById(String id, String name, onUpdateCallback callback) {
         Realm realm =Realm.getInstance(BaseApplication.realmConfiguration);
+        realm.beginTransaction();
         SubItem s = realm.where(SubItem.class).equalTo(RealmTable.ID, id).findFirst();
         s.setName(name);
-        realm.beginTransaction();
         realm.copyToRealmOrUpdate(s);
         realm.commitTransaction();
 
@@ -87,7 +87,7 @@ public class SubItemRepository implements ISubItemRepository {
     }
 
     @Override
-    public void getSubItemsByItemId(String id, onGetItemsCallback callback) {
+    public void getSubItemsByItemId(String id, onGetSubItemsCallback callback) {
         Realm realm =Realm.getInstance(BaseApplication.realmConfiguration);
         Item i = realm.where(Item.class).equalTo(RealmTable.ID, id).findFirst();
         RealmList<SubItem> items = i.getSubItems();
@@ -97,7 +97,7 @@ public class SubItemRepository implements ISubItemRepository {
     }
 
     @Override
-    public void getSubItemById(String id, onGetItemByIdCallback callback) {
+    public void getSubItemById(String id, onGetSubItemByIdCallback callback) {
         Realm realm =Realm.getInstance(BaseApplication.realmConfiguration);
         SubItem s = realm.where(SubItem.class).equalTo(RealmTable.ID, id).findFirst();
 

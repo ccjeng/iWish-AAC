@@ -8,7 +8,7 @@ import com.ccjeng.iwish.model.SubItem;
 public interface ISubItemPresenter extends IBasePresenter {
 
     void addSubItem(SubItem subItem);
-    void addSubItemByItemId(SubItem subIte, String itemId);
+    void addSubItemByItemId(SubItem subItem, String itemId);
     void deleteSubItemByPosition(int position);
     void deleteSubItemById(String id);
     void updateSubItemById(String id, String name);

@@ -12,7 +12,7 @@ import io.realm.RealmResults;
 /**
  * Created by andycheng on 2016/3/26.
  */
-public class CategoryPrecenter implements ICategoryPresenter {
+public class CategoryPresenter implements ICategoryPresenter {
 
     private MainActivity view;
     private ICategoryRepository repository;
@@ -24,7 +24,7 @@ public class CategoryPrecenter implements ICategoryPresenter {
     private ICategoryRepository.onDeleteCallback onDeleteCallback;
 
 
-    public CategoryPrecenter(MainActivity view) {
+    public CategoryPresenter(MainActivity view) {
         this.view = view;
         repository = new CategoryRepository();
     }

@@ -10,17 +10,12 @@ import io.realm.RealmResults;
  */
 public interface ISubItemRepository extends IBaseRepository {
 
-    interface onGetItemByIdCallback {
+    interface onGetSubItemByIdCallback {
         void onSuccess(SubItem item);
         void onError(String message);
     }
 
-    interface onGetAllItemsCallback {
-        void onSuccess(RealmResults<SubItem> items);
-        void onError(String message);
-    }
-
-    interface onGetItemsCallback {
+    interface onGetSubItemsCallback {
         void onSuccess(RealmList<SubItem> items);
         void onError(String message);
     }
@@ -35,8 +30,8 @@ public interface ISubItemRepository extends IBaseRepository {
 
     void updateSubItemById(String id, String name, onUpdateCallback callback);
 
-    void getSubItemsByItemId(String id, onGetItemsCallback callback);
+    void getSubItemsByItemId(String id, onGetSubItemsCallback callback);
 
-    void getSubItemById(String id, onGetItemByIdCallback callback);
+    void getSubItemById(String id, onGetSubItemByIdCallback callback);
 
 }

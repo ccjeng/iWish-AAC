@@ -13,9 +13,9 @@ import com.ccjeng.iwish.R;
 import com.ccjeng.iwish.view.base.BaseDialog;
 
 /**
- * Created by andycheng on 2016/3/26.
+ * Created by andycheng on 2016/3/28.
  */
-public class AddCategoryDialog extends BaseDialog implements View.OnClickListener {
+public class AddDialog extends BaseDialog implements View.OnClickListener {
 
     private EditText etName;
     private Button btAddData;
@@ -42,8 +42,10 @@ public class AddCategoryDialog extends BaseDialog implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_add_data: {
-                if (isDataValid())
+                if (isDataValid()) {
+
                     listener.OnAddClickListener(etName.getText().toString());
+                }
                 break;
             }
         }

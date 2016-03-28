@@ -20,11 +20,12 @@ import com.ccjeng.iwish.R;
 import com.ccjeng.iwish.controller.Speaker;
 import com.ccjeng.iwish.model.Category;
 import com.ccjeng.iwish.presenter.ICategoryPresenter;
-import com.ccjeng.iwish.presenter.impl.CategoryPrecenter;
+import com.ccjeng.iwish.presenter.impl.CategoryPresenter;
 import com.ccjeng.iwish.realm.table.RealmTable;
 import com.ccjeng.iwish.view.adapter.CategoryAdapter;
 import com.ccjeng.iwish.view.base.BaseActivity;
-import com.ccjeng.iwish.view.dialogs.AddCategoryDialog;
+import com.ccjeng.iwish.view.dialogs.AddDialog;
+import com.ccjeng.iwish.view.dialogs.EditDialog;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -58,7 +59,7 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        presenter = new CategoryPrecenter(this);
+        presenter = new CategoryPresenter(this);
 
         initComponents();
 
@@ -113,16 +114,21 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onItemClick(String id, String name) {
 
-                if (speaker != null) {
-                    speaker.allow(true);
-                    speaker.speak(name);
+                if (mode.equals(Mode.EDIT)) {
+                    showEditDialog(id, name);
+
+                } else {
+                    if (speaker != null) {
+                      //  speaker.allow(true);
+                      //  speaker.speak(name);
+                    }
+
+                    Intent intent = new Intent(getApplicationContext(), ItemActivity.class);
+                    intent.putExtra(RealmTable.ID, id);
+                    intent.putExtra(RealmTable.Category.NAME, name);
+
+                    startActivity(intent);
                 }
-
-                Intent intent = new Intent(getApplicationContext(), ItemActivity.class);
-                intent.putExtra(RealmTable.ID, id);
-                intent.putExtra(RealmTable.Category.NAME, name);
-
-                startActivity(intent);
             }
         });
 
@@ -131,13 +137,27 @@ public class MainActivity extends BaseActivity {
 
 
     private void showAddDialog() {
-        final AddCategoryDialog dialog = new AddCategoryDialog();
+        final AddDialog dialog = new AddDialog();
         dialog.show(getSupportFragmentManager(), dialog.getClass().getName());
-        dialog.setListener(new AddCategoryDialog.OnAddClickListener() {
+        dialog.setListener(new AddDialog.OnAddClickListener() {
             @Override
             public void OnAddClickListener(String name) {
                 dialog.dismiss();
                 presenter.addCategory(name);
+            }
+        });
+    }
+
+    private void showEditDialog(final String id, String name) {
+
+        final EditDialog dialog = EditDialog.newInstance(name);
+        dialog.show(getSupportFragmentManager(), dialog.getClass().getName());
+        dialog.setListener(new EditDialog.OnEditClickListener() {
+            @Override
+            public void OnEditClickListener(String name) {
+                dialog.dismiss();
+                presenter.updateCategoryById(id, name);
+                adapter.notifyDataSetChanged();
             }
         });
     }

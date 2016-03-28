@@ -16,19 +16,19 @@ import io.realm.RealmResults;
 /**
  * Created by andycheng on 2016/3/26.
  */
-public class ItemPrecenter implements IItemPresenter{
+public class ItemPresenter implements IItemPresenter{
 
     private ItemActivity view;
     private IItemRepository.onDeleteCallback onDeleteCallback;
     private IItemRepository.onSaveCallback onSaveCallback;
     private IItemRepository.onUpdateCallback onUpdateCallback;
-    private IItemRepository.onGetAllItemsCallback onGetAllItemsCallback;
     private IItemRepository.onGetItemByIdCallback onGetItemByIdCallback;
     private IItemRepository.onGetItemsCallback onGetItemsCallback;
+    private IItemRepository.onGetAllItemsCallback onGetAllItemsCallback;
 
     private IItemRepository itemRepository;
 
-    public ItemPrecenter(ItemActivity view) {
+    public ItemPresenter(ItemActivity view) {
         this.view = view;
         itemRepository = new ItemRepository();
     }
@@ -73,7 +73,6 @@ public class ItemPrecenter implements IItemPresenter{
         itemRepository.getAllItems(onGetAllItemsCallback);
     }
 
-
     @Override
     public void subscribeCallbacks() {
         onSaveCallback = new IItemRepository.onSaveCallback() {
@@ -114,18 +113,6 @@ public class ItemPrecenter implements IItemPresenter{
             }
         };
 
-        onGetAllItemsCallback = new IItemRepository.onGetAllItemsCallback() {
-            @Override
-            public void onSuccess(RealmResults<Item> items) {
-
-            }
-
-            @Override
-            public void onError(String message) {
-
-            }
-        };
-
         onGetItemByIdCallback = new IItemRepository.onGetItemByIdCallback() {
 
             @Override
@@ -142,7 +129,7 @@ public class ItemPrecenter implements IItemPresenter{
 
             @Override
             public void onSuccess(RealmList<Item> items) {
-                view.showData(items);
+                //view.showData(items);
             }
 
             @Override
@@ -151,6 +138,18 @@ public class ItemPrecenter implements IItemPresenter{
             }
         };
 
+        onGetAllItemsCallback = new IItemRepository.onGetAllItemsCallback() {
+
+            @Override
+            public void onSuccess(RealmResults<Item> items) {
+                view.showData(items);
+            }
+
+            @Override
+            public void onError(String message) {
+                view.showMessage(view.coordinatorlayout, R.string.error);
+            }
+        };
     }
 
     @Override
@@ -158,8 +157,8 @@ public class ItemPrecenter implements IItemPresenter{
         onDeleteCallback = null;
         onSaveCallback = null;
         onUpdateCallback = null;
-        onGetAllItemsCallback = null;
         onGetItemByIdCallback = null;
         onGetItemsCallback = null;
+        onGetAllItemsCallback = null;
     }
 }

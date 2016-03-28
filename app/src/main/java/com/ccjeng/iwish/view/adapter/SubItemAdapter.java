@@ -9,30 +9,30 @@ import android.widget.TextView;
 
 import com.ccjeng.iwish.R;
 import com.ccjeng.iwish.model.Item;
+import com.ccjeng.iwish.model.SubItem;
 
 import io.realm.RealmList;
-import io.realm.RealmResults;
 
 /**
- * Created by andycheng on 2016/3/26.
+ * Created by andycheng on 2016/3/28.
  */
-public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
+public class SubItemAdapter extends RecyclerView.Adapter<SubItemAdapter.SubItemViewHolder> {
 
     private OnItemClickListener onItemClickListener;
 
-    private RealmResults<Item> items;
-    public ItemAdapter(RealmResults<Item> items) {
+    private RealmList<SubItem> items;
+    public SubItemAdapter(RealmList<SubItem> items) {
         this.items = items;
     }
 
     @Override
-    public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SubItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_main, parent, false);
-        return new ItemViewHolder(view);
+        return new SubItemViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ItemViewHolder holder, int position) {
+    public void onBindViewHolder(SubItemViewHolder holder, int position) {
         holder.tvName.setText(items.get(position).getName());
     }
 
@@ -41,11 +41,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         return items.size();
     }
 
-    public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class SubItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView tvName;
 
-        public ItemViewHolder(View itemView) {
+        public SubItemViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
 
@@ -56,8 +56,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
         @Override
         public void onClick(View v) {
-            Item item = items.get(getAdapterPosition());
-            onItemClickListener.onItemClick(item.getId(), item.getName());
+            SubItem subItem = items.get(getAdapterPosition());
+            onItemClickListener.onItemClick(subItem.getId(), subItem.getName());
         }
     }
 
