@@ -22,6 +22,7 @@ import com.ccjeng.iwish.model.Category;
 import com.ccjeng.iwish.presenter.ICategoryPresenter;
 import com.ccjeng.iwish.presenter.impl.CategoryPresenter;
 import com.ccjeng.iwish.realm.table.RealmTable;
+import com.ccjeng.iwish.utils.RealmMigration;
 import com.ccjeng.iwish.view.adapter.CategoryAdapter;
 import com.ccjeng.iwish.view.base.BaseActivity;
 import com.ccjeng.iwish.view.dialogs.AddDialog;
@@ -72,7 +73,9 @@ public class MainActivity extends BaseActivity {
 
     private void initComponents() {
         setSupportActionBar(toolbar);
-        toolbar.setTitle(getString(R.string.app_name));
+        if (getSupportActionBar() != null) {
+            //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         initRecyclerListener();
 
@@ -118,9 +121,8 @@ public class MainActivity extends BaseActivity {
                     showEditDialog(id, name);
 
                 } else {
-                    if (speaker != null) {
-                      //  speaker.allow(true);
-                      //  speaker.speak(name);
+                    if (speaker.isAllowed()) {
+                        speaker.speak(name);
                     }
 
                     Intent intent = new Intent(getApplicationContext(), ItemActivity.class);
@@ -228,8 +230,20 @@ public class MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
+            case android.R.id.home:
+                if (mode != Mode.NORMAL) {
+                    startMode(Mode.NORMAL);
+                } else {
+                    finish();
+                }
+                break;
             case R.id.action_settings:
-                startActivity(new Intent(MainActivity.this, SettingActivity.class));
+                //startActivity(new Intent(MainActivity.this, SettingActivity.class));
+
+                RealmMigration migration = new RealmMigration(this);
+                migration.backup();
+                //migration.restore();
+
                 break;
             case R.id.action_edit:
                 startMode(Mode.EDIT);
@@ -249,6 +263,7 @@ public class MainActivity extends BaseActivity {
         if(requestCode == CHECK_CODE){
             if(resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS){
                 speaker = new Speaker(this);
+                speaker.allow(true);
             }else {
                 Intent install = new Intent();
                 install.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);

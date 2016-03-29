@@ -23,6 +23,7 @@
             android:layout_height="wrap_content"
             android:gravity="left|center_vertical"
             android:textAppearance="@android:style/TextAppearance.Large"
+            android:textSize="100sp"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />

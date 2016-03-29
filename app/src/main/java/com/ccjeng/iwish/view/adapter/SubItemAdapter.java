@@ -50,7 +50,7 @@ public class SubItemAdapter extends RecyclerView.Adapter<SubItemAdapter.SubItemV
             itemView.setOnClickListener(this);
 
             tvName = (TextView) itemView.findViewById(R.id.tv_name);
-            tvName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 100);
+            //tvName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 100);
 
         }
 

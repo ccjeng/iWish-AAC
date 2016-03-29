@@ -40,7 +40,6 @@ public class SubItemActivity extends BaseActivity {
     private String itemId;
     private String toolbarTitle;
 
-    private final int CHECK_CODE = 0x1;
     private Speaker speaker;
     private static Mode mode;
     private MenuItem editMenuItem;
@@ -57,6 +56,7 @@ public class SubItemActivity extends BaseActivity {
         toolbarTitle = getIntent().getStringExtra(RealmTable.Item.NAME);
 
         speaker = new Speaker(this);
+        speaker.allow(true);
 
         initComponents();
         presenter.subscribeCallbacks();
@@ -94,8 +94,7 @@ public class SubItemActivity extends BaseActivity {
                     showEditDialog(id, name);
 
                 } else {
-                    if (speaker != null) {
-                        speaker.allow(true);
+                    if (speaker.isAllowed()) {
                         speaker.speak(toolbarTitle + name);
                     }
                 }
@@ -224,7 +223,11 @@ public class SubItemActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                finish();
+                if (mode != Mode.NORMAL) {
+                    startMode(Mode.NORMAL);
+                } else {
+                    finish();
+                }
                 break;
             case R.id.action_edit:
                 startMode(Mode.EDIT);

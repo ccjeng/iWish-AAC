@@ -70,8 +70,8 @@ public class Speaker implements TextToSpeech.OnInitListener {
     }
 
     public void pause(int duration){
-        //tts.playSilence(duration, TextToSpeech.QUEUE_ADD, null);
-        tts.playSilentUtterance(duration, TextToSpeech.QUEUE_ADD, null);
+        tts.playSilence(duration, TextToSpeech.QUEUE_ADD, null);
+        //tts.playSilentUtterance(duration, TextToSpeech.QUEUE_ADD, null);
     }
 
     // Free up resources
