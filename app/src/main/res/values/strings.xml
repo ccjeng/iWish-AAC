@@ -20,7 +20,10 @@
 
     <!-- setting -->
     <string name="ui">介面</string>
-    <string name="fontsize">字體大小</string>
+    <string name="fontsize">字體大小(sp)</string>
+    <string name="datamgm">資料管理</string>
+    <string name="data_backup">備份</string>
+    <string name="data_restore">還原</string>
 
     <!-- message -->
     <string name="saved">已儲存</string>

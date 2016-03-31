@@ -1,6 +1,5 @@
 package com.ccjeng.iwish.utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
@@ -9,7 +8,6 @@ import com.ccjeng.iwish.view.base.BaseApplication;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -24,7 +22,6 @@ public class RealmMigration  {
 
     private Context context;
     private Realm realm;
-
 
     public RealmMigration(Context context) {
         this.realm = Realm.getInstance(BaseApplication.realmConfiguration);
@@ -41,13 +38,13 @@ public class RealmMigration  {
         Log.d(TAG, "Realm DB Path = "+realm.getPath());
 
         try {
-            // get or create an "export.realm" file
+            // create a backup file
             exportRealmFile = new File(exportRealmPATH, exportRealmFileName);
 
-            // if "export.realm" already exists, delete
+            // if backup file already exists, delete it
             exportRealmFile.delete();
 
-            // copy current realm to "export.realm"
+            // copy current realm to backup file
             realm.writeCopyTo(exportRealmFile);
 
         } catch (IOException e) {
@@ -69,20 +66,16 @@ public class RealmMigration  {
         File exportRealmPATH = context.getExternalFilesDir(null);
         String FileName = "default.realm";
 
-        String oldFilePath = context.getExternalFilesDir(null) + "/"+FileName;
-        String newFilePath = this.dbPath();
+        String restoreFilePath = context.getExternalFilesDir(null) + "/"+FileName;
 
-        Log.d(TAG, "oldFilePath = " + oldFilePath);
-        Log.d(TAG, "newFilePath = " + newFilePath);
-
+        Log.d(TAG, "oldFilePath = " + restoreFilePath);
 
         if(fileExists(exportRealmPATH.toString()) != false){
 
-            copyBundledRealmFile(oldFilePath, FileName);
+            copyBundledRealmFile(restoreFilePath, FileName);
 
-            String msg =  "Data restore is done";
-            Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
-            Log.d(TAG, msg);
+            Toast.makeText(context, "Data restore is done", Toast.LENGTH_LONG).show();
+            Log.d(TAG, "Data restore is done");
 
         }
 
