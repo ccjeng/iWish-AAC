@@ -1,5 +1,6 @@
 package com.ccjeng.iwish.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
@@ -17,7 +18,7 @@ import io.realm.Realm;
 /**
  * Created by andycheng on 2016/3/29.
  */
-public class RealmMigration {
+public class RealmMigration  {
 
     private final static String TAG = RealmMigration.class.getName();
 
@@ -77,37 +78,43 @@ public class RealmMigration {
 
         if(fileExists(exportRealmPATH.toString()) != false){
 
-            try {
-                FileInputStream inputStream = new FileInputStream(new File(oldFilePath));
-                byte[] data = new byte[1024];
+            copyBundledRealmFile(oldFilePath, FileName);
 
-                FileOutputStream outputStream =new FileOutputStream(new File(newFilePath));
+            String msg =  "Data restore is done";
+            Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
+            Log.d(TAG, msg);
 
-                while (inputStream.read(data) != -1) {
-                    outputStream.write(data);
-                }
-                inputStream.close();
-                outputStream.close();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
 
-
-
-  /*
-        Realm.deleteRealm(BaseApplication.realmConfiguration);
-        Realm backupRealm = Realm.getInstance(BaseApplication.realmConfiguration);
-        backupRealm.writeCopyTo(pathToRestore);
-        backupRealm.close();
-        //orgRealm = Realm.getInstance(orgConfig);
-*/
     }
 
     public static boolean fileExists(String filePath) {
         File file = new File(filePath);
         return file.exists();
+    }
+
+
+    private String copyBundledRealmFile(String oldFilePath, String outFileName) {
+        try {
+            File file = new File(context.getFilesDir(), outFileName);
+
+            Log.d(TAG, "context.getFilesDir() = " + context.getFilesDir().toString());
+            FileOutputStream outputStream = new FileOutputStream(file);
+
+            FileInputStream inputStream = new FileInputStream(new File(oldFilePath));
+
+
+            byte[] buf = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buf)) > 0) {
+                outputStream.write(buf, 0, bytesRead);
+            }
+            outputStream.close();
+            return file.getAbsolutePath();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private String dbPath(){

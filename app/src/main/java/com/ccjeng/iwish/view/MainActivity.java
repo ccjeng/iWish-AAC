@@ -241,8 +241,8 @@ public class MainActivity extends BaseActivity {
                 //startActivity(new Intent(MainActivity.this, SettingActivity.class));
 
                 RealmMigration migration = new RealmMigration(this);
-                migration.backup();
-                //migration.restore();
+                //migration.backup();
+                migration.restore();
 
                 break;
             case R.id.action_edit:
