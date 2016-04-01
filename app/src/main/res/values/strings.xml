@@ -10,6 +10,8 @@
     <string name="edit">修改</string>
     <string name="delete">刪除</string>
 
+    <string name="custom">日記</string>
+
 
     <!-- dialog-->
     <string name="add">新增</string>
