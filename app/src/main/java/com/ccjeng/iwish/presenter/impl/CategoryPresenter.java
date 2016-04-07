@@ -5,6 +5,7 @@ import com.ccjeng.iwish.model.Category;
 import com.ccjeng.iwish.presenter.ICategoryPresenter;
 import com.ccjeng.iwish.realm.repository.ICategoryRepository;
 import com.ccjeng.iwish.realm.repository.impl.CategoryRepository;
+import com.ccjeng.iwish.view.CatelogActivity;
 import com.ccjeng.iwish.view.MainActivity;
 
 import io.realm.RealmResults;
@@ -14,7 +15,7 @@ import io.realm.RealmResults;
  */
 public class CategoryPresenter implements ICategoryPresenter {
 
-    private MainActivity view;
+    private CatelogActivity view;
     private ICategoryRepository repository;
 
     private ICategoryRepository.onGetAllCategoryCallback getAllCategoryCallback;
@@ -24,7 +25,7 @@ public class CategoryPresenter implements ICategoryPresenter {
     private ICategoryRepository.onDeleteCallback onDeleteCallback;
 
 
-    public CategoryPresenter(MainActivity view) {
+    public CategoryPresenter(CatelogActivity view) {
         this.view = view;
         repository = new CategoryRepository();
     }

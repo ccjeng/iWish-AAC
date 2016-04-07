@@ -15,6 +15,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.ccjeng.iwish.R;
 import com.ccjeng.iwish.controller.Speaker;
@@ -24,6 +27,8 @@ import com.ccjeng.iwish.presenter.impl.CategoryPresenter;
 import com.ccjeng.iwish.realm.table.RealmTable;
 import com.ccjeng.iwish.utils.RealmMigration;
 import com.ccjeng.iwish.view.adapter.CategoryAdapter;
+import com.ccjeng.iwish.view.adapter.ContextMenuRecyclerView;
+import com.ccjeng.iwish.view.adapter.SimpleItemTouchHelperCallback;
 import com.ccjeng.iwish.view.base.BaseActivity;
 import com.ccjeng.iwish.view.dialogs.AddDialog;
 import com.ccjeng.iwish.view.dialogs.EditDialog;
@@ -31,6 +36,7 @@ import com.ccjeng.iwish.view.dialogs.EditDialog;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import butterknife.OnClick;
 import io.realm.RealmResults;
 
 public class MainActivity extends BaseActivity {
@@ -41,17 +47,9 @@ public class MainActivity extends BaseActivity {
     @Bind(R.id.toolbar_layout) CollapsingToolbarLayout collapsingToolbarLayout;
     @Bind(R.id.fab) FloatingActionButton fab;
     @Bind(R.id.coordinatorlayout) public CoordinatorLayout coordinatorlayout;
-    @Bind(R.id.recyclerView) RecyclerView recyclerView;
-
-    private ICategoryPresenter presenter;
-    private RealmResults<Category> categories;
-    private CategoryAdapter adapter;
 
     private final int CHECK_CODE = 0x1;
     private Speaker speaker;
-    private static Mode mode;
-    private MenuItem editMenuItem;
-    private ItemTouchHelper swipeToDismissTouchHelper;
 
 
     @Override
@@ -60,15 +58,19 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        presenter = new CategoryPresenter(this);
-
         initComponents();
-
-        presenter.subscribeCallbacks();
-        presenter.getAllCategories();
 
         checkTTS();
 
+    }
+
+    @OnClick(R.id.comm)
+    public void gotoCategotyActivity(View view) {
+        startActivity(new Intent(MainActivity.this, CatelogActivity.class));
+    }
+    @OnClick(R.id.custom)
+    public void gotoCustomActivity(View view) {
+        startActivity(new Intent(MainActivity.this, CustomActivity.class));
     }
 
     private void initComponents() {
@@ -76,138 +78,12 @@ public class MainActivity extends BaseActivity {
         if (getSupportActionBar() != null) {
             //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-
-        initRecyclerListener();
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showAddDialog();
-            }
-        });
-
     }
 
-    private void initRecyclerListener(){
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-
-        swipeToDismissTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
-                ItemTouchHelper.RIGHT, ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                presenter.deleteCategoryById(categories.get(viewHolder.getAdapterPosition()).getId());
-                adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
-            }
-        });
-
-
-    }
-
-    public void showData(RealmResults<Category> categories) {
-        this.categories = categories;
-        adapter = new CategoryAdapter(categories);
-
-        adapter.setOnItemClickListener(new CategoryAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(String id, String name) {
-
-                if (mode.equals(Mode.EDIT)) {
-                    showEditDialog(id, name);
-
-                } else {
-                    if (speaker.isAllowed()) {
-                        speaker.speak(name);
-                    }
-
-                    Intent intent = new Intent(getApplicationContext(), ItemActivity.class);
-                    intent.putExtra(RealmTable.ID, id);
-                    intent.putExtra(RealmTable.Category.NAME, name);
-
-                    startActivity(intent);
-                }
-            }
-        });
-
-        recyclerView.setAdapter(adapter);
-    }
-
-
-    private void showAddDialog() {
-        final AddDialog dialog = new AddDialog();
-        dialog.show(getSupportFragmentManager(), dialog.getClass().getName());
-        dialog.setListener(new AddDialog.OnAddClickListener() {
-            @Override
-            public void OnAddClickListener(String name) {
-                dialog.dismiss();
-                presenter.addCategory(name);
-            }
-        });
-    }
-
-    private void showEditDialog(final String id, String name) {
-
-        final EditDialog dialog = EditDialog.newInstance(name);
-        dialog.show(getSupportFragmentManager(), dialog.getClass().getName());
-        dialog.setListener(new EditDialog.OnEditClickListener() {
-            @Override
-            public void OnEditClickListener(String name) {
-                dialog.dismiss();
-                presenter.updateCategoryById(id, name);
-                adapter.notifyDataSetChanged();
-            }
-        });
-    }
-
-    private void startMode(Mode modeToStart){
-
-        switch (modeToStart) {
-            case NORMAL:
-                fab.setVisibility(View.GONE);
-                editMenuItem.setVisible(true);
-
-                swipeToDismissTouchHelper.attachToRecyclerView(null);
-
-                //toolbar.setLogo(null);
-                toolbar.setTitle(getString(R.string.app_name));
-
-                break;
-
-            case EDIT:
-                fab.setVisibility(View.VISIBLE);
-                editMenuItem.setVisible(false);
-
-                //can be deleted
-                swipeToDismissTouchHelper.attachToRecyclerView(recyclerView);
-
-                //toolbar.setLogo(R.mipmap.icon_toolbal_arrow_white);
-                toolbar.setTitle(getString(R.string.edit_mode));
-
-                break;
-        }
-
-        mode = modeToStart;
-
-    }
 
     @Override
     public void onBackPressed() {
-        if (mode != Mode.NORMAL) {
-            startMode(Mode.NORMAL);
-        } else {
             finish();
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        presenter.unSubscribeCallbacks();
     }
 
     @Override
@@ -220,9 +96,6 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        editMenuItem = menu.findItem(R.id.action_edit);
-        startMode(Mode.NORMAL);
-
         return true;
     }
 
@@ -231,22 +104,10 @@ public class MainActivity extends BaseActivity {
 
         switch (item.getItemId()) {
             case android.R.id.home:
-                if (mode != Mode.NORMAL) {
-                    startMode(Mode.NORMAL);
-                } else {
-                    finish();
-                }
+                finish();
                 break;
             case R.id.action_settings:
                 startActivity(new Intent(MainActivity.this, SettingActivity.class));
-
-                //RealmMigration migration = new RealmMigration(this);
-                //migration.backup();
-                //migration.restore();
-
-                break;
-            case R.id.action_edit:
-                startMode(Mode.EDIT);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -272,18 +133,23 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    /*
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+
+        ContextMenuRecyclerView.RecyclerContextMenuInfo info = (ContextMenuRecyclerView.RecyclerContextMenuInfo) item.getMenuInfo();
+
+        int index = info.position;
 
         //item.getMenuInfo()
         switch (item.getItemId()) {
             case R.id.edit:
-                Log.d(TAG, "edit");
+                Log.d(TAG, "edit " + index);
                 break;
             case R.id.delete:
-                Log.d(TAG, "delete");
+                Log.d(TAG, "delete" + index);
                 break;
         }
         return super.onContextItemSelected(item);
-    }
+    }*/
 }

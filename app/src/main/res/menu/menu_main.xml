@@ -4,12 +4,6 @@
     tools:context=".view.MainActivity">
 
     <item
-        android:id="@+id/action_edit"
-        android:orderInCategory="100"
-        android:title="@string/action_edit"
-        android:icon="@mipmap/icon_toolbar_edit"
-        app:showAsAction="always" />
-    <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"

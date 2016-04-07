@@ -1,8 +1,11 @@
 package com.ccjeng.iwish.view;
 
-import android.os.Bundle;
+import android.content.Intent;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,41 +14,43 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.ccjeng.iwish.R;
 import com.ccjeng.iwish.controller.Speaker;
-import com.ccjeng.iwish.model.SubItem;
-import com.ccjeng.iwish.presenter.ISubItemPresenter;
-import com.ccjeng.iwish.presenter.impl.SubItemPresenter;
+import com.ccjeng.iwish.model.Category;
+import com.ccjeng.iwish.presenter.ICategoryPresenter;
+import com.ccjeng.iwish.presenter.impl.CategoryPresenter;
 import com.ccjeng.iwish.realm.table.RealmTable;
-import com.ccjeng.iwish.view.adapter.SubItemAdapter;
+import com.ccjeng.iwish.view.adapter.CategoryAdapter;
+import com.ccjeng.iwish.view.adapter.SimpleItemTouchHelperCallback;
 import com.ccjeng.iwish.view.base.BaseActivity;
 import com.ccjeng.iwish.view.dialogs.AddDialog;
 import com.ccjeng.iwish.view.dialogs.EditDialog;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import io.realm.RealmList;
+import io.realm.RealmResults;
 
-public class SubItemActivity extends BaseActivity {
+public class CatelogActivity  extends BaseActivity {
 
-    @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.fab) FloatingActionButton fab;
-    @Bind(R.id.recyclerView) RecyclerView recyclerView;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+    @Bind(R.id.fab)
+    FloatingActionButton fab;
     @Bind(R.id.coordinatorlayout) public CoordinatorLayout coordinatorlayout;
+    @Bind(R.id.recyclerView)
+    RecyclerView recyclerView;
 
-    private ISubItemPresenter presenter;
-    private SubItemAdapter adapter;
-    private RealmList<SubItem> subItems;
-    private String itemId;
-    private String toolbarTitle;
+
+    private ICategoryPresenter presenter;
+    private RealmResults<Category> categories;
+    private CategoryAdapter adapter;
 
     private Speaker speaker;
     private static Mode mode;
     private MenuItem editMenuItem;
     private ItemTouchHelper swipeToDismissTouchHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,26 +58,21 @@ public class SubItemActivity extends BaseActivity {
         setContentView(R.layout.activity_item);
         ButterKnife.bind(this);
 
-        presenter = new SubItemPresenter(this);
-        itemId = getIntent().getStringExtra(RealmTable.ID);
-        toolbarTitle = getIntent().getStringExtra(RealmTable.Item.NAME);
+        presenter = new CategoryPresenter(this);
 
         speaker = new Speaker(this);
         speaker.allow(true);
-
         initComponents();
-        presenter.subscribeCallbacks();
-        presenter.getAllSubItemsByItemId(itemId);
 
+        presenter.subscribeCallbacks();
+        presenter.getAllCategories();
 
     }
 
-    protected void initComponents() {
+    private void initComponents() {
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle(toolbarTitle);
-
         }
 
         initRecyclerListener();
@@ -83,50 +83,93 @@ public class SubItemActivity extends BaseActivity {
                 showAddDialog();
             }
         });
-    }
-
-    public void showData(RealmList<SubItem> subItems) {
-
-        this.subItems = subItems;
-        adapter = new SubItemAdapter(subItems);
-
-        adapter.setOnItemClickListener(new SubItemAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(String id, String name) {
-                if (mode.equals(Mode.EDIT)) {
-                    showEditDialog(id, name);
-
-                } else {
-                    if (speaker.isAllowed()) {
-                        speaker.speak(toolbarTitle + name);
-                    }
-                }
-
-            }
-        });
-        recyclerView.setAdapter(adapter);
 
     }
 
-    protected void initRecyclerListener() {
+    private void initRecyclerListener(){
+
+        registerForContextMenu(recyclerView);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
+      /*  ItemTouchHelper.Callback callback =
+                new SimpleItemTouchHelperCallback(adapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(recyclerView);
+
+        */
         swipeToDismissTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
                 ItemTouchHelper.RIGHT, ItemTouchHelper.RIGHT) {
-            @Override
 
+
+            @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
                 return false;
             }
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                presenter.deleteSubItemById(subItems.get(viewHolder.getAdapterPosition()).getId());
+                presenter.deleteCategoryById(categories.get(viewHolder.getAdapterPosition()).getId());
                 adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
             }
+
         });
-        //swipeToDismissTouchHelper.attachToRecyclerView(recyclerView);
+
+    }
+
+    public void showData(RealmResults<Category> categories) {
+        this.categories = categories;
+        adapter = new CategoryAdapter(categories);
+
+        adapter.setOnItemClickListener(new CategoryAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(String id, String name) {
+
+                if (mode.equals(Mode.EDIT)) {
+                    showEditDialog(id, name);
+
+                } else {
+                    if (speaker.isAllowed()) {
+                        speaker.speak(name);
+                    }
+
+                    Intent intent = new Intent(getApplicationContext(), ItemActivity.class);
+                    intent.putExtra(RealmTable.ID, id);
+                    intent.putExtra(RealmTable.Category.NAME, name);
+
+                    startActivity(intent);
+                }
+            }
+        });
+
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void showAddDialog() {
+        final AddDialog dialog = new AddDialog();
+        dialog.show(getSupportFragmentManager(), dialog.getClass().getName());
+        dialog.setListener(new AddDialog.OnAddClickListener() {
+            @Override
+            public void OnAddClickListener(String name) {
+                dialog.dismiss();
+                presenter.addCategory(name);
+            }
+        });
+    }
+
+    private void showEditDialog(final String id, String name) {
+
+        final EditDialog dialog = EditDialog.newInstance(name);
+        dialog.show(getSupportFragmentManager(), dialog.getClass().getName());
+        dialog.setListener(new EditDialog.OnEditClickListener() {
+            @Override
+            public void OnEditClickListener(String name) {
+                dialog.dismiss();
+                presenter.updateCategoryById(id, name);
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     private void startMode(Mode modeToStart){
@@ -139,7 +182,7 @@ public class SubItemActivity extends BaseActivity {
                 swipeToDismissTouchHelper.attachToRecyclerView(null);
 
                 toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                toolbar.setTitle(toolbarTitle);
+                toolbar.setTitle(getString(R.string.btn_comm));
 
                 break;
 
@@ -159,37 +202,6 @@ public class SubItemActivity extends BaseActivity {
 
     }
 
-    private void showAddDialog() {
-
-        final AddDialog dialog = new AddDialog();
-        dialog.show(getSupportFragmentManager(), dialog.getClass().getName());
-        dialog.setListener(new AddDialog.OnAddClickListener() {
-            @Override
-            public void OnAddClickListener(String name) {
-                dialog.dismiss();
-
-                SubItem subItem = new SubItem();
-                subItem.setName(name);
-                presenter.addSubItemByItemId(subItem, itemId);
-                presenter.getAllSubItemsByItemId(itemId);
-            }
-        });
-
-    }
-
-    private void showEditDialog(final String id, String name) {
-
-        final EditDialog dialog = EditDialog.newInstance(name);
-        dialog.show(getSupportFragmentManager(), dialog.getClass().getName());
-        dialog.setListener(new EditDialog.OnEditClickListener() {
-            @Override
-            public void OnEditClickListener(String name) {
-                dialog.dismiss();
-                presenter.updateSubItemById(id, name);
-                adapter.notifyDataSetChanged();
-            }
-        });
-    }
 
     @Override
     public void onBackPressed() {
@@ -238,4 +250,6 @@ public class SubItemActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 }

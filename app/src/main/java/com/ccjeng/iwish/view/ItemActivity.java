@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.ccjeng.iwish.R;
 import com.ccjeng.iwish.controller.Speaker;
@@ -76,6 +78,7 @@ public class ItemActivity extends BaseActivity {
             getSupportActionBar().setTitle(toolbarTitle);
 
         }
+
         initRecyclerListener();
 
         fab.setOnClickListener(new View.OnClickListener() {

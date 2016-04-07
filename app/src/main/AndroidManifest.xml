@@ -21,15 +21,22 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".view.CatelogActivity"
+            android:label="@string/btn_comm"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
             android:name=".view.ItemActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity android:name=".view.SubItemActivity"
+        <activity
+            android:name=".view.SubItemActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".view.SettingActivity"
             android:label="@string/action_settings"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".view.CustomActivity"
+            android:label="@string/btn_custom"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 

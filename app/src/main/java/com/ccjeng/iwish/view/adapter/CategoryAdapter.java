@@ -12,12 +12,15 @@ import android.widget.TextView;
 import com.ccjeng.iwish.R;
 import com.ccjeng.iwish.model.Category;
 
+import java.util.Collections;
+
 import io.realm.RealmResults;
 
 /**
  * Created by andycheng on 2016/3/26.
  */
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>
+        implements ItemTouchHelperAdapter {
 
     private OnItemClickListener onItemClickListener;
 
@@ -36,6 +39,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     @Override
     public void onBindViewHolder(CategoryViewHolder holder, int position) {
         holder.tvName.setText(categories.get(position).getName());
+
+        //holder.itemView.setLongClickable(true);
+        //holder.itemView.setTag(new ContextMenuRecyclerView.RecyclerItemMarker(position, categories.get(position)));
     }
 
     @Override
@@ -43,6 +49,33 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         return categories.size();
     }
 
+
+    @Override
+    public void onViewRecycled(CategoryViewHolder holder) {
+        super.onViewRecycled(holder);
+        holder.itemView.setOnCreateContextMenuListener(null);
+    }
+
+
+    @Override
+    public void onItemDismiss(int position) {
+        categories.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) {
+        if (fromPosition < toPosition) {
+            for (int i = fromPosition; i < toPosition; i++) {
+                Collections.swap(categories, i, i + 1);
+            }
+        } else {
+            for (int i = fromPosition; i > toPosition; i--) {
+                Collections.swap(categories, i, i - 1);
+            }
+        }
+        notifyItemMoved(fromPosition, toPosition);
+    }
 
     public class CategoryViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener, View.OnCreateContextMenuListener{
