@@ -7,6 +7,8 @@ import java.util.UUID;
  */
 public class Utils {
 
+    public static int gridColumnNum = 3;
+
     public static String getUniqueID() {
         return UUID.randomUUID().toString();
     }

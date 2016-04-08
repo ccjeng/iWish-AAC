@@ -25,8 +25,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     private OnItemClickListener onItemClickListener;
 
     private RealmResults<Category> categories;
-    public CategoryAdapter(RealmResults<Category> categories) {
+    private int fontSize;
+
+    public CategoryAdapter(RealmResults<Category> categories, int fontSize) {
         this.categories = categories;
+        this.fontSize = fontSize;
     }
 
     @Override
@@ -39,6 +42,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     @Override
     public void onBindViewHolder(CategoryViewHolder holder, int position) {
         holder.tvName.setText(categories.get(position).getName());
+
 
         //holder.itemView.setLongClickable(true);
         //holder.itemView.setTag(new ContextMenuRecyclerView.RecyclerItemMarker(position, categories.get(position)));
@@ -87,7 +91,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             itemView.setOnClickListener(this);
 
             tvName = (TextView) itemView.findViewById(R.id.tv_name);
-            //tvName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 100);
+            tvName.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize);
 
             //itemView.setOnCreateContextMenuListener(this);
 

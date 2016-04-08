@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -20,6 +21,7 @@ import com.ccjeng.iwish.model.SubItem;
 import com.ccjeng.iwish.presenter.ISubItemPresenter;
 import com.ccjeng.iwish.presenter.impl.SubItemPresenter;
 import com.ccjeng.iwish.realm.table.RealmTable;
+import com.ccjeng.iwish.utils.Utils;
 import com.ccjeng.iwish.view.adapter.SubItemAdapter;
 import com.ccjeng.iwish.view.base.BaseActivity;
 import com.ccjeng.iwish.view.dialogs.AddDialog;
@@ -46,6 +48,7 @@ public class SubItemActivity extends BaseActivity {
     private static Mode mode;
     private MenuItem editMenuItem;
     private ItemTouchHelper swipeToDismissTouchHelper;
+    private int fontSize, columnNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +67,6 @@ public class SubItemActivity extends BaseActivity {
         presenter.subscribeCallbacks();
         presenter.getAllSubItemsByItemId(itemId);
 
-
     }
 
     protected void initComponents() {
@@ -74,6 +76,9 @@ public class SubItemActivity extends BaseActivity {
             getSupportActionBar().setTitle(toolbarTitle);
 
         }
+
+        fontSize = getFontSize();
+        columnNum = getColumnNum();
 
         initRecyclerListener();
 
@@ -88,7 +93,7 @@ public class SubItemActivity extends BaseActivity {
     public void showData(RealmList<SubItem> subItems) {
 
         this.subItems = subItems;
-        adapter = new SubItemAdapter(subItems);
+        adapter = new SubItemAdapter(subItems, fontSize);
 
         adapter.setOnItemClickListener(new SubItemAdapter.OnItemClickListener() {
             @Override
@@ -109,7 +114,12 @@ public class SubItemActivity extends BaseActivity {
     }
 
     protected void initRecyclerListener() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+        if (columnNum > 1) {
+            recyclerView.setLayoutManager(new GridLayoutManager(this, columnNum));
+        } else {
+            recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        }
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         swipeToDismissTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(

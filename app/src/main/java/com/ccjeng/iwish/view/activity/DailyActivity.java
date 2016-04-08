@@ -46,6 +46,7 @@ public class DailyActivity extends BaseActivity {
     private static Mode mode;
     private MenuItem editMenuItem;
     private ItemTouchHelper swipeToDismissTouchHelper;
+    private int fontSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +82,7 @@ public class DailyActivity extends BaseActivity {
             }
         });
 
+        fontSize = getFontSize();
     }
 
     private void initRecyclerListener(){
@@ -119,7 +121,7 @@ public class DailyActivity extends BaseActivity {
     public void showData(RealmResults<Daily> daily) {
 
         this.daily = daily;
-        adapter = new DailyAdapter(daily);
+        adapter = new DailyAdapter(daily, fontSize);
 
         adapter.setOnItemClickListener(new DailyAdapter.OnItemClickListener() {
             @Override

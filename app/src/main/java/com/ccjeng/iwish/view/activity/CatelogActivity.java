@@ -20,6 +20,7 @@ import com.ccjeng.iwish.model.Category;
 import com.ccjeng.iwish.presenter.ICategoryPresenter;
 import com.ccjeng.iwish.presenter.impl.CategoryPresenter;
 import com.ccjeng.iwish.realm.table.RealmTable;
+import com.ccjeng.iwish.utils.Utils;
 import com.ccjeng.iwish.view.adapter.CategoryAdapter;
 import com.ccjeng.iwish.view.adapter.SimpleItemTouchHelperCallback;
 import com.ccjeng.iwish.view.base.BaseActivity;
@@ -49,7 +50,7 @@ public class CatelogActivity  extends BaseActivity {
     private static Mode mode;
     private MenuItem editMenuItem;
     private ItemTouchHelper swipeToDismissTouchHelper;
-
+    private int fontSize, columnNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,7 @@ public class CatelogActivity  extends BaseActivity {
         presenter.subscribeCallbacks();
         presenter.getAllCategories();
 
+
     }
 
     private void initComponents() {
@@ -73,6 +75,9 @@ public class CatelogActivity  extends BaseActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
+        fontSize = getFontSize();
+        columnNum = getColumnNum();
 
         initRecyclerListener();
 
@@ -83,14 +88,18 @@ public class CatelogActivity  extends BaseActivity {
             }
         });
 
+
     }
 
     private void initRecyclerListener(){
 
         registerForContextMenu(recyclerView);
 
-       // recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        recyclerView.setLayoutManager(new GridLayoutManager(this,2));
+        if (columnNum > 1) {
+            recyclerView.setLayoutManager(new GridLayoutManager(this, columnNum));
+        } else {
+            recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        }
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
       /*  ItemTouchHelper.Callback callback =
@@ -120,7 +129,7 @@ public class CatelogActivity  extends BaseActivity {
 
     public void showData(RealmResults<Category> categories) {
         this.categories = categories;
-        adapter = new CategoryAdapter(categories);
+        adapter = new CategoryAdapter(categories, fontSize);
 
         adapter.setOnItemClickListener(new CategoryAdapter.OnItemClickListener() {
             @Override

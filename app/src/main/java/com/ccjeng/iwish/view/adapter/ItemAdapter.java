@@ -21,8 +21,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     private OnItemClickListener onItemClickListener;
 
     private RealmResults<Item> items;
-    public ItemAdapter(RealmResults<Item> items) {
+    private int fontSize;
+
+    public ItemAdapter(RealmResults<Item> items, int fontSize) {
         this.items = items;
+        this.fontSize = fontSize;
     }
 
     @Override
@@ -50,7 +53,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             itemView.setOnClickListener(this);
 
             tvName = (TextView) itemView.findViewById(R.id.tv_name);
-            //tvName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 100);
+            tvName.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize);
 
         }
 

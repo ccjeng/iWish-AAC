@@ -21,8 +21,11 @@ public class SubItemAdapter extends RecyclerView.Adapter<SubItemAdapter.SubItemV
     private OnItemClickListener onItemClickListener;
 
     private RealmList<SubItem> items;
-    public SubItemAdapter(RealmList<SubItem> items) {
+    private int fontSize;
+
+    public SubItemAdapter(RealmList<SubItem> items, int fontSize) {
         this.items = items;
+        this.fontSize = fontSize;
     }
 
     @Override
@@ -50,7 +53,7 @@ public class SubItemAdapter extends RecyclerView.Adapter<SubItemAdapter.SubItemV
             itemView.setOnClickListener(this);
 
             tvName = (TextView) itemView.findViewById(R.id.tv_name);
-            //tvName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 100);
+            tvName.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize);
 
         }
 

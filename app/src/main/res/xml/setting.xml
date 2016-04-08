@@ -6,6 +6,11 @@
             android:inputType="number"
             android:key="fontsize"
             android:title="@string/fontsize"/>
+        <EditTextPreference
+            android:defaultValue="1"
+            android:inputType="number"
+            android:key="columnnum"
+            android:title="@string/columnnum"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/datamgm">
         <Preference

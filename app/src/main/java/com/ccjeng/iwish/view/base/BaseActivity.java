@@ -1,6 +1,8 @@
 package com.ccjeng.iwish.view.base;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -27,5 +29,16 @@ public class BaseActivity extends AppCompatActivity {
 
         snackbar.show();
 
+    }
+
+
+    public int getFontSize(){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        return Integer.valueOf(prefs.getString("fontsize", "100"));
+    }
+
+    public int getColumnNum() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        return Integer.valueOf(prefs.getString("columnnum", "1"));
     }
 }

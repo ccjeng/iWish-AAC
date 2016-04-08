@@ -20,8 +20,11 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.DailyViewHol
     private OnItemClickListener onItemClickListener;
 
     private RealmResults<Daily> dailies;
-    public DailyAdapter(RealmResults<Daily> dailies) {
+    private int fontSize;
+
+    public DailyAdapter(RealmResults<Daily> dailies, int fontSize) {
         this.dailies = dailies;
+        this.fontSize = fontSize;
     }
 
     @Override
@@ -49,7 +52,7 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.DailyViewHol
             itemView.setOnClickListener(this);
 
             tvName = (TextView) itemView.findViewById(R.id.tv_name);
-            tvName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 80);
+            tvName.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize);
 
         }
 
