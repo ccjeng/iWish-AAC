@@ -1,14 +1,11 @@
 package com.ccjeng.iwish.presenter.impl;
 
 import com.ccjeng.iwish.R;
-import com.ccjeng.iwish.model.Category;
 import com.ccjeng.iwish.model.Item;
 import com.ccjeng.iwish.presenter.IItemPresenter;
-import com.ccjeng.iwish.realm.repository.ICategoryRepository;
 import com.ccjeng.iwish.realm.repository.IItemRepository;
-import com.ccjeng.iwish.realm.repository.impl.CategoryRepository;
 import com.ccjeng.iwish.realm.repository.impl.ItemRepository;
-import com.ccjeng.iwish.view.ItemActivity;
+import com.ccjeng.iwish.view.activity.ItemActivity;
 
 import io.realm.RealmList;
 import io.realm.RealmResults;

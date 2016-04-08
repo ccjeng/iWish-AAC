@@ -2,7 +2,7 @@ package com.ccjeng.iwish.view.base;
 
 import android.app.Application;
 
-import io.realm.Realm;
+import com.ccjeng.iwish.realm.table.Migration;
 import io.realm.RealmConfiguration;
 
 /**
@@ -17,6 +17,8 @@ public class BaseApplication extends Application {
 
         realmConfiguration = new RealmConfiguration
                 .Builder(this)
+                .schemaVersion(1)
+                .migration(new Migration())
                 .build();
 
     }

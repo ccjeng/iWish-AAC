@@ -1,4 +1,4 @@
-package com.ccjeng.iwish.view;
+package com.ccjeng.iwish.view.activity;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;

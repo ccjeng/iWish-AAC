@@ -3,10 +3,9 @@ package com.ccjeng.iwish.presenter.impl;
 import com.ccjeng.iwish.R;
 import com.ccjeng.iwish.model.SubItem;
 import com.ccjeng.iwish.presenter.ISubItemPresenter;
-import com.ccjeng.iwish.realm.repository.IBaseRepository;
 import com.ccjeng.iwish.realm.repository.ISubItemRepository;
 import com.ccjeng.iwish.realm.repository.impl.SubItemRepository;
-import com.ccjeng.iwish.view.SubItemActivity;
+import com.ccjeng.iwish.view.activity.SubItemActivity;
 
 import io.realm.RealmList;
 

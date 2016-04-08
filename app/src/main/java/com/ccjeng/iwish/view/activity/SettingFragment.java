@@ -1,4 +1,4 @@
-package com.ccjeng.iwish.view;
+package com.ccjeng.iwish.view.activity;
 
 import android.os.Bundle;
 import android.preference.Preference;

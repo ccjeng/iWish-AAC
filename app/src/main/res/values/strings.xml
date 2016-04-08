@@ -3,9 +3,8 @@
 
     <string name="edit_mode">編輯模式</string>
 
-    <string name="btn_comm">溝通</string>
-    <string name="btn_custom">活動</string>
-    <string name="btn_speak">說</string>
+    <string name="aac">溝通</string>
+    <string name="daily">活動</string>
 
     <!-- menu -->
     <string name="action_settings">設定</string>
@@ -13,7 +12,6 @@
 
     <string name="edit">修改</string>
     <string name="delete">刪除</string>
-    <string name="custom">活動</string>
 
 
     <!-- dialog-->

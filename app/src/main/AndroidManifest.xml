@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".view.MainActivity"
+            android:name=".view.activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,22 +21,22 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.CatelogActivity"
-            android:label="@string/btn_comm"
+            android:name=".view.activity.CatelogActivity"
+            android:label="@string/aac"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".view.ItemActivity"
+            android:name=".view.activity.ItemActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".view.SubItemActivity"
+            android:name=".view.activity.SubItemActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".view.SettingActivity"
+            android:name=".view.activity.SettingActivity"
             android:label="@string/action_settings"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".view.CustomActivity"
-            android:label="@string/btn_custom"
+            android:name=".view.activity.DailyActivity"
+            android:label="@string/daily"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 

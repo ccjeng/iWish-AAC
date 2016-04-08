@@ -20,4 +20,13 @@ public interface RealmTable {
         String NAME = "name";
     }
 
+
+    interface Daily {
+        String NAME = "name";
+    }
+
+    interface Frequency {
+        String NAME = "name";
+    }
+
 }

@@ -5,8 +5,7 @@ import com.ccjeng.iwish.model.Category;
 import com.ccjeng.iwish.presenter.ICategoryPresenter;
 import com.ccjeng.iwish.realm.repository.ICategoryRepository;
 import com.ccjeng.iwish.realm.repository.impl.CategoryRepository;
-import com.ccjeng.iwish.view.CatelogActivity;
-import com.ccjeng.iwish.view.MainActivity;
+import com.ccjeng.iwish.view.activity.CatelogActivity;
 
 import io.realm.RealmResults;
 

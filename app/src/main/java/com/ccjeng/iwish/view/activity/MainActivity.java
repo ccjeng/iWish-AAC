@@ -1,4 +1,4 @@
-package com.ccjeng.iwish.view;
+package com.ccjeng.iwish.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,38 +6,20 @@ import android.speech.tts.TextToSpeech;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.TextView;
+
 
 import com.ccjeng.iwish.R;
 import com.ccjeng.iwish.controller.Speaker;
-import com.ccjeng.iwish.model.Category;
-import com.ccjeng.iwish.presenter.ICategoryPresenter;
-import com.ccjeng.iwish.presenter.impl.CategoryPresenter;
-import com.ccjeng.iwish.realm.table.RealmTable;
-import com.ccjeng.iwish.utils.RealmMigration;
-import com.ccjeng.iwish.view.adapter.CategoryAdapter;
-import com.ccjeng.iwish.view.adapter.ContextMenuRecyclerView;
-import com.ccjeng.iwish.view.adapter.SimpleItemTouchHelperCallback;
 import com.ccjeng.iwish.view.base.BaseActivity;
-import com.ccjeng.iwish.view.dialogs.AddDialog;
-import com.ccjeng.iwish.view.dialogs.EditDialog;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 import butterknife.OnClick;
-import io.realm.RealmResults;
 
 public class MainActivity extends BaseActivity {
 
@@ -70,7 +52,7 @@ public class MainActivity extends BaseActivity {
     }
     @OnClick(R.id.custom)
     public void gotoCustomActivity(View view) {
-        startActivity(new Intent(MainActivity.this, CustomActivity.class));
+        startActivity(new Intent(MainActivity.this, DailyActivity.class));
     }
 
     private void initComponents() {
