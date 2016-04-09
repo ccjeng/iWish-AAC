@@ -19,8 +19,7 @@ import io.realm.RealmResults;
 /**
  * Created by andycheng on 2016/3/26.
  */
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>
-        implements ItemTouchHelperAdapter {
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
 
     private OnItemClickListener onItemClickListener;
 
@@ -61,28 +60,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     }
 
 
-    @Override
-    public void onItemDismiss(int position) {
-        categories.remove(position);
-        notifyItemRemoved(position);
-    }
-
-    @Override
-    public void onItemMove(int fromPosition, int toPosition) {
-        if (fromPosition < toPosition) {
-            for (int i = fromPosition; i < toPosition; i++) {
-                Collections.swap(categories, i, i + 1);
-            }
-        } else {
-            for (int i = fromPosition; i > toPosition; i--) {
-                Collections.swap(categories, i, i - 1);
-            }
-        }
-        notifyItemMoved(fromPosition, toPosition);
-    }
 
     public class CategoryViewHolder extends RecyclerView.ViewHolder
-            implements View.OnClickListener, View.OnCreateContextMenuListener{
+            implements View.OnClickListener {
 
         TextView tvName;
 
@@ -93,27 +73,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             tvName = (TextView) itemView.findViewById(R.id.tv_name);
             tvName.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize);
 
-            //itemView.setOnCreateContextMenuListener(this);
-
         }
 
         @Override
         public void onClick(View v) {
             Category category = categories.get(getAdapterPosition());
             onItemClickListener.onItemClick(category.getId(), category.getName());
-        }
-
-
-        @Override
-        public void onCreateContextMenu(ContextMenu menu, View v,
-                                        ContextMenu.ContextMenuInfo menuInfo) {
-
-            //menuInfo is null
-            menu.add(Menu.NONE, R.id.edit,
-                    Menu.NONE, R.string.edit);
-            menu.add(Menu.NONE, R.id.delete,
-                    Menu.NONE, R.string.delete);
-
         }
 
 

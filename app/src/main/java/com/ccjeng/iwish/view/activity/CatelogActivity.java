@@ -20,9 +20,7 @@ import com.ccjeng.iwish.model.Category;
 import com.ccjeng.iwish.presenter.ICategoryPresenter;
 import com.ccjeng.iwish.presenter.impl.CategoryPresenter;
 import com.ccjeng.iwish.realm.table.RealmTable;
-import com.ccjeng.iwish.utils.Utils;
 import com.ccjeng.iwish.view.adapter.CategoryAdapter;
-import com.ccjeng.iwish.view.adapter.SimpleItemTouchHelperCallback;
 import com.ccjeng.iwish.view.base.BaseActivity;
 import com.ccjeng.iwish.view.dialogs.AddDialog;
 import com.ccjeng.iwish.view.dialogs.EditDialog;
@@ -92,8 +90,6 @@ public class CatelogActivity  extends BaseActivity {
     }
 
     private void initRecyclerListener(){
-
-        registerForContextMenu(recyclerView);
 
         if (columnNum > 1) {
             recyclerView.setLayoutManager(new GridLayoutManager(this, columnNum));

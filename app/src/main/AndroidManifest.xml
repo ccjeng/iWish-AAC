@@ -23,12 +23,15 @@
         <activity
             android:name=".view.activity.CatelogActivity"
             android:label="@string/aac"
+            android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".view.activity.ItemActivity"
+            android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".view.activity.SubItemActivity"
+            android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".view.activity.SettingActivity"
@@ -37,6 +40,7 @@
         <activity
             android:name=".view.activity.DailyActivity"
             android:label="@string/daily"
+            android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 

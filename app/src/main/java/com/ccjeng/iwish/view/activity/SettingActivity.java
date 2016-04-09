@@ -2,6 +2,7 @@ package com.ccjeng.iwish.view.activity;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -28,6 +29,9 @@ public class SettingActivity extends BaseActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
+        toolbar.setNavigationIcon(R.mipmap.icon_toolbal_arrow_white);
+        toolbar.setTitleTextColor(Color.WHITE);
 
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
