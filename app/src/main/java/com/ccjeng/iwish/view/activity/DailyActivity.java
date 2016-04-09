@@ -87,17 +87,10 @@ public class DailyActivity extends BaseActivity {
 
     private void initRecyclerListener(){
 
-        registerForContextMenu(recyclerView);
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-      /*  ItemTouchHelper.Callback callback =
-                new SimpleItemTouchHelperCallback(adapter);
-        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
-        touchHelper.attachToRecyclerView(recyclerView);
-
-        */
+        /*
         swipeToDismissTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
                 ItemTouchHelper.RIGHT, ItemTouchHelper.RIGHT) {
 
@@ -114,6 +107,8 @@ public class DailyActivity extends BaseActivity {
             }
 
         });
+*/
+
 
     }
 
@@ -140,6 +135,7 @@ public class DailyActivity extends BaseActivity {
         });
 
         recyclerView.setAdapter(adapter);
+
 
     }
 
@@ -179,7 +175,8 @@ public class DailyActivity extends BaseActivity {
                 fab.setVisibility(View.GONE);
                 editMenuItem.setVisible(true);
 
-                swipeToDismissTouchHelper.attachToRecyclerView(null);
+                //swipeToDismissTouchHelper.attachToRecyclerView(null);
+                //dragMgr.cancelDrag();
 
                 toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                 toolbar.setTitle(getString(R.string.daily));
@@ -191,9 +188,18 @@ public class DailyActivity extends BaseActivity {
                 editMenuItem.setVisible(false);
 
                 //can be deleted
-                swipeToDismissTouchHelper.attachToRecyclerView(recyclerView);
+                //swipeToDismissTouchHelper.attachToRecyclerView(recyclerView);
                 toolbar.setBackgroundColor(getResources().getColor(R.color.red));
                 toolbar.setTitle(getString(R.string.edit_mode));
+
+                break;
+            case SORT:
+                fab.setVisibility(View.GONE);
+                editMenuItem.setVisible(false);
+
+                toolbar.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                toolbar.setTitle(getString(R.string.action_sort));
+                //dragMgr.attachRecyclerView(recyclerView);
 
                 break;
         }
@@ -246,6 +252,9 @@ public class DailyActivity extends BaseActivity {
                 break;
             case R.id.action_edit:
                 startMode(Mode.EDIT);
+                break;
+            case R.id.action_sort:
+                startMode(Mode.SORT);
                 break;
         }
         return super.onOptionsItemSelected(item);
