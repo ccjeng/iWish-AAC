@@ -13,7 +13,7 @@ Features:
 
 Technical Part:
 * Material Design Style
-* MVP Model
+* MVP
 * Google Text to Speech
 * Realm
 
