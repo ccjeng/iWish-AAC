@@ -113,8 +113,7 @@ public class ItemRepository implements IItemRepository {
     @Override
     public void getAllItems(onGetAllItemsCallback callback) {
         Realm realm = Realm.getInstance(BaseApplication.realmConfiguration);
-        RealmQuery<Item> query = realm.where(Item.class);
-        RealmResults<Item> results = query.findAll();
+        RealmResults<Item> results = realm.where(Item.class).findAll();
 
         if (callback != null)
             callback.onSuccess(results);

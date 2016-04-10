@@ -46,19 +46,23 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    @OnClick(R.id.comm)
+    @OnClick(R.id.aac)
     public void gotoCategotyActivity(View view) {
         startActivity(new Intent(MainActivity.this, CatelogActivity.class));
     }
-    @OnClick(R.id.custom)
-    public void gotoCustomActivity(View view) {
+    @OnClick(R.id.daily)
+    public void gotoDailyActivity(View view) {
         startActivity(new Intent(MainActivity.this, DailyActivity.class));
+    }
+
+    @OnClick(R.id.frequency)
+    public void gotoFrequencyActivity(View view) {
+        startActivity(new Intent(MainActivity.this, FrequencyActivity.class));
     }
 
     private void initComponents() {
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
-            //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
 
@@ -115,23 +119,4 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    /*
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-
-        ContextMenuRecyclerView.RecyclerContextMenuInfo info = (ContextMenuRecyclerView.RecyclerContextMenuInfo) item.getMenuInfo();
-
-        int index = info.position;
-
-        //item.getMenuInfo()
-        switch (item.getItemId()) {
-            case R.id.edit:
-                Log.d(TAG, "edit " + index);
-                break;
-            case R.id.delete:
-                Log.d(TAG, "delete" + index);
-                break;
-        }
-        return super.onContextItemSelected(item);
-    }*/
 }

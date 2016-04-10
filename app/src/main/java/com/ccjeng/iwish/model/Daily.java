@@ -1,5 +1,7 @@
 package com.ccjeng.iwish.model;
 
+import java.util.Date;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
@@ -13,6 +15,8 @@ public class Daily extends RealmObject {
     private String id;
     @Required
     private String name;
+
+    private long datetime;
 
     public String getId() {
         return id;
@@ -28,5 +32,13 @@ public class Daily extends RealmObject {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public long getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime() {
+        this.datetime = new Date().getTime();
     }
 }

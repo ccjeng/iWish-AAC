@@ -105,6 +105,9 @@ public class SubItemActivity extends BaseActivity {
                     if (speaker.isAllowed()) {
                         speaker.speak(toolbarTitle + name);
                     }
+
+                    //add frequency log
+                    presenter.addFrequency(toolbarTitle + name);
                 }
 
             }
@@ -182,6 +185,8 @@ public class SubItemActivity extends BaseActivity {
                 subItem.setName(name);
                 presenter.addSubItemByItemId(subItem, itemId);
                 presenter.getAllSubItemsByItemId(itemId);
+
+                adapter.notifyDataSetChanged();
             }
         });
 

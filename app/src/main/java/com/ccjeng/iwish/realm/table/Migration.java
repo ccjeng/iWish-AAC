@@ -34,6 +34,25 @@ public class Migration implements RealmMigration {
             oldVersion++;
         }
 
+        if (oldVersion == 1) {
+
+            schema.get("Daily")
+                    .addField("datetime", long.class);
+
+            schema.get("Frequency")
+                    .addField("count", int.class);
+
+            schema.get("Frequency")
+                    .addIndex("name");
+
+            oldVersion++;
+        }
+
+        /*
+        if (oldVersion == 2) {
+
+            oldVersion++;
+        }*/
 
     }
 }

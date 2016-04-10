@@ -1,6 +1,9 @@
 package com.ccjeng.iwish.model;
 
+import java.util.Date;
+
 import io.realm.RealmObject;
+import io.realm.annotations.Index;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
@@ -11,8 +14,12 @@ public class Frequency extends RealmObject {
 
     @PrimaryKey
     private String id;
-    @Required
+    @Required @Index
     private String name;
+
+    private int count;
+
+    //private long datetime;
 
     public String getId() {
         return id;
@@ -29,4 +36,21 @@ public class Frequency extends RealmObject {
     public void setName(String name) {
         this.name = name;
     }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount() {
+        this.count = 1;
+    }
+
+    /*
+    public long getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime() {
+        this.datetime = new Date().getTime();
+    }*/
 }

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.ccjeng.iwish.R;
+import com.ccjeng.iwish.model.Frequency;
 import com.ccjeng.iwish.view.base.BaseApplication;
 
 import java.io.File;
@@ -12,6 +14,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * Created by andycheng on 2016/3/29.
@@ -113,5 +116,16 @@ public class RealmMigration  {
     private String dbPath(){
 
         return realm.getPath();
+    }
+
+
+    public void FrequencyClear(){
+        Realm realm = Realm.getInstance(BaseApplication.realmConfiguration);
+        realm.beginTransaction();
+        RealmResults<Frequency> results = realm.where(Frequency.class).findAll();
+        results.clear();
+        realm.commitTransaction();
+
+        Toast.makeText(context, R.string.deleted, Toast.LENGTH_LONG).show();
     }
 }

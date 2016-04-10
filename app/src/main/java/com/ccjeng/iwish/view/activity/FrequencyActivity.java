@@ -1,9 +1,9 @@
 package com.ccjeng.iwish.view.activity;
 
-
-import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,32 +15,28 @@ import android.view.View;
 
 import com.ccjeng.iwish.R;
 import com.ccjeng.iwish.controller.Speaker;
-import com.ccjeng.iwish.model.Daily;
-import com.ccjeng.iwish.presenter.IDailyPresenter;
-import com.ccjeng.iwish.presenter.impl.DailyPresenter;
-import com.ccjeng.iwish.view.adapter.DailyAdapter;
+import com.ccjeng.iwish.model.Frequency;
+import com.ccjeng.iwish.model.FrequencyList;
+import com.ccjeng.iwish.presenter.IFrequencyPresenter;
+import com.ccjeng.iwish.presenter.impl.FrequencyPresenter;
+import com.ccjeng.iwish.view.adapter.FrequencyAdapter;
 import com.ccjeng.iwish.view.base.BaseActivity;
-import com.ccjeng.iwish.view.dialogs.AddDialog;
-import com.ccjeng.iwish.view.dialogs.EditDialog;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.realm.RealmResults;
 
-public class DailyActivity extends BaseActivity {
+public class FrequencyActivity extends BaseActivity {
 
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
-    @Bind(R.id.fab)
-    FloatingActionButton fab;
+    @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.coordinatorlayout) public CoordinatorLayout coordinatorlayout;
-    @Bind(R.id.recyclerView)
-    RecyclerView recyclerView;
+    @Bind(R.id.recyclerView) RecyclerView recyclerView;
 
-
-    private IDailyPresenter presenter;
-    private RealmResults<Daily> daily;
-    private DailyAdapter adapter;
+    private IFrequencyPresenter presenter;
+    private FrequencyAdapter adapter;
+    private List<FrequencyList> frequency;
 
     private Speaker speaker;
     private static Mode mode;
@@ -54,18 +50,15 @@ public class DailyActivity extends BaseActivity {
         setContentView(R.layout.activity_item);
         ButterKnife.bind(this);
 
-        presenter = new DailyPresenter(this);
-
+        presenter = new FrequencyPresenter(this);
         speaker = new Speaker(this);
         speaker.allow(true);
+
         initComponents();
 
         presenter.subscribeCallbacks();
-        presenter.getAllDaily();
-
+        presenter.getAllFrequencyDistinctCount();
     }
-
-
 
     private void initComponents() {
         setSupportActionBar(toolbar);
@@ -73,16 +66,9 @@ public class DailyActivity extends BaseActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        initRecyclerListener();
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showAddDialog();
-            }
-        });
-
         fontSize = getFontSize();
+
+        initRecyclerListener();
     }
 
     private void initRecyclerListener(){
@@ -101,105 +87,54 @@ public class DailyActivity extends BaseActivity {
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                presenter.deleteDailyById(daily.get(viewHolder.getAdapterPosition()).getId());
+                presenter.deleteFrequencyByName(frequency.get(viewHolder.getAdapterPosition()).getName());
                 adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
             }
 
         });
 
-
-
     }
 
+    public void showData(List<FrequencyList> frequency) {
 
-    public void showData(RealmResults<Daily> daily) {
+        this.frequency = frequency;
+        adapter = new FrequencyAdapter(frequency, fontSize);
 
-        this.daily = daily;
-        adapter = new DailyAdapter(daily, fontSize);
-
-        adapter.setOnItemClickListener(new DailyAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new FrequencyAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(String id, String name) {
+            public void onItemClick(String name) {
 
-                if (mode.equals(Mode.EDIT)) {
-                    showEditDialog(id, name);
-
-                } else {
                     if (speaker.isAllowed()) {
                         speaker.speak(name);
                     }
 
-                }
             }
         });
 
         recyclerView.setAdapter(adapter);
 
-
-    }
-
-    private void showAddDialog() {
-        final AddDialog dialog = new AddDialog();
-        dialog.show(getSupportFragmentManager(), dialog.getClass().getName());
-        dialog.setListener(new AddDialog.OnAddClickListener() {
-            @Override
-            public void OnAddClickListener(String name) {
-                dialog.dismiss();
-
-                Daily daily = new Daily();
-                daily.setName(name);
-                presenter.addDaily(daily);
-                adapter.notifyDataSetChanged();
-            }
-        });
-    }
-
-    private void showEditDialog(final String id, String name) {
-
-        final EditDialog dialog = EditDialog.newInstance(name);
-        dialog.show(getSupportFragmentManager(), dialog.getClass().getName());
-        dialog.setListener(new EditDialog.OnEditClickListener() {
-            @Override
-            public void OnEditClickListener(String name) {
-                dialog.dismiss();
-                presenter.updateDailyById(id, name);
-                adapter.notifyDataSetChanged();
-            }
-        });
     }
 
     private void startMode(Mode modeToStart){
 
         switch (modeToStart) {
             case NORMAL:
-                fab.setVisibility(View.GONE);
                 editMenuItem.setVisible(true);
 
                 swipeToDismissTouchHelper.attachToRecyclerView(null);
 
                 toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                toolbar.setTitle(getString(R.string.daily));
+                toolbar.setTitle(getString(R.string.frequency));
 
                 break;
 
             case EDIT:
-                fab.setVisibility(View.VISIBLE);
                 editMenuItem.setVisible(false);
 
                 //can be deleted
                 swipeToDismissTouchHelper.attachToRecyclerView(recyclerView);
                 toolbar.setBackgroundColor(getResources().getColor(R.color.red));
                 toolbar.setTitle(getString(R.string.edit_mode));
-
-                break;
-            case SORT:
-                fab.setVisibility(View.GONE);
-                editMenuItem.setVisible(false);
-
-                toolbar.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                toolbar.setTitle(getString(R.string.action_sort));
-                //dragMgr.attachRecyclerView(recyclerView);
-
                 break;
         }
 
@@ -252,12 +187,9 @@ public class DailyActivity extends BaseActivity {
             case R.id.action_edit:
                 startMode(Mode.EDIT);
                 break;
-          /*  case R.id.action_sort:
-                startMode(Mode.SORT);
-                break;*/
+
         }
         return super.onOptionsItemSelected(item);
     }
-
 
 }

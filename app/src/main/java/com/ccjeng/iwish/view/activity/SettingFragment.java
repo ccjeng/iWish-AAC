@@ -14,9 +14,13 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
 
     private static final String RESTORE = "data_restore";
     private static final String BACKUP = "data_backup";
+    private static final String CLEAR = "frequency_clear";
+
 
     private Preference mBackup;
     private Preference mRestore;
+    private Preference mClear;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -25,9 +29,11 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
 
         mBackup = findPreference(BACKUP);
         mRestore = findPreference(RESTORE);
+        mClear = findPreference(CLEAR);
 
         mBackup.setOnPreferenceClickListener(this);
         mRestore.setOnPreferenceClickListener(this);
+        mClear.setOnPreferenceClickListener(this);
     }
 
     @Override
@@ -40,6 +46,9 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
 
         } else if (preference == mRestore){
             migration.restore();
+
+        } else if (preference == mClear) {
+            migration.FrequencyClear();
         }
 
         return false;

@@ -23,10 +23,12 @@ public interface RealmTable {
 
     interface Daily {
         String NAME = "name";
+        String DATETIME = "datetime";
     }
 
     interface Frequency {
         String NAME = "name";
+        String COUNT = "count";
     }
 
 }

@@ -193,6 +193,8 @@ public class ItemActivity extends BaseActivity {
 
                 presenter.addItemByCategoryId(item, categoryId);
                 presenter.getAllItemsByCategoryId(categoryId);
+
+                adapter.notifyDataSetChanged();
             }
         });
     }

@@ -5,6 +5,7 @@
 
     <string name="aac">溝通</string>
     <string name="daily">活動</string>
+    <string name="frequency">常用句</string>
 
     <!-- menu -->
     <string name="action_settings">設定</string>
@@ -28,6 +29,7 @@
     <string name="datamgm">資料管理</string>
     <string name="data_backup">備份</string>
     <string name="data_restore">還原</string>
+    <string name="frequency_clear">刪除全部常用句</string>
 
     <!-- message -->
     <string name="saved">已儲存</string>

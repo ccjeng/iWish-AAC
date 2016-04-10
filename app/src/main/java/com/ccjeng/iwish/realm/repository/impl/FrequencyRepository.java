@@ -1,79 +1,73 @@
 package com.ccjeng.iwish.realm.repository.impl;
 
-import com.ccjeng.iwish.model.Daily;
+import android.util.Log;
+
 import com.ccjeng.iwish.model.Frequency;
-import com.ccjeng.iwish.realm.repository.IBaseRepository;
+import com.ccjeng.iwish.model.FrequencyList;
 import com.ccjeng.iwish.realm.repository.IFrequencyRepository;
 import com.ccjeng.iwish.realm.table.RealmTable;
-import com.ccjeng.iwish.utils.Utils;
 import com.ccjeng.iwish.view.base.BaseApplication;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import io.realm.Realm;
-import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
 /**
  * Created by andycheng on 2016/4/8.
  */
 public class FrequencyRepository implements IFrequencyRepository {
-    @Override
-    public void addFrequency(Frequency frequency, onSaveCallback callback) {
-        Realm realm = Realm.getInstance(BaseApplication.realmConfiguration);
-        realm.beginTransaction();
-        Frequency f = realm.createObject(Frequency.class);
-        f.setId(Utils.getUniqueID());
-        f.setName(frequency.getName());
-        realm.commitTransaction();
 
-        if (callback != null)
-            callback.onSuccess();
-    }
+    private static final String TAG = FrequencyRepository.class.getSimpleName();
 
     @Override
-    public void deleteFrequencyById(String Id, onDeleteCallback callback) {
+    public void deleteFrequencyByName(String name, onDeleteCallback callback) {
         Realm realm =Realm.getInstance(BaseApplication.realmConfiguration);
         realm.beginTransaction();
-        Frequency f = realm.where(Frequency.class).equalTo(RealmTable.ID, Id).findFirst();
-        f.removeFromRealm();
+        RealmResults<Frequency> results = realm.where(Frequency.class).equalTo(RealmTable.Frequency.NAME, name).findAll();
+        results.clear();
         realm.commitTransaction();
 
         if (callback != null)
             callback.onSuccess();
     }
 
-    @Override
-    public void deleteFrequencyByPosition(int position, onDeleteCallback callback) {
-        Realm realm =Realm.getInstance(BaseApplication.realmConfiguration);
-        realm.beginTransaction();
-        RealmQuery<Frequency> query = realm.where(Frequency.class);
-        RealmResults<Frequency> results = query.findAll();
-        results.remove(position);
-        realm.commitTransaction();
-
-        if (callback != null)
-            callback.onSuccess();
-    }
-
-    @Override
-    public void updateFrequencyById(String id, String name, onUpdateCallback callback) {
-        Realm realm =Realm.getInstance(BaseApplication.realmConfiguration);
-        realm.beginTransaction();
-        Frequency f = realm.where(Frequency.class).equalTo(RealmTable.ID, id).findFirst();
-        f.setName(name);
-        realm.copyToRealmOrUpdate(f);
-        realm.commitTransaction();
-
-        if (callback != null)
-            callback.onSuccess();
-    }
 
     @Override
     public void getAllFrequency(onGetFrequencyCallback callback) {
         Realm realm = Realm.getInstance(BaseApplication.realmConfiguration);
-        RealmQuery<Frequency> query = realm.where(Frequency.class);
-        RealmResults<Frequency> results = query.findAll();
+        RealmResults<Frequency> results = realm.where(Frequency.class).findAll();
 
         if (callback != null)
             callback.onSuccess(results);
     }
+
+
+    @Override
+    public void getAllFrequencyDistinctCount(onGetFrequencyDistinctCountCallback callback) {
+        Realm realm = Realm.getInstance(BaseApplication.realmConfiguration);
+        RealmResults<Frequency> results = realm.distinct(Frequency.class, RealmTable.Frequency.NAME);
+
+        List<FrequencyList> list = new ArrayList<FrequencyList>();
+
+        for (int i =0; i < results.size(); i++) {
+            String name = results.get(i).getName();
+            RealmResults<Frequency> s = realm.where(Frequency.class).equalTo(RealmTable.Frequency.NAME, name).findAll();
+            long sum = s.sum(RealmTable.Frequency.COUNT).longValue();
+
+            Log.d(TAG, name + " - "+ sum);
+
+            FrequencyList frequencyList = new FrequencyList(name, sum);
+            list.add(frequencyList);
+
+        }
+
+        Collections.sort(list);
+
+        if (callback != null)
+            callback.onSuccess(list);
+    }
+
 }

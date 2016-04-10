@@ -64,6 +64,11 @@ public class SubItemPresenter implements ISubItemPresenter {
     }
 
     @Override
+    public void addFrequency(String name) {
+        subItemRepository.addFrequency(name);
+    }
+
+    @Override
     public void subscribeCallbacks() {
         onSaveCallback = new ISubItemRepository.onSaveCallback() {
             @Override

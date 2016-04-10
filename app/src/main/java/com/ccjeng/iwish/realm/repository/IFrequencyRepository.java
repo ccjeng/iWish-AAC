@@ -1,6 +1,9 @@
 package com.ccjeng.iwish.realm.repository;
 
 import com.ccjeng.iwish.model.Frequency;
+import com.ccjeng.iwish.model.FrequencyList;
+
+import java.util.List;
 
 import io.realm.RealmResults;
 
@@ -14,14 +17,17 @@ public interface IFrequencyRepository extends IBaseRepository {
         void onError(String message);
     }
 
-    void addFrequency(Frequency frequency, onSaveCallback callback);
+    interface onGetFrequencyDistinctCountCallback {
+        void onSuccess(List<FrequencyList> frequencies);
+        void onError(String message);
+    }
 
-    void deleteFrequencyById(String Id, onDeleteCallback callback);
 
-    void deleteFrequencyByPosition(int position, onDeleteCallback callback);
+    void deleteFrequencyByName(String name, onDeleteCallback callback);
 
-    void updateFrequencyById(String id, String name, onUpdateCallback callback);
+    void getAllFrequencyDistinctCount(onGetFrequencyDistinctCountCallback callback);
 
     void getAllFrequency(onGetFrequencyCallback callback);
+
 
 }

@@ -19,5 +19,8 @@
         <Preference
             android:key="data_restore"
             android:title="@string/data_restore"/>
+        <Preference
+            android:key="frequency_clear"
+            android:title="@string/frequency_clear"/>
     </PreferenceCategory>
 </PreferenceScreen>

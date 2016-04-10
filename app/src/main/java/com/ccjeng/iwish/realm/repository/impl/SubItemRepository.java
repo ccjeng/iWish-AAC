@@ -1,5 +1,6 @@
 package com.ccjeng.iwish.realm.repository.impl;
 
+import com.ccjeng.iwish.model.Frequency;
 import com.ccjeng.iwish.model.Item;
 import com.ccjeng.iwish.model.SubItem;
 import com.ccjeng.iwish.realm.repository.ISubItemRepository;
@@ -104,4 +105,16 @@ public class SubItemRepository implements ISubItemRepository {
         if (callback != null)
             callback.onSuccess(s);
     }
+
+    @Override
+    public void addFrequency(String name) {
+        Realm realm = Realm.getInstance(BaseApplication.realmConfiguration);
+        realm.beginTransaction();
+        Frequency f = realm.createObject(Frequency.class);
+        f.setId(Utils.getUniqueID());
+        f.setName(name);
+        f.setCount();
+        realm.commitTransaction();
+    }
+
 }

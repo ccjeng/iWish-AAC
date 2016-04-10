@@ -1,5 +1,6 @@
 package com.ccjeng.iwish.realm.repository;
 
+import com.ccjeng.iwish.model.Frequency;
 import com.ccjeng.iwish.model.SubItem;
 
 import io.realm.RealmList;
@@ -33,5 +34,7 @@ public interface ISubItemRepository extends IBaseRepository {
     void getSubItemsByItemId(String id, onGetSubItemsCallback callback);
 
     void getSubItemById(String id, onGetSubItemByIdCallback callback);
+
+    void addFrequency(String name);
 
 }

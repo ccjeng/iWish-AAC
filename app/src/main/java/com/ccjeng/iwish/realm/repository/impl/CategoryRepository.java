@@ -70,8 +70,7 @@ public class CategoryRepository implements ICategoryRepository {
     @Override
     public void getAllCategories(onGetAllCategoryCallback callback) {
         Realm realm = Realm.getInstance(BaseApplication.realmConfiguration);
-        RealmQuery<Category> query = realm.where(Category.class);
-        RealmResults<Category> results = query.findAll();
+        RealmResults<Category> results = realm.where(Category.class).findAll();
 
         if (callback != null)
             callback.onSuccess(results);

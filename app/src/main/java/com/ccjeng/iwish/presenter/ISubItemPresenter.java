@@ -15,4 +15,6 @@ public interface ISubItemPresenter extends IBasePresenter {
 
     void getSubItemById(String id);
     void getAllSubItemsByItemId(String itemId);
+
+    void addFrequency(String name);
 }

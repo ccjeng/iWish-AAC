@@ -159,6 +159,7 @@ public class CatelogActivity  extends BaseActivity {
             public void OnAddClickListener(String name) {
                 dialog.dismiss();
                 presenter.addCategory(name);
+                adapter.notifyDataSetChanged();
             }
         });
     }

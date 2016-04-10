@@ -9,6 +9,7 @@ import com.ccjeng.iwish.view.base.BaseApplication;
 import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**
  * Created by andycheng on 2016/4/8.
@@ -22,6 +23,7 @@ public class DailyRepository implements IDailyRepository {
         Daily d = realm.createObject(Daily.class);
         d.setId(Utils.getUniqueID());
         d.setName(daily.getName());
+        d.setDatetime();
         realm.commitTransaction();
 
         if (callback != null)
@@ -59,6 +61,7 @@ public class DailyRepository implements IDailyRepository {
         realm.beginTransaction();
         Daily d = realm.where(Daily.class).equalTo(RealmTable.ID, id).findFirst();
         d.setName(name);
+        d.setDatetime();
         realm.copyToRealmOrUpdate(d);
         realm.commitTransaction();
 
@@ -69,8 +72,8 @@ public class DailyRepository implements IDailyRepository {
     @Override
     public void getAllDaily(onGetDailyCallback callback) {
         Realm realm = Realm.getInstance(BaseApplication.realmConfiguration);
-        RealmQuery<Daily> query = realm.where(Daily.class);
-        RealmResults<Daily> results = query.findAll();
+        RealmResults<Daily> results = realm.where(Daily.class).findAll();
+        results.sort(RealmTable.Daily.DATETIME, Sort.DESCENDING);
 
         if (callback != null)
             callback.onSuccess(results);
