@@ -21,9 +21,9 @@
             android:id="@+id/tv_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="left|center_vertical"
+            android:gravity="center|center_vertical"
             android:textAppearance="@android:style/TextAppearance.Large"
-            android:textSize="100sp"
+            android:minLines="2"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
