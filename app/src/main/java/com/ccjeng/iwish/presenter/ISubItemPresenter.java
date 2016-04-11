@@ -10,7 +10,7 @@ public interface ISubItemPresenter extends IBasePresenter {
     void addSubItem(SubItem subItem);
     void addSubItemByItemId(SubItem subItem, String itemId);
     void deleteSubItemByPosition(int position);
-    void deleteSubItemById(String id);
+    void deleteSubItemById(String subItemId, String itemId);
     void updateSubItemById(String id, String name);
 
     void getSubItemById(String id);

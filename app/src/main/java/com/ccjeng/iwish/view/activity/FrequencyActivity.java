@@ -169,6 +169,8 @@ public class FrequencyActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_item, menu);
         editMenuItem = menu.findItem(R.id.action_edit);
+        menu.findItem(R.id.action_sort).setVisible(false);
+
         startMode(Mode.NORMAL);
 
         return true;

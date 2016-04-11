@@ -25,7 +25,7 @@ public interface ISubItemRepository extends IBaseRepository {
 
     void addSubItemByItemId(SubItem item, String itemId, onSaveCallback callback);
 
-    void deleteSubItemById(String id, onDeleteCallback callback);
+    void deleteSubItemById(String subItemId, String itemId, onDeleteCallback callback);
 
     void deleteSubItemByPosition(int position, onDeleteCallback callback);
 

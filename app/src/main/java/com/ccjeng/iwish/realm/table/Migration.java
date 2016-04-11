@@ -48,11 +48,11 @@ public class Migration implements RealmMigration {
             oldVersion++;
         }
 
-        /*
+  /*
         if (oldVersion == 2) {
 
             oldVersion++;
-        }*/
-
+        }
+*/
     }
 }

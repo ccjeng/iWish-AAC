@@ -40,6 +40,7 @@ public class SubItemRepository implements ISubItemRepository {
         s.setId(Utils.getUniqueID());
         s.setName(item.getName());
 
+
         Item i = realm.where(Item.class).equalTo(RealmTable.ID, itemId).findFirst();
         i.getSubItems().add(s);
 
@@ -50,10 +51,14 @@ public class SubItemRepository implements ISubItemRepository {
     }
 
     @Override
-    public void deleteSubItemById(String id, onDeleteCallback callback) {
+    public void deleteSubItemById(String subItemId, String itemId, onDeleteCallback callback) {
         Realm realm =Realm.getInstance(BaseApplication.realmConfiguration);
         realm.beginTransaction();
-        SubItem result = realm.where(SubItem.class).equalTo(RealmTable.ID, id).findFirst();
+        SubItem result = realm.where(SubItem.class).equalTo(RealmTable.ID, subItemId).findFirst();
+
+        Item i = realm.where(Item.class).equalTo(RealmTable.ID, itemId).findFirst();
+        i.getSubItems().remove(result);
+
         result.removeFromRealm();
         realm.commitTransaction();
 

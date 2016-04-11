@@ -33,24 +33,6 @@ public class ItemRepository implements IItemRepository {
             callback.onSuccess();
     }
 
-    @Override
-    public void addItemByCategoryId(Item item, String categoryId, onSaveCallback callback) {
-        Realm realm =Realm.getInstance(BaseApplication.realmConfiguration);
-        realm.beginTransaction();
-
-        Item i = realm.createObject(Item.class);
-
-        i.setId(Utils.getUniqueID());
-        i.setName(item.getName());
-
-        Category c = realm.where(Category.class).equalTo(RealmTable.ID, categoryId).findFirst();
-        c.getItems().add(i);
-
-        realm.commitTransaction();
-
-        if (callback != null)
-            callback.onSuccess();
-    }
 
     @Override
     public void deleteItemById(String id, onDeleteCallback callback) {
@@ -89,16 +71,6 @@ public class ItemRepository implements IItemRepository {
 
         if (callback != null)
             callback.onSuccess();
-    }
-
-    @Override
-    public void getItemsByCategoryId(String id, onGetItemsCallback callback) {
-        Realm realm =Realm.getInstance(BaseApplication.realmConfiguration);
-        Category c = realm.where(Category.class).equalTo(RealmTable.ID, id).findFirst();
-        RealmList<Item> items = c.getItems();
-
-        if (callback != null)
-            callback.onSuccess(items);
     }
 
     @Override

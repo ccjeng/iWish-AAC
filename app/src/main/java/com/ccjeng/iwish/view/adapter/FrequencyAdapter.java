@@ -63,9 +63,6 @@ public class FrequencyAdapter extends RecyclerView.Adapter<FrequencyAdapter.Freq
         @Override
         public void onClick(View v) {
 
-          //  Frequency frequency = frequencies.get(getAdapterPosition());
-           // onItemClickListener.onItemClick(frequencies.get(getAdapterPosition().getName());
-
             onItemClickListener.onItemClick(frequencies.get(getAdapterPosition()).getName());
         }
     }

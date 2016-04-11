@@ -44,8 +44,8 @@ public class SubItemPresenter implements ISubItemPresenter {
     }
 
     @Override
-    public void deleteSubItemById(String id) {
-        subItemRepository.deleteSubItemById(id, onDeleteCallback);
+    public void deleteSubItemById(String subItemId, String itemId) {
+        subItemRepository.deleteSubItemById(subItemId, itemId, onDeleteCallback);
     }
 
     @Override

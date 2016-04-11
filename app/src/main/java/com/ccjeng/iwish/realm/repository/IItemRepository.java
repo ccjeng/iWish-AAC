@@ -28,15 +28,11 @@ public interface IItemRepository extends IBaseRepository {
 
     void addItem(Item item, onSaveCallback callback);
 
-    void addItemByCategoryId(Item item, String categoryId, onSaveCallback callback);
-
     void deleteItemById(String id, onDeleteCallback callback);
 
     void deleteItemByPosition(int position, onDeleteCallback callback);
 
     void updateItemById(String id, String name, onUpdateCallback callback);
-
-    void getItemsByCategoryId(String id, onGetItemsCallback callback);
 
     void getItemById(String id, onGetItemByIdCallback callback);
 

@@ -36,11 +36,6 @@ public class ItemPresenter implements IItemPresenter{
     }
 
     @Override
-    public void addItemByCategoryId(Item item, String categoryId) {
-        itemRepository.addItemByCategoryId(item, categoryId, onSaveCallback);
-    }
-
-    @Override
     public void deleteItemByPosition(int position) {
         itemRepository.deleteItemByPosition(position, onDeleteCallback);
     }
@@ -60,10 +55,6 @@ public class ItemPresenter implements IItemPresenter{
         itemRepository.getItemById(id, onGetItemByIdCallback);
     }
 
-    @Override
-    public void getAllItemsByCategoryId(String categoryId) {
-        itemRepository.getItemsByCategoryId(categoryId, onGetItemsCallback);
-    }
 
     @Override
     public void getAllItems() {

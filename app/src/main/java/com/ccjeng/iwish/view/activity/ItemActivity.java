@@ -191,8 +191,8 @@ public class ItemActivity extends BaseActivity {
                 Item item = new Item();
                 item.setName(name);
 
-                presenter.addItemByCategoryId(item, categoryId);
-                presenter.getAllItemsByCategoryId(categoryId);
+                presenter.addItem(item);
+                //presenter.getAllItemsByCategoryId(categoryId);
 
                 adapter.notifyDataSetChanged();
             }

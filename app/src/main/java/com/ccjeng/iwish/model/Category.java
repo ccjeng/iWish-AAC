@@ -37,6 +37,7 @@ public class Category extends RealmObject{
         this.name = name;
     }
 
+
     public RealmList<Item> getItems() {
         return items;
     }
@@ -44,4 +45,5 @@ public class Category extends RealmObject{
     public void setItems(RealmList<Item> items) {
         this.items = items;
     }
+
 }

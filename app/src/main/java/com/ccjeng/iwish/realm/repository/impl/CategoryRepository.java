@@ -1,13 +1,13 @@
 package com.ccjeng.iwish.realm.repository.impl;
 
 import com.ccjeng.iwish.model.Category;
-import com.ccjeng.iwish.realm.repository.IBaseRepository;
 import com.ccjeng.iwish.realm.repository.ICategoryRepository;
 import com.ccjeng.iwish.realm.table.RealmTable;
 import com.ccjeng.iwish.utils.Utils;
 import com.ccjeng.iwish.view.base.BaseApplication;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
@@ -71,6 +71,10 @@ public class CategoryRepository implements ICategoryRepository {
     public void getAllCategories(onGetAllCategoryCallback callback) {
         Realm realm = Realm.getInstance(BaseApplication.realmConfiguration);
         RealmResults<Category> results = realm.where(Category.class).findAll();
+
+       // RealmList <Category> finalList = new RealmList<Category>();
+
+       // finalList.addAll(results.subList(0, results.size()));
 
         if (callback != null)
             callback.onSuccess(results);

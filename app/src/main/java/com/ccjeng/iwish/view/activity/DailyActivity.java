@@ -1,6 +1,5 @@
 package com.ccjeng.iwish.view.activity;
 
-
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -19,6 +18,8 @@ import com.ccjeng.iwish.model.Daily;
 import com.ccjeng.iwish.presenter.IDailyPresenter;
 import com.ccjeng.iwish.presenter.impl.DailyPresenter;
 import com.ccjeng.iwish.view.adapter.DailyAdapter;
+import com.ccjeng.iwish.view.adapter.helper.OnStartDragListener;
+import com.ccjeng.iwish.view.adapter.helper.SimpleItemTouchHelperCallback;
 import com.ccjeng.iwish.view.base.BaseActivity;
 import com.ccjeng.iwish.view.dialogs.AddDialog;
 import com.ccjeng.iwish.view.dialogs.EditDialog;
@@ -45,7 +46,9 @@ public class DailyActivity extends BaseActivity {
     private Speaker speaker;
     private static Mode mode;
     private MenuItem editMenuItem;
+
     private ItemTouchHelper swipeToDismissTouchHelper;
+    private ItemTouchHelper mItemTouchHelper;
     private int fontSize;
 
     @Override
@@ -106,11 +109,7 @@ public class DailyActivity extends BaseActivity {
             }
 
         });
-
-
-
     }
-
 
     public void showData(RealmResults<Daily> daily) {
 
@@ -134,7 +133,6 @@ public class DailyActivity extends BaseActivity {
         });
 
         recyclerView.setAdapter(adapter);
-
 
     }
 
@@ -192,15 +190,6 @@ public class DailyActivity extends BaseActivity {
                 toolbar.setTitle(getString(R.string.edit_mode));
 
                 break;
-            case SORT:
-                fab.setVisibility(View.GONE);
-                editMenuItem.setVisible(false);
-
-                toolbar.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                toolbar.setTitle(getString(R.string.action_sort));
-                //dragMgr.attachRecyclerView(recyclerView);
-
-                break;
         }
 
         mode = modeToStart;
@@ -234,6 +223,7 @@ public class DailyActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_item, menu);
         editMenuItem = menu.findItem(R.id.action_edit);
+        menu.findItem(R.id.action_sort).setVisible(false);
         startMode(Mode.NORMAL);
 
         return true;

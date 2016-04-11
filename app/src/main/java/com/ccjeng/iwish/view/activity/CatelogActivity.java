@@ -86,7 +86,6 @@ public class CatelogActivity  extends BaseActivity {
             }
         });
 
-
     }
 
     private void initRecyclerListener(){
@@ -98,12 +97,6 @@ public class CatelogActivity  extends BaseActivity {
         }
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-      /*  ItemTouchHelper.Callback callback =
-                new SimpleItemTouchHelperCallback(adapter);
-        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
-        touchHelper.attachToRecyclerView(recyclerView);
-
-        */
         swipeToDismissTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
                 ItemTouchHelper.RIGHT, ItemTouchHelper.RIGHT) {
 

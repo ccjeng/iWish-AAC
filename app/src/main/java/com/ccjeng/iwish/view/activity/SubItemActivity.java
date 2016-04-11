@@ -23,6 +23,8 @@ import com.ccjeng.iwish.presenter.impl.SubItemPresenter;
 import com.ccjeng.iwish.realm.table.RealmTable;
 import com.ccjeng.iwish.utils.Utils;
 import com.ccjeng.iwish.view.adapter.SubItemAdapter;
+import com.ccjeng.iwish.view.adapter.helper.OnStartDragListener;
+import com.ccjeng.iwish.view.adapter.helper.SimpleItemTouchHelperCallback;
 import com.ccjeng.iwish.view.base.BaseActivity;
 import com.ccjeng.iwish.view.dialogs.AddDialog;
 import com.ccjeng.iwish.view.dialogs.EditDialog;
@@ -31,7 +33,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.realm.RealmList;
 
-public class SubItemActivity extends BaseActivity {
+public class SubItemActivity extends BaseActivity implements OnStartDragListener {
 
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.fab) FloatingActionButton fab;
@@ -47,7 +49,9 @@ public class SubItemActivity extends BaseActivity {
     private Speaker speaker;
     private static Mode mode;
     private MenuItem editMenuItem;
+    private MenuItem sortMenuItem;
     private ItemTouchHelper swipeToDismissTouchHelper;
+    private ItemTouchHelper dragTouchHelper;
     private int fontSize, columnNum;
 
     @Override
@@ -93,7 +97,7 @@ public class SubItemActivity extends BaseActivity {
     public void showData(RealmList<SubItem> subItems) {
 
         this.subItems = subItems;
-        adapter = new SubItemAdapter(subItems, fontSize);
+        adapter = new SubItemAdapter(subItems, fontSize, this);
 
         adapter.setOnItemClickListener(new SubItemAdapter.OnItemClickListener() {
             @Override
@@ -114,6 +118,15 @@ public class SubItemActivity extends BaseActivity {
         });
         recyclerView.setAdapter(adapter);
 
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
+        dragTouchHelper = new ItemTouchHelper(callback);
+        dragTouchHelper.attachToRecyclerView(recyclerView);
+    }
+
+    @Override
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+        if (mode == Mode.SORT)
+            dragTouchHelper.startDrag(viewHolder);
     }
 
     protected void initRecyclerListener() {
@@ -135,7 +148,7 @@ public class SubItemActivity extends BaseActivity {
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                presenter.deleteSubItemById(subItems.get(viewHolder.getAdapterPosition()).getId());
+                presenter.deleteSubItemById(subItems.get(viewHolder.getAdapterPosition()).getId(), itemId);
                 adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
             }
         });
@@ -148,9 +161,10 @@ public class SubItemActivity extends BaseActivity {
             case NORMAL:
                 fab.setVisibility(View.GONE);
                 editMenuItem.setVisible(true);
+                sortMenuItem.setVisible(true);
 
                 swipeToDismissTouchHelper.attachToRecyclerView(null);
-
+                dragTouchHelper.attachToRecyclerView(null);
                 toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                 toolbar.setTitle(toolbarTitle);
 
@@ -159,11 +173,24 @@ public class SubItemActivity extends BaseActivity {
             case EDIT:
                 fab.setVisibility(View.VISIBLE);
                 editMenuItem.setVisible(false);
+                sortMenuItem.setVisible(false);
 
                 //can be deleted
                 swipeToDismissTouchHelper.attachToRecyclerView(recyclerView);
+                dragTouchHelper.attachToRecyclerView(null);
                 toolbar.setBackgroundColor(getResources().getColor(R.color.red));
                 toolbar.setTitle(getString(R.string.edit_mode));
+
+                break;
+
+            case SORT:
+                fab.setVisibility(View.GONE);
+                editMenuItem.setVisible(false);
+                sortMenuItem.setVisible(false);
+
+                dragTouchHelper.attachToRecyclerView(recyclerView);
+                toolbar.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                toolbar.setTitle(getString(R.string.action_sort));
 
                 break;
         }
@@ -184,7 +211,6 @@ public class SubItemActivity extends BaseActivity {
                 SubItem subItem = new SubItem();
                 subItem.setName(name);
                 presenter.addSubItemByItemId(subItem, itemId);
-                presenter.getAllSubItemsByItemId(itemId);
 
                 adapter.notifyDataSetChanged();
             }
@@ -208,7 +234,10 @@ public class SubItemActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (mode != Mode.NORMAL) {
+        if (mode == Mode.SORT) {
+            //todo : Save order before exit sort mode
+            //financeItemsAdapter.saveOrder();
+        } else if (mode != Mode.NORMAL) {
             startMode(Mode.NORMAL);
         } else {
             finish();
@@ -232,6 +261,7 @@ public class SubItemActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_item, menu);
         editMenuItem = menu.findItem(R.id.action_edit);
+        sortMenuItem = menu.findItem(R.id.action_sort);
         startMode(Mode.NORMAL);
 
         return true;
@@ -250,6 +280,9 @@ public class SubItemActivity extends BaseActivity {
             case R.id.action_edit:
                 startMode(Mode.EDIT);
                 break;
+            case R.id.action_sort:
+                startMode(Mode.SORT);
+                 break;
         }
         return super.onOptionsItemSelected(item);
     }
