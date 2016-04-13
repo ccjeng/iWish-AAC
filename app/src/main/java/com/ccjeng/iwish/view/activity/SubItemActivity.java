@@ -12,8 +12,6 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.ccjeng.iwish.R;
 import com.ccjeng.iwish.controller.Speaker;
@@ -21,7 +19,6 @@ import com.ccjeng.iwish.model.SubItem;
 import com.ccjeng.iwish.presenter.ISubItemPresenter;
 import com.ccjeng.iwish.presenter.impl.SubItemPresenter;
 import com.ccjeng.iwish.realm.table.RealmTable;
-import com.ccjeng.iwish.utils.Utils;
 import com.ccjeng.iwish.view.adapter.SubItemAdapter;
 import com.ccjeng.iwish.view.adapter.helper.OnStartDragListener;
 import com.ccjeng.iwish.view.adapter.helper.SimpleItemTouchHelperCallback;
@@ -97,7 +94,7 @@ public class SubItemActivity extends BaseActivity implements OnStartDragListener
     public void showData(RealmList<SubItem> subItems) {
 
         this.subItems = subItems;
-        adapter = new SubItemAdapter(subItems, fontSize, this);
+        adapter = new SubItemAdapter(subItems, fontSize);
 
         adapter.setOnItemClickListener(new SubItemAdapter.OnItemClickListener() {
             @Override
@@ -120,7 +117,7 @@ public class SubItemActivity extends BaseActivity implements OnStartDragListener
 
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
         dragTouchHelper = new ItemTouchHelper(callback);
-        dragTouchHelper.attachToRecyclerView(recyclerView);
+
     }
 
     @Override
@@ -188,6 +185,7 @@ public class SubItemActivity extends BaseActivity implements OnStartDragListener
                 editMenuItem.setVisible(false);
                 sortMenuItem.setVisible(false);
 
+                swipeToDismissTouchHelper.attachToRecyclerView(null);
                 dragTouchHelper.attachToRecyclerView(recyclerView);
                 toolbar.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                 toolbar.setTitle(getString(R.string.action_sort));

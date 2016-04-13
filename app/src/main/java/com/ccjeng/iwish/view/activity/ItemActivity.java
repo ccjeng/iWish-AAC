@@ -10,12 +10,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.ccjeng.iwish.R;
 import com.ccjeng.iwish.controller.Speaker;
@@ -23,18 +20,18 @@ import com.ccjeng.iwish.model.Item;
 import com.ccjeng.iwish.presenter.IItemPresenter;
 import com.ccjeng.iwish.presenter.impl.ItemPresenter;
 import com.ccjeng.iwish.realm.table.RealmTable;
-import com.ccjeng.iwish.utils.Utils;
 import com.ccjeng.iwish.view.adapter.ItemAdapter;
+import com.ccjeng.iwish.view.adapter.helper.OnStartDragListener;
+import com.ccjeng.iwish.view.adapter.helper.SimpleItemTouchHelperCallback;
 import com.ccjeng.iwish.view.base.BaseActivity;
 import com.ccjeng.iwish.view.dialogs.AddDialog;
 import com.ccjeng.iwish.view.dialogs.EditDialog;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import io.realm.RealmList;
 import io.realm.RealmResults;
 
-public class ItemActivity extends BaseActivity {
+public class ItemActivity extends BaseActivity implements OnStartDragListener {
 
     private static final String TAG = "ItemActivity";
 
@@ -52,7 +49,9 @@ public class ItemActivity extends BaseActivity {
     private Speaker speaker;
     private static Mode mode;
     private MenuItem editMenuItem;
+    private MenuItem sortMenuItem;
     private ItemTouchHelper swipeToDismissTouchHelper;
+    private ItemTouchHelper dragTouchHelper;
     private int fontSize, columnNum;
 
     @Override
@@ -96,7 +95,6 @@ public class ItemActivity extends BaseActivity {
 
     }
 
-
     public void showData(RealmResults<Item> items) {
         this.items = items;
         adapter = new ItemAdapter(items, fontSize);
@@ -122,6 +120,14 @@ public class ItemActivity extends BaseActivity {
             }
         });
         recyclerView.setAdapter(adapter);
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
+        dragTouchHelper = new ItemTouchHelper(callback);
+    }
+
+    @Override
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+        if (mode == Mode.SORT)
+            dragTouchHelper.startDrag(viewHolder);
     }
 
     protected void initRecyclerListener() {
@@ -156,9 +162,10 @@ public class ItemActivity extends BaseActivity {
             case NORMAL:
                 fab.setVisibility(View.GONE);
                 editMenuItem.setVisible(true);
+                sortMenuItem.setVisible(true);
 
                 swipeToDismissTouchHelper.attachToRecyclerView(null);
-
+                dragTouchHelper.attachToRecyclerView(null);
                 toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                 toolbar.setTitle(toolbarTitle);
 
@@ -167,11 +174,25 @@ public class ItemActivity extends BaseActivity {
             case EDIT:
                 fab.setVisibility(View.VISIBLE);
                 editMenuItem.setVisible(false);
+                sortMenuItem.setVisible(false);
 
                 //can be deleted
                 swipeToDismissTouchHelper.attachToRecyclerView(recyclerView);
+                dragTouchHelper.attachToRecyclerView(null);
                 toolbar.setBackgroundColor(getResources().getColor(R.color.red));
                 toolbar.setTitle(getString(R.string.edit_mode));
+
+                break;
+
+            case SORT:
+                fab.setVisibility(View.GONE);
+                editMenuItem.setVisible(false);
+                sortMenuItem.setVisible(false);
+
+                swipeToDismissTouchHelper.attachToRecyclerView(null);
+                dragTouchHelper.attachToRecyclerView(recyclerView);
+                toolbar.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                toolbar.setTitle(getString(R.string.action_sort));
 
                 break;
         }
@@ -192,8 +213,6 @@ public class ItemActivity extends BaseActivity {
                 item.setName(name);
 
                 presenter.addItem(item);
-                //presenter.getAllItemsByCategoryId(categoryId);
-
                 adapter.notifyDataSetChanged();
             }
         });
@@ -239,6 +258,7 @@ public class ItemActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_item, menu);
         editMenuItem = menu.findItem(R.id.action_edit);
+        sortMenuItem = menu.findItem(R.id.action_sort);
         startMode(Mode.NORMAL);
 
         return true;
@@ -255,6 +275,9 @@ public class ItemActivity extends BaseActivity {
                 break;
             case R.id.action_edit:
                 startMode(Mode.EDIT);
+                break;
+            case R.id.action_sort:
+                startMode(Mode.SORT);
                 break;
         }
         return super.onOptionsItemSelected(item);

@@ -21,6 +21,8 @@ import com.ccjeng.iwish.presenter.ICategoryPresenter;
 import com.ccjeng.iwish.presenter.impl.CategoryPresenter;
 import com.ccjeng.iwish.realm.table.RealmTable;
 import com.ccjeng.iwish.view.adapter.CategoryAdapter;
+import com.ccjeng.iwish.view.adapter.helper.OnStartDragListener;
+import com.ccjeng.iwish.view.adapter.helper.SimpleItemTouchHelperCallback;
 import com.ccjeng.iwish.view.base.BaseActivity;
 import com.ccjeng.iwish.view.dialogs.AddDialog;
 import com.ccjeng.iwish.view.dialogs.EditDialog;
@@ -29,7 +31,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.realm.RealmResults;
 
-public class CatelogActivity  extends BaseActivity {
+public class CatelogActivity  extends BaseActivity implements OnStartDragListener {
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -47,7 +49,10 @@ public class CatelogActivity  extends BaseActivity {
     private Speaker speaker;
     private static Mode mode;
     private MenuItem editMenuItem;
+    private MenuItem sortMenuItem;
     private ItemTouchHelper swipeToDismissTouchHelper;
+    private ItemTouchHelper dragTouchHelper;
+
     private int fontSize, columnNum;
 
     @Override
@@ -142,6 +147,16 @@ public class CatelogActivity  extends BaseActivity {
         });
 
         recyclerView.setAdapter(adapter);
+
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
+        dragTouchHelper = new ItemTouchHelper(callback);
+
+    }
+
+    @Override
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+        if (mode == Mode.SORT)
+            dragTouchHelper.startDrag(viewHolder);
     }
 
     private void showAddDialog() {
@@ -177,9 +192,10 @@ public class CatelogActivity  extends BaseActivity {
             case NORMAL:
                 fab.setVisibility(View.GONE);
                 editMenuItem.setVisible(true);
+                sortMenuItem.setVisible(true);
 
                 swipeToDismissTouchHelper.attachToRecyclerView(null);
-
+                dragTouchHelper.attachToRecyclerView(null);
                 toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                 toolbar.setTitle(getString(R.string.aac));
 
@@ -188,11 +204,25 @@ public class CatelogActivity  extends BaseActivity {
             case EDIT:
                 fab.setVisibility(View.VISIBLE);
                 editMenuItem.setVisible(false);
+                sortMenuItem.setVisible(false);
 
                 //can be deleted
                 swipeToDismissTouchHelper.attachToRecyclerView(recyclerView);
+                dragTouchHelper.attachToRecyclerView(null);
                 toolbar.setBackgroundColor(getResources().getColor(R.color.red));
                 toolbar.setTitle(getString(R.string.edit_mode));
+
+                break;
+
+            case SORT:
+                fab.setVisibility(View.GONE);
+                editMenuItem.setVisible(false);
+                sortMenuItem.setVisible(false);
+
+                swipeToDismissTouchHelper.attachToRecyclerView(null);
+                dragTouchHelper.attachToRecyclerView(recyclerView);
+                toolbar.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                toolbar.setTitle(getString(R.string.action_sort));
 
                 break;
         }
@@ -228,6 +258,7 @@ public class CatelogActivity  extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_item, menu);
         editMenuItem = menu.findItem(R.id.action_edit);
+        sortMenuItem = menu.findItem(R.id.action_sort);
         startMode(Mode.NORMAL);
 
         return true;
@@ -245,6 +276,9 @@ public class CatelogActivity  extends BaseActivity {
                 break;
             case R.id.action_edit:
                 startMode(Mode.EDIT);
+                break;
+            case R.id.action_sort:
+                startMode(Mode.SORT);
                 break;
         }
         return super.onOptionsItemSelected(item);

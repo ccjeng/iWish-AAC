@@ -1,16 +1,13 @@
 package com.ccjeng.iwish.view.adapter;
 
-import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ccjeng.iwish.R;
-import com.ccjeng.iwish.model.Item;
 import com.ccjeng.iwish.model.SubItem;
 import com.ccjeng.iwish.view.adapter.helper.ItemTouchHelperAdapter;
 import com.ccjeng.iwish.view.adapter.helper.OnStartDragListener;
@@ -33,10 +30,9 @@ public class SubItemAdapter extends RecyclerView.Adapter<SubItemAdapter.SubItemV
     private OnStartDragListener onStartDragListener;
     private Realm realm;
 
-    public SubItemAdapter(RealmList<SubItem> items, int fontSize, OnStartDragListener onStartDragListener) {
+    public SubItemAdapter(RealmList<SubItem> items, int fontSize) {
         this.items = items;
         this.fontSize = fontSize;
-        this.onStartDragListener = onStartDragListener;
 
         realm = Realm.getInstance(BaseApplication.realmConfiguration);
 
@@ -51,16 +47,6 @@ public class SubItemAdapter extends RecyclerView.Adapter<SubItemAdapter.SubItemV
     @Override
     public void onBindViewHolder(final SubItemViewHolder holder, int position) {
         holder.tvName.setText(items.get(position).getName());
-
-        holder.tvName.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
-                    onStartDragListener.onStartDrag(holder);
-                }
-                return false;
-            }
-        });
     }
 
     @Override

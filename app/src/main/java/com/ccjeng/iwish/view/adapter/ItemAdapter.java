@@ -9,14 +9,15 @@ import android.widget.TextView;
 
 import com.ccjeng.iwish.R;
 import com.ccjeng.iwish.model.Item;
+import com.ccjeng.iwish.view.adapter.helper.ItemTouchHelperAdapter;
 
-import io.realm.RealmList;
 import io.realm.RealmResults;
 
 /**
  * Created by andycheng on 2016/3/26.
  */
-public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
+public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder>
+        implements ItemTouchHelperAdapter {
 
     private OnItemClickListener onItemClickListener;
 
@@ -42,6 +43,19 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     @Override
     public int getItemCount() {
         return items.size();
+    }
+
+    @Override
+    public boolean onItemMove(int fromPosition, int toPosition) {
+
+        notifyItemMoved(fromPosition, toPosition);
+
+        return true;
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        notifyItemRemoved(position);
     }
 
     public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
