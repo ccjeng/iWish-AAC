@@ -47,8 +47,8 @@ public class MainActivity extends BaseActivity {
     }
 
     @OnClick(R.id.aac)
-    public void gotoCategotyActivity(View view) {
-        startActivity(new Intent(MainActivity.this, CatelogActivity.class));
+    public void gotoCategoryActivity(View view) {
+        startActivity(new Intent(MainActivity.this, CategoryActivity.class));
     }
     @OnClick(R.id.daily)
     public void gotoDailyActivity(View view) {
@@ -64,12 +64,6 @@ public class MainActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
         }
-    }
-
-
-    @Override
-    public void onBackPressed() {
-            finish();
     }
 
     @Override
@@ -108,10 +102,10 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == CHECK_CODE){
-            if(resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS){
+            if(resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
                 speaker = new Speaker(this);
                 speaker.allow(true);
-            }else {
+            } else {
                 Intent install = new Intent();
                 install.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
                 startActivity(install);

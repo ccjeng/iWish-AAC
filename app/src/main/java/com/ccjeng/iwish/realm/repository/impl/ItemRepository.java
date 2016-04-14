@@ -2,16 +2,15 @@ package com.ccjeng.iwish.realm.repository.impl;
 
 import android.util.Log;
 
-import com.ccjeng.iwish.model.Category;
 import com.ccjeng.iwish.model.Item;
-import com.ccjeng.iwish.realm.repository.IBaseRepository;
 import com.ccjeng.iwish.realm.repository.IItemRepository;
 import com.ccjeng.iwish.realm.table.RealmTable;
 import com.ccjeng.iwish.utils.Utils;
 import com.ccjeng.iwish.view.base.BaseApplication;
 
+import java.util.List;
+
 import io.realm.Realm;
-import io.realm.RealmList;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
@@ -19,6 +18,8 @@ import io.realm.RealmResults;
  * Created by andycheng on 2016/3/26.
  */
 public class ItemRepository implements IItemRepository {
+
+    private static final String TAG = ItemRepository.class.getSimpleName();
 
     @Override
     public void addItem(Item item, onSaveCallback callback) {
@@ -86,8 +87,31 @@ public class ItemRepository implements IItemRepository {
     public void getAllItems(onGetAllItemsCallback callback) {
         Realm realm = Realm.getInstance(BaseApplication.realmConfiguration);
         RealmResults<Item> results = realm.where(Item.class).findAll();
+        results.sort(RealmTable.Item.ORDER);
+
+        List<Item> list = realm.copyFromRealm(results);
 
         if (callback != null)
-            callback.onSuccess(results);
+            callback.onSuccess(list);
+    }
+
+    @Override
+    public void saveOrder(List<Item> itemList, onSaveCallback callback) {
+        Realm realm =Realm.getInstance(BaseApplication.realmConfiguration);
+
+        for(int i =0 ; i < itemList.size() ; i++) {
+
+            String id = itemList.get(i).getId();
+            Log.d(TAG, i + " - " + itemList.get(i).getName());
+
+            realm.beginTransaction();
+            Item item = realm.where(Item.class).equalTo(RealmTable.ID, id).findFirst();
+            item.setOrder(i);
+            realm.copyToRealmOrUpdate(item);
+            realm.commitTransaction();
+        }
+
+        if (callback != null)
+            callback.onSuccess();
     }
 }

@@ -2,6 +2,8 @@ package com.ccjeng.iwish.presenter;
 
 import com.ccjeng.iwish.model.Item;
 
+import java.util.List;
+
 /**
  * Created by andycheng on 2016/3/26.
  */
@@ -14,4 +16,5 @@ public interface IItemPresenter extends IBasePresenter {
 
     void getItemById(String id);
     void getAllItems();
+    void saveOrder(List<Item> itemList);
 }

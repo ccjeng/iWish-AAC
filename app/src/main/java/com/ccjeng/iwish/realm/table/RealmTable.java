@@ -10,10 +10,12 @@ public interface RealmTable {
     interface Category {
         String ITEMS = "items";
         String NAME = "name";
+        String ORDER = "order";
     }
 
     interface Item {
         String NAME = "name";
+        String ORDER = "order";
     }
 
     interface SubItem {

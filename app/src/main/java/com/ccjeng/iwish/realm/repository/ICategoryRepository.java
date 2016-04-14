@@ -2,7 +2,7 @@ package com.ccjeng.iwish.realm.repository;
 
 import com.ccjeng.iwish.model.Category;
 
-import io.realm.RealmResults;
+import java.util.List;
 
 /**
  * Created by andycheng on 2016/3/26.
@@ -11,7 +11,7 @@ public interface ICategoryRepository extends IBaseRepository {
 
 
     interface onGetAllCategoryCallback {
-        void onSuccess(RealmResults<Category> categories);
+        void onSuccess(List<Category> categories);
         void onError(String message);
     }
 
@@ -32,4 +32,7 @@ public interface ICategoryRepository extends IBaseRepository {
     void getAllCategories(onGetAllCategoryCallback callback);
 
     void getCategoryById(String id, onGetCategoryByIdCallback callback);
+
+    void saveOrder(List<Category> categoryList, onSaveCallback callback);
+
 }

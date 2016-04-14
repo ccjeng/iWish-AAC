@@ -48,11 +48,17 @@ public class Migration implements RealmMigration {
             oldVersion++;
         }
 
-  /*
+
         if (oldVersion == 2) {
+
+            schema.get("Category")
+                    .addField("order", int.class);
+
+            schema.get("Item")
+                    .addField("order", int.class);
 
             oldVersion++;
         }
-*/
+
     }
 }

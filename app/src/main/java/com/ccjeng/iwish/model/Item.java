@@ -14,8 +14,10 @@ public class Item extends RealmObject {
     private String id;
     @Required
     private String name;
-    private RealmList<SubItem> subItems;
 
+    private int order;
+
+    private RealmList<SubItem> subItems;
 
     public String getId() {
         return id;
@@ -31,6 +33,14 @@ public class Item extends RealmObject {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
     }
 
     public RealmList<SubItem> getSubItems() {

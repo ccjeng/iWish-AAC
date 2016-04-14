@@ -11,7 +11,8 @@ import com.ccjeng.iwish.R;
 import com.ccjeng.iwish.model.Category;
 import com.ccjeng.iwish.view.adapter.helper.ItemTouchHelperAdapter;
 
-import io.realm.RealmResults;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by andycheng on 2016/3/26.
@@ -19,12 +20,14 @@ import io.realm.RealmResults;
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>
         implements ItemTouchHelperAdapter {
 
+    private static final String TAG = CategoryAdapter.class.getSimpleName();
+
     private OnItemClickListener onItemClickListener;
 
-    private RealmResults<Category> categories;
+    private List<Category> categories;
     private int fontSize;
 
-    public CategoryAdapter(RealmResults<Category> categories, int fontSize) {
+    public CategoryAdapter(List<Category> categories, int fontSize) {
         this.categories = categories;
         this.fontSize = fontSize;
     }
@@ -48,21 +51,15 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
 
     @Override
-    public void onViewRecycled(CategoryViewHolder holder) {
-        super.onViewRecycled(holder);
-        holder.itemView.setOnCreateContextMenuListener(null);
-    }
-
-    @Override
     public boolean onItemMove(int fromPosition, int toPosition) {
+        Collections.swap(categories, fromPosition, toPosition);
         notifyItemMoved(fromPosition, toPosition);
-
         return true;
     }
 
     @Override
     public void onItemDismiss(int position) {
-
+        //categories.remove(position);
         notifyItemRemoved(position);
     }
 

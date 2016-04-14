@@ -11,7 +11,8 @@ import com.ccjeng.iwish.R;
 import com.ccjeng.iwish.model.Item;
 import com.ccjeng.iwish.view.adapter.helper.ItemTouchHelperAdapter;
 
-import io.realm.RealmResults;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by andycheng on 2016/3/26.
@@ -21,10 +22,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
     private OnItemClickListener onItemClickListener;
 
-    private RealmResults<Item> items;
+    private List<Item> items;
     private int fontSize;
 
-    public ItemAdapter(RealmResults<Item> items, int fontSize) {
+    public ItemAdapter(List<Item> items, int fontSize) {
         this.items = items;
         this.fontSize = fontSize;
     }
@@ -47,14 +48,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
     @Override
     public boolean onItemMove(int fromPosition, int toPosition) {
-
+        Collections.swap(items, fromPosition, toPosition);
         notifyItemMoved(fromPosition, toPosition);
-
         return true;
     }
 
     @Override
     public void onItemDismiss(int position) {
+        //items.remove(position);
         notifyItemRemoved(position);
     }
 

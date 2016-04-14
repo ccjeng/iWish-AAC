@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.activity.CatelogActivity"
+            android:name=".view.activity.CategoryActivity"
             android:label="@string/aac"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar" />

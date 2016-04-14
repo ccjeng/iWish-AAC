@@ -7,8 +7,7 @@ import com.ccjeng.iwish.realm.repository.IItemRepository;
 import com.ccjeng.iwish.realm.repository.impl.ItemRepository;
 import com.ccjeng.iwish.view.activity.ItemActivity;
 
-import io.realm.RealmList;
-import io.realm.RealmResults;
+import java.util.List;
 
 /**
  * Created by andycheng on 2016/3/26.
@@ -20,7 +19,6 @@ public class ItemPresenter implements IItemPresenter{
     private IItemRepository.onSaveCallback onSaveCallback;
     private IItemRepository.onUpdateCallback onUpdateCallback;
     private IItemRepository.onGetItemByIdCallback onGetItemByIdCallback;
-    private IItemRepository.onGetItemsCallback onGetItemsCallback;
     private IItemRepository.onGetAllItemsCallback onGetAllItemsCallback;
 
     private IItemRepository itemRepository;
@@ -59,6 +57,11 @@ public class ItemPresenter implements IItemPresenter{
     @Override
     public void getAllItems() {
         itemRepository.getAllItems(onGetAllItemsCallback);
+    }
+
+    @Override
+    public void saveOrder(List<Item> itemList) {
+        itemRepository.saveOrder(itemList, onSaveCallback);
     }
 
     @Override
@@ -113,23 +116,10 @@ public class ItemPresenter implements IItemPresenter{
             }
         };
 
-        onGetItemsCallback = new IItemRepository.onGetItemsCallback() {
-
-            @Override
-            public void onSuccess(RealmList<Item> items) {
-                //view.showData(items);
-            }
-
-            @Override
-            public void onError(String message) {
-                view.showMessage(view.coordinatorlayout, R.string.error);
-            }
-        };
-
         onGetAllItemsCallback = new IItemRepository.onGetAllItemsCallback() {
 
             @Override
-            public void onSuccess(RealmResults<Item> items) {
+            public void onSuccess(List<Item> items) {
                 view.showData(items);
             }
 
@@ -146,7 +136,6 @@ public class ItemPresenter implements IItemPresenter{
         onSaveCallback = null;
         onUpdateCallback = null;
         onGetItemByIdCallback = null;
-        onGetItemsCallback = null;
         onGetAllItemsCallback = null;
     }
 }

@@ -5,16 +5,16 @@ import com.ccjeng.iwish.model.Category;
 import com.ccjeng.iwish.presenter.ICategoryPresenter;
 import com.ccjeng.iwish.realm.repository.ICategoryRepository;
 import com.ccjeng.iwish.realm.repository.impl.CategoryRepository;
-import com.ccjeng.iwish.view.activity.CatelogActivity;
+import com.ccjeng.iwish.view.activity.CategoryActivity;
 
-import io.realm.RealmResults;
+import java.util.List;
 
 /**
  * Created by andycheng on 2016/3/26.
  */
 public class CategoryPresenter implements ICategoryPresenter {
 
-    private CatelogActivity view;
+    private CategoryActivity view;
     private ICategoryRepository repository;
 
     private ICategoryRepository.onGetAllCategoryCallback getAllCategoryCallback;
@@ -24,7 +24,7 @@ public class CategoryPresenter implements ICategoryPresenter {
     private ICategoryRepository.onDeleteCallback onDeleteCallback;
 
 
-    public CategoryPresenter(CatelogActivity view) {
+    public CategoryPresenter(CategoryActivity view) {
         this.view = view;
         repository = new CategoryRepository();
     }
@@ -62,12 +62,17 @@ public class CategoryPresenter implements ICategoryPresenter {
     }
 
     @Override
+    public void saveOrder(List<Category> categoryList) {
+        repository.saveOrder(categoryList, onSaveCallback);
+    }
+
+    @Override
     public void subscribeCallbacks() {
 
         getAllCategoryCallback = new ICategoryRepository.onGetAllCategoryCallback() {
 
             @Override
-            public void onSuccess(RealmResults<Category> categories) {
+            public void onSuccess(List<Category> categories) {
                 view.showData(categories);
             }
 

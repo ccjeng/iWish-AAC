@@ -1,15 +1,16 @@
 package com.ccjeng.iwish.view.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,12 +28,14 @@ import com.ccjeng.iwish.view.base.BaseActivity;
 import com.ccjeng.iwish.view.dialogs.AddDialog;
 import com.ccjeng.iwish.view.dialogs.EditDialog;
 
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import io.realm.RealmResults;
 
-public class CatelogActivity  extends BaseActivity implements OnStartDragListener {
+public class CategoryActivity extends BaseActivity implements OnStartDragListener {
 
+    private static final String TAG = CategoryActivity.class.getSimpleName();
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.fab)
@@ -41,9 +44,8 @@ public class CatelogActivity  extends BaseActivity implements OnStartDragListene
     @Bind(R.id.recyclerView)
     RecyclerView recyclerView;
 
-
     private ICategoryPresenter presenter;
-    private RealmResults<Category> categories;
+    private List<Category> categories;
     private CategoryAdapter adapter;
 
     private Speaker speaker;
@@ -121,7 +123,7 @@ public class CatelogActivity  extends BaseActivity implements OnStartDragListene
 
     }
 
-    public void showData(RealmResults<Category> categories) {
+    public void showData(List<Category> categories) {
         this.categories = categories;
         adapter = new CategoryAdapter(categories, fontSize);
 
@@ -229,16 +231,8 @@ public class CatelogActivity  extends BaseActivity implements OnStartDragListene
 
         mode = modeToStart;
 
-    }
+        Log.d(TAG, "Mode = " + modeToStart);
 
-
-    @Override
-    public void onBackPressed() {
-        if (mode != Mode.NORMAL) {
-            startMode(Mode.NORMAL);
-        } else {
-            finish();
-        }
     }
 
     @Override
@@ -267,12 +261,21 @@ public class CatelogActivity  extends BaseActivity implements OnStartDragListene
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                if (mode != Mode.NORMAL) {
-                    startMode(Mode.NORMAL);
-                } else {
-                    finish();
+           case android.R.id.home:
+
+                switch (mode) {
+                    case NORMAL:
+                        finish();
+                        break;
+                    case EDIT:
+                        startMode(Mode.NORMAL);
+                        break;
+                    case SORT:
+                        presenter.saveOrder(categories);
+                        startMode(Mode.NORMAL);
+                        break;
                 }
+
                 break;
             case R.id.action_edit:
                 startMode(Mode.EDIT);

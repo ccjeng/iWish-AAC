@@ -14,6 +14,8 @@ public class Category extends RealmObject{
     private String id;
     @Required
     private String name;
+
+    private int order;
     private RealmList<Item> items;
 
     public Category() {}
@@ -37,6 +39,13 @@ public class Category extends RealmObject{
         this.name = name;
     }
 
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
 
     public RealmList<Item> getItems() {
         return items;

@@ -27,9 +27,10 @@ import com.ccjeng.iwish.view.base.BaseActivity;
 import com.ccjeng.iwish.view.dialogs.AddDialog;
 import com.ccjeng.iwish.view.dialogs.EditDialog;
 
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import io.realm.RealmResults;
 
 public class ItemActivity extends BaseActivity implements OnStartDragListener {
 
@@ -42,7 +43,7 @@ public class ItemActivity extends BaseActivity implements OnStartDragListener {
 
     private IItemPresenter presenter;
     private ItemAdapter adapter;
-    private RealmResults<Item> items;
+    private List<Item> items;
     private String categoryId;
     private String toolbarTitle;
 
@@ -95,7 +96,7 @@ public class ItemActivity extends BaseActivity implements OnStartDragListener {
 
     }
 
-    public void showData(RealmResults<Item> items) {
+    public void showData(List<Item> items) {
         this.items = items;
         adapter = new ItemAdapter(items, fontSize);
 
@@ -233,15 +234,6 @@ public class ItemActivity extends BaseActivity implements OnStartDragListener {
     }
 
     @Override
-    public void onBackPressed() {
-        if (mode != Mode.NORMAL) {
-            startMode(Mode.NORMAL);
-        } else {
-            finish();
-        }
-    }
-
-    @Override
     protected void onStop() {
         super.onStop();
         presenter.unSubscribeCallbacks();
@@ -267,11 +259,20 @@ public class ItemActivity extends BaseActivity implements OnStartDragListener {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                if (mode != Mode.NORMAL) {
-                    startMode(Mode.NORMAL);
-                } else {
-                    finish();
+
+                switch (mode) {
+                    case NORMAL:
+                        finish();
+                        break;
+                    case EDIT:
+                        startMode(Mode.NORMAL);
+                        break;
+                    case SORT:
+                        presenter.saveOrder(items);
+                        startMode(Mode.NORMAL);
+                        break;
                 }
+
                 break;
             case R.id.action_edit:
                 startMode(Mode.EDIT);
