@@ -155,6 +155,7 @@ public class ItemActivity extends BaseActivity implements OnStartDragListener {
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 presenter.deleteItemById(items.get(viewHolder.getAdapterPosition()).getId());
+                items.remove(viewHolder.getAdapterPosition());
                 adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
             }
         });
@@ -218,8 +219,9 @@ public class ItemActivity extends BaseActivity implements OnStartDragListener {
                 item.setName(name);
                 item.setOrder(items.size());
 
-                items.add(item);
+                //items.add(item);
                 presenter.addItem(item);
+                presenter.getAllItems();
                 adapter.notifyDataSetChanged();
             }
         });
@@ -237,6 +239,22 @@ public class ItemActivity extends BaseActivity implements OnStartDragListener {
                 adapter.notifyDataSetChanged();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        switch (mode) {
+            case NORMAL:
+                finish();
+                break;
+            case EDIT:
+                startMode(Mode.NORMAL);
+                break;
+            case SORT:
+                presenter.saveOrder(items);
+                startMode(Mode.NORMAL);
+                break;
+        }
     }
 
     @Override

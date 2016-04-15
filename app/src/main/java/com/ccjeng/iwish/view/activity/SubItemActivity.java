@@ -230,17 +230,15 @@ public class SubItemActivity extends BaseActivity implements OnStartDragListener
         });
     }
 
-    /*
+
     @Override
     public void onBackPressed() {
-        if (mode == Mode.SORT) {
-            //financeItemsAdapter.saveOrder();
-        } else if (mode != Mode.NORMAL) {
+        if (mode != Mode.NORMAL) {
             startMode(Mode.NORMAL);
         } else {
             finish();
         }
-    }*/
+    }
 
     @Override
     protected void onStop() {

@@ -105,21 +105,16 @@ public class CategoryActivity extends BaseActivity implements OnStartDragListene
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         swipeToDismissTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
-                ItemTouchHelper.DOWN, ItemTouchHelper.DOWN) {
+                ItemTouchHelper.RIGHT, ItemTouchHelper.RIGHT) {
 
 
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                Log.d(TAG, "onMove");
-                //presenter.deleteCategoryById(categories.get(viewHolder.getAdapterPosition()).getId());
-                //categories.remove(viewHolder.getAdapterPosition());
-                //adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
-                return true;
+                return false;
             }
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                Log.d(TAG, "onSwiped");
                 presenter.deleteCategoryById(categories.get(viewHolder.getAdapterPosition()).getId());
                 categories.remove(viewHolder.getAdapterPosition());
                 adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
@@ -186,8 +181,9 @@ public class CategoryActivity extends BaseActivity implements OnStartDragListene
 
                 category.setOrder(categories.size());
 
-                categories.add(category);
+                //categories.add(category);
                 presenter.addCategory(category);
+                presenter.getAllCategories();
                 adapter.notifyDataSetChanged();
             }
         });
@@ -252,6 +248,22 @@ public class CategoryActivity extends BaseActivity implements OnStartDragListene
 
         Log.d(TAG, "Mode = " + modeToStart);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        switch (mode) {
+            case NORMAL:
+                finish();
+                break;
+            case EDIT:
+                startMode(Mode.NORMAL);
+                break;
+            case SORT:
+                presenter.saveOrder(categories);
+                startMode(Mode.NORMAL);
+                break;
+        }
     }
 
     @Override
