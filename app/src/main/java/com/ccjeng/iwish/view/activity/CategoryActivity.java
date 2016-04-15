@@ -105,17 +105,23 @@ public class CategoryActivity extends BaseActivity implements OnStartDragListene
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         swipeToDismissTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
-                ItemTouchHelper.RIGHT, ItemTouchHelper.RIGHT) {
+                ItemTouchHelper.DOWN, ItemTouchHelper.DOWN) {
 
 
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                return false;
+                Log.d(TAG, "onMove");
+                //presenter.deleteCategoryById(categories.get(viewHolder.getAdapterPosition()).getId());
+                //categories.remove(viewHolder.getAdapterPosition());
+                //adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+                return true;
             }
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                Log.d(TAG, "onSwiped");
                 presenter.deleteCategoryById(categories.get(viewHolder.getAdapterPosition()).getId());
+                categories.remove(viewHolder.getAdapterPosition());
                 adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
             }
 
@@ -134,18 +140,22 @@ public class CategoryActivity extends BaseActivity implements OnStartDragListene
                 if (mode.equals(Mode.EDIT)) {
                     showEditDialog(id, name);
 
+                } else if (mode.equals(Mode.SORT)) {
+                    //do nothing
+
                 } else {
-                    if (speaker.isAllowed()) {
-                        speaker.speak(name);
+                        if (speaker.isAllowed()) {
+                            speaker.speak(name);
+                        }
+
+                        Intent intent = new Intent(getApplicationContext(), ItemActivity.class);
+                        intent.putExtra(RealmTable.ID, id);
+                        intent.putExtra(RealmTable.Category.NAME, name);
+
+                        startActivity(intent);
                     }
-
-                    Intent intent = new Intent(getApplicationContext(), ItemActivity.class);
-                    intent.putExtra(RealmTable.ID, id);
-                    intent.putExtra(RealmTable.Category.NAME, name);
-
-                    startActivity(intent);
                 }
-            }
+
         });
 
         recyclerView.setAdapter(adapter);
@@ -168,7 +178,16 @@ public class CategoryActivity extends BaseActivity implements OnStartDragListene
             @Override
             public void OnAddClickListener(String name) {
                 dialog.dismiss();
-                presenter.addCategory(name);
+
+                Category category = new Category();
+                category.setName(name);
+
+                Log.d(TAG, "categories.size() = " + categories.size());
+
+                category.setOrder(categories.size());
+
+                categories.add(category);
+                presenter.addCategory(category);
                 adapter.notifyDataSetChanged();
             }
         });

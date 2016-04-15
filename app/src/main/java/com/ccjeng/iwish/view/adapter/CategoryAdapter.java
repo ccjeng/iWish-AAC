@@ -1,6 +1,7 @@
 package com.ccjeng.iwish.view.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,6 +53,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     @Override
     public boolean onItemMove(int fromPosition, int toPosition) {
+        Log.d(TAG, "onItemMove");
         Collections.swap(categories, fromPosition, toPosition);
         notifyItemMoved(fromPosition, toPosition);
         return true;

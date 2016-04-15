@@ -28,6 +28,7 @@ public class ItemRepository implements IItemRepository {
         Item i = realm.createObject(Item.class);
         i.setId(Utils.getUniqueID());
         i.setName(item.getName());
+        i.setOrder(item.getOrder());
         realm.commitTransaction();
 
         if (callback != null)

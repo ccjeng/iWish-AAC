@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">善善的溝通版</string>
 
-    <string name="edit_mode">編輯模式</string>
+    <string name="edit_mode">編輯</string>
 
     <string name="aac">溝通</string>
     <string name="daily">活動</string>
@@ -10,8 +10,7 @@
     <!-- menu -->
     <string name="action_settings">設定</string>
     <string name="action_edit">編輯</string>
-    <string name="action_sort">排序</string>
-
+    <string name="action_sort">重排順序</string>
 
     <!-- dialog-->
     <string name="add">新增</string>

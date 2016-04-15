@@ -107,6 +107,9 @@ public class ItemActivity extends BaseActivity implements OnStartDragListener {
                 if (mode.equals(Mode.EDIT)) {
                     showEditDialog(id, name);
 
+                } else if (mode.equals(Mode.SORT)) {
+                    //do nothing
+
                 } else {
                     if (speaker.isAllowed()) {
                         speaker.speak(toolbarTitle + name);
@@ -145,6 +148,7 @@ public class ItemActivity extends BaseActivity implements OnStartDragListener {
             @Override
 
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+
                 return false;
             }
 
@@ -212,7 +216,9 @@ public class ItemActivity extends BaseActivity implements OnStartDragListener {
 
                 Item item = new Item();
                 item.setName(name);
+                item.setOrder(items.size());
 
+                items.add(item);
                 presenter.addItem(item);
                 adapter.notifyDataSetChanged();
             }

@@ -30,8 +30,7 @@ public class CategoryPresenter implements ICategoryPresenter {
     }
 
     @Override
-    public void addCategory(String name) {
-        Category category = new Category(name);
+    public void addCategory(Category category) {
         repository.addCategory(category, onSaveCallback);
     }
 

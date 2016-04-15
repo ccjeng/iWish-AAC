@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface ICategoryPresenter extends IBasePresenter {
 
-    void addCategory(String name);
+    void addCategory(Category category);
     void deleteCategoryByPosition(int position);
     void deleteCategoryById(String id);
     void updateCategoryById(String id, String name);
