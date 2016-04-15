@@ -236,6 +236,7 @@ public class ItemActivity extends BaseActivity implements OnStartDragListener {
             public void OnEditClickListener(String name) {
                 dialog.dismiss();
                 presenter.updateItemById(id, name);
+                presenter.getAllItems();
                 adapter.notifyDataSetChanged();
             }
         });

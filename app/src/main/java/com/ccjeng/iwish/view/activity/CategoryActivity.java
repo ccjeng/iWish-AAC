@@ -198,6 +198,7 @@ public class CategoryActivity extends BaseActivity implements OnStartDragListene
             public void OnEditClickListener(String name) {
                 dialog.dismiss();
                 presenter.updateCategoryById(id, name);
+                presenter.getAllCategories();
                 adapter.notifyDataSetChanged();
             }
         });
