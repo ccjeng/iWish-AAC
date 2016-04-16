@@ -64,6 +64,7 @@
             android:layout_height="wrap_content"
             android:textSize="60sp"
             android:background="@drawable/btn_shape"
+            android:minLines="2"
             android:padding="5dp"
             android:text="@string/frequency"/>
 
@@ -77,6 +78,7 @@
             android:layout_height="wrap_content"
             android:textSize="60sp"
             android:background="@drawable/btn_shape"
+            android:minLines="2"
             android:padding="5dp"
             android:text="@string/aac"/>
 
@@ -90,6 +92,7 @@
             android:layout_height="wrap_content"
             android:textSize="60sp"
             android:background="@drawable/btn_shape"
+            android:minLines="2"
             android:padding="5dp"
             android:text="@string/daily"/>
 
