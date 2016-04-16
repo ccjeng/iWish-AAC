@@ -18,8 +18,6 @@ import com.ccjeng.iwish.model.Daily;
 import com.ccjeng.iwish.presenter.IDailyPresenter;
 import com.ccjeng.iwish.presenter.impl.DailyPresenter;
 import com.ccjeng.iwish.view.adapter.DailyAdapter;
-import com.ccjeng.iwish.view.adapter.helper.OnStartDragListener;
-import com.ccjeng.iwish.view.adapter.helper.SimpleItemTouchHelperCallback;
 import com.ccjeng.iwish.view.base.BaseActivity;
 import com.ccjeng.iwish.view.dialogs.AddDialog;
 import com.ccjeng.iwish.view.dialogs.EditDialog;
@@ -105,7 +103,8 @@ public class DailyActivity extends BaseActivity {
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 presenter.deleteDailyById(daily.get(viewHolder.getAdapterPosition()).getId());
-                adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+                presenter.getAllDaily();
+                //adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
             }
 
         });
@@ -242,9 +241,7 @@ public class DailyActivity extends BaseActivity {
             case R.id.action_edit:
                 startMode(Mode.EDIT);
                 break;
-          /*  case R.id.action_sort:
-                startMode(Mode.SORT);
-                break;*/
+
         }
         return super.onOptionsItemSelected(item);
     }

@@ -1,5 +1,7 @@
 package com.ccjeng.iwish.realm.repository.impl;
 
+import android.util.Log;
+
 import com.ccjeng.iwish.model.Category;
 import com.ccjeng.iwish.realm.repository.ICategoryRepository;
 import com.ccjeng.iwish.realm.table.RealmTable;
@@ -99,7 +101,7 @@ public class CategoryRepository implements ICategoryRepository {
         for(int i =0 ; i < categoryList.size() ; i++) {
 
             String id = categoryList.get(i).getId();
-            //Log.d(TAG, i + " - " + categoryList.get(i).getName());
+            Log.d(TAG, i + " - " + categoryList.get(i).getName());
 
             realm.beginTransaction();
             Category c = realm.where(Category.class).equalTo(RealmTable.ID, id).findFirst();
