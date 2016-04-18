@@ -130,10 +130,10 @@ public class CategoryActivity extends BaseActivity implements OnStartDragListene
 
         adapter.setOnItemClickListener(new CategoryAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(String id, String name) {
+            public void onItemClick(int position, String id, String name) {
 
                 if (mode.equals(Mode.EDIT)) {
-                    showEditDialog(id, name);
+                    showEditDialog(position, id, name);
 
                 } else if (mode.equals(Mode.SORT)) {
                     //do nothing
@@ -189,7 +189,7 @@ public class CategoryActivity extends BaseActivity implements OnStartDragListene
         });
     }
 
-    private void showEditDialog(final String id, String name) {
+    private void showEditDialog(final int position, final String id, String name) {
 
         final EditDialog dialog = EditDialog.newInstance(name);
         dialog.show(getSupportFragmentManager(), dialog.getClass().getName());
@@ -198,7 +198,7 @@ public class CategoryActivity extends BaseActivity implements OnStartDragListene
             public void OnEditClickListener(String name) {
                 dialog.dismiss();
                 presenter.updateCategoryById(id, name);
-                presenter.getAllCategories();
+                categories.get(position).setName(name);
                 adapter.notifyDataSetChanged();
             }
         });

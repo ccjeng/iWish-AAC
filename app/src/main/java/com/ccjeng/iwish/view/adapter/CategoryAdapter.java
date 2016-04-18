@@ -91,14 +91,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         @Override
         public void onClick(View v) {
             Category category = categories.get(getAdapterPosition());
-            onItemClickListener.onItemClick(category.getId(), category.getName());
+            onItemClickListener.onItemClick(getAdapterPosition(), category.getId(), category.getName());
         }
 
 
     }
 
     public interface OnItemClickListener{
-        void onItemClick(String id, String name);
+        void onItemClick(int position, String id, String name);
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {

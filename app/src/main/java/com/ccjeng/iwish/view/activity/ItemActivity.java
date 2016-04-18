@@ -102,10 +102,10 @@ public class ItemActivity extends BaseActivity implements OnStartDragListener {
 
         adapter.setOnItemClickListener(new ItemAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(String id, String name) {
+            public void onItemClick(int position, String id, String name) {
 
                 if (mode.equals(Mode.EDIT)) {
-                    showEditDialog(id, name);
+                    showEditDialog(position, id, name);
 
                 } else if (mode.equals(Mode.SORT)) {
                     //do nothing
@@ -227,7 +227,7 @@ public class ItemActivity extends BaseActivity implements OnStartDragListener {
         });
     }
 
-    private void showEditDialog(final String id, String name) {
+    private void showEditDialog(final int position, final String id, String name) {
 
         final EditDialog dialog = EditDialog.newInstance(name);
         dialog.show(getSupportFragmentManager(), dialog.getClass().getName());
@@ -236,7 +236,7 @@ public class ItemActivity extends BaseActivity implements OnStartDragListener {
             public void OnEditClickListener(String name) {
                 dialog.dismiss();
                 presenter.updateItemById(id, name);
-                presenter.getAllItems();
+                items.get(position).setName(name);
                 adapter.notifyDataSetChanged();
             }
         });

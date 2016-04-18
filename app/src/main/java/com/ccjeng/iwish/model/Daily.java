@@ -1,6 +1,7 @@
 package com.ccjeng.iwish.model;
 
 import java.util.Date;
+import java.util.Locale;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -36,6 +37,10 @@ public class Daily extends RealmObject {
 
     public long getDatetime() {
         return datetime;
+    }
+
+    public String getDate() {
+        return String.format(Locale.getDefault(), "%tF", datetime);
     }
 
     public void setDatetime() {

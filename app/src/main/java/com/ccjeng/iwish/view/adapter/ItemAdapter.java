@@ -84,12 +84,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         @Override
         public void onClick(View v) {
             Item item = items.get(getAdapterPosition());
-            onItemClickListener.onItemClick(item.getId(), item.getName());
+            onItemClickListener.onItemClick(getAdapterPosition(), item.getId(), item.getName());
         }
     }
 
     public interface OnItemClickListener{
-        void onItemClick(String id, String name);
+        void onItemClick(int position, String id, String name);
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {

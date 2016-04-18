@@ -8,13 +8,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ccjeng.iwish.R;
-import com.ccjeng.iwish.model.Daily;
-import com.ccjeng.iwish.model.Frequency;
 import com.ccjeng.iwish.model.FrequencyList;
 
 import java.util.List;
-
-import io.realm.RealmResults;
 
 /**
  * Created by andycheng on 2016/4/10.
@@ -40,6 +36,7 @@ public class FrequencyAdapter extends RecyclerView.Adapter<FrequencyAdapter.Freq
     @Override
     public void onBindViewHolder(FrequencyViewHolder holder, int position) {
         holder.tvName.setText(frequencies.get(position).getName());
+        holder.tvAddition.setText(Long.toString(frequencies.get(position).getCount()));
     }
 
     @Override
@@ -50,13 +47,16 @@ public class FrequencyAdapter extends RecyclerView.Adapter<FrequencyAdapter.Freq
     public class FrequencyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView tvName;
+        TextView tvAddition;
 
         public FrequencyViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
 
             tvName = (TextView) itemView.findViewById(R.id.tv_name);
+            tvAddition = (TextView) itemView.findViewById(R.id.tv_addition);
             tvName.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize);
+            tvAddition.setVisibility(View.VISIBLE);
 
         }
 

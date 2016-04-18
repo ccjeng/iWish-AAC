@@ -1,12 +1,8 @@
 package com.ccjeng.iwish.view.adapter;
 
-import android.content.Context;
-import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -42,6 +38,7 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.DailyViewHol
     @Override
     public void onBindViewHolder(final DailyViewHolder holder, int position) {
         holder.tvName.setText(dailies.get(position).getName());
+        holder.tvAddition.setText(dailies.get(position).getDate());
     }
 
     @Override
@@ -52,13 +49,16 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.DailyViewHol
     public class DailyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView tvName;
+        TextView tvAddition;
 
         public DailyViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
 
             tvName = (TextView) itemView.findViewById(R.id.tv_name);
+            tvAddition = (TextView) itemView.findViewById(R.id.tv_addition);
             tvName.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize);
+            tvAddition.setVisibility(View.VISIBLE);
 
         }
 
