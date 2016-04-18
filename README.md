@@ -1,4 +1,4 @@
-# iWish (Beta)   
+# iWish   
 [![Build Status](https://travis-ci.org/ccjeng/iWish-Beta.svg?branch=master)](https://travis-ci.org/ccjeng/iWish-Beta)
 
 An Android AAC (Augmentative and alternative communication) tool for disabilities.
