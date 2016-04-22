@@ -5,6 +5,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -95,14 +96,14 @@ public class IntroduceActivity extends BaseActivity implements OnStartDragListen
 
     private void initRecyclerListener(){
 
-        /*
+
         if (columnNum > 1) {
             recyclerView.setLayoutManager(new GridLayoutManager(this, columnNum));
         } else {
             recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        }*/
+        }
 
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        //recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 

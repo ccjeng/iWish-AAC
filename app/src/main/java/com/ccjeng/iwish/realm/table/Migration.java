@@ -74,5 +74,32 @@ public class Migration implements RealmMigration {
 
             oldVersion++;
         }
+/*
+        if(oldVersion == 5) {
+
+            schema.get("Category")
+                    .setNullable("id", false);
+
+            schema.get("Daily")
+                    .setNullable("id", false);
+
+            schema.get("Frequency")
+                    .setNullable("id", false);
+
+            schema.get("Introduce")
+                    .setNullable("id", false);
+
+            schema.get("Item")
+                    .setNullable("id", false);
+
+            schema.get("SubItem")
+                    .setNullable("id", false);
+
+            schema.get("Selection")
+                    .setNullable("id", false);
+
+            oldVersion++;
+        }*/
+
     }
 }

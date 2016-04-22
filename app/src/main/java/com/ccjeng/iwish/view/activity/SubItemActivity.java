@@ -208,6 +208,7 @@ public class SubItemActivity extends BaseActivity implements OnStartDragListener
 
                 SubItem subItem = new SubItem();
                 subItem.setName(name);
+
                 presenter.addSubItemByItemId(subItem, itemId);
 
                 adapter.notifyDataSetChanged();
