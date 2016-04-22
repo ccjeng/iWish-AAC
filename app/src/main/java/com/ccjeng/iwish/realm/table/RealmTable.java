@@ -33,4 +33,13 @@ public interface RealmTable {
         String COUNT = "count";
     }
 
+    interface Introduce {
+        String NAME = "name";
+        String ORDER = "order";
+    }
+
+    interface Selection {
+        String NAME = "name";
+        String ORDER = "order";
+    }
 }

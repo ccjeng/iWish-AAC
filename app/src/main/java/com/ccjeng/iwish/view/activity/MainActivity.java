@@ -3,36 +3,36 @@ package com.ccjeng.iwish.view.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
 import com.ccjeng.iwish.R;
 import com.ccjeng.iwish.controller.Speaker;
+import com.ccjeng.iwish.view.adapter.MainAdapter;
 import com.ccjeng.iwish.view.base.BaseActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity {
 
-    private static final String TAG = "MainActivity";
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.toolbar_layout) CollapsingToolbarLayout collapsingToolbarLayout;
     @Bind(R.id.coordinatorlayout) public CoordinatorLayout coordinatorlayout;
-    @Bind(R.id.aac) Button btnAAC;
-    @Bind(R.id.frequency) Button btnFrequency;
-    @Bind(R.id.daily) Button btnDaily;
+    @Bind(R.id.recyclerView) RecyclerView recyclerView;
 
     private final int CHECK_CODE = 0x1;
     private Speaker speaker;
-
+    private MainAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,43 +46,55 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    @OnClick(R.id.aac)
-    public void gotoCategoryActivity(View view) {
-        if (speaker != null) {
-            if (speaker.isAllowed()) {
-                speaker.speak(getString(R.string.aac));
-            }
-        }
-        startActivity(new Intent(MainActivity.this, CategoryActivity.class));
-    }
-    @OnClick(R.id.daily)
-    public void gotoDailyActivity(View view) {
-        if (speaker != null) {
-            if (speaker.isAllowed()) {
-                speaker.speak(getString(R.string.daily));
-            }
-        }
-        startActivity(new Intent(MainActivity.this, DailyActivity.class));
-    }
-
-    @OnClick(R.id.frequency)
-    public void gotoFrequencyActivity(View view) {
-        if (speaker != null) {
-            if (speaker.isAllowed()) {
-                speaker.speak(getString(R.string.frequency));
-            }
-        }
-        startActivity(new Intent(MainActivity.this, FrequencyActivity.class));
-    }
-
     private void initComponents() {
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
         }
 
-        btnAAC.setTextSize(getFontSize());
-        btnDaily.setTextSize(getFontSize());
-        btnFrequency.setTextSize(getFontSize());
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        List<String> mainItems = new ArrayList<String>();
+        mainItems.add(getString(R.string.frequency));
+        mainItems.add(getString(R.string.aac));
+        mainItems.add(getString(R.string.daily));
+        mainItems.add(getString(R.string.introduce));
+        mainItems.add(getString(R.string.selection));
+
+        adapter = new MainAdapter(mainItems, getFontSize());
+
+        adapter.setOnItemClickListener(new MainAdapter.OnItemClickListener(){
+            @Override
+            public void onItemClick(int position, String name) {
+
+                if (speaker != null) {
+                    if (speaker.isAllowed()) {
+                        speaker.speak(name);
+                    }
+                }
+
+                switch (position) {
+                    case 0:
+                        startActivity(new Intent(MainActivity.this, FrequencyActivity.class));
+                        break;
+                    case 1:
+                        startActivity(new Intent(MainActivity.this, CategoryActivity.class));
+                        break;
+                    case 2:
+                        startActivity(new Intent(MainActivity.this, DailyActivity.class));
+                        break;
+                    case 3:
+                        startActivity(new Intent(MainActivity.this, IntroduceActivity.class));
+                        break;
+                    case 4:
+                        startActivity(new Intent(MainActivity.this, SelectionActivity.class));
+                        break;
+                }
+            }
+
+        });
+
+        recyclerView.setAdapter(adapter);
 
     }
 

@@ -6,6 +6,8 @@
     <string name="aac">溝通</string>
     <string name="daily">活動(日記)</string>
     <string name="frequency">常用句</string>
+    <string name="introduce">自我介紹</string>
+    <string name="selection">是不是(選擇)</string>
 
     <!-- menu -->
     <string name="action_settings">設定</string>
