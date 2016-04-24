@@ -59,7 +59,7 @@ public class SubItemRepository implements ISubItemRepository {
         Item i = realm.where(Item.class).equalTo(RealmTable.ID, itemId).findFirst();
         i.getSubItems().remove(result);
 
-        result.removeFromRealm();
+        result.deleteFromRealm();
         realm.commitTransaction();
 
         if (callback != null)
@@ -72,7 +72,7 @@ public class SubItemRepository implements ISubItemRepository {
         realm.beginTransaction();
         RealmQuery<SubItem> query = realm.where(SubItem.class);
         RealmResults<SubItem> results = query.findAll();
-        results.remove(position);
+        results.deleteFromRealm(position);
         realm.commitTransaction();
 
         if (callback != null)

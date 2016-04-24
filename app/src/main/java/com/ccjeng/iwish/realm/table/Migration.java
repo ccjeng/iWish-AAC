@@ -74,8 +74,8 @@ public class Migration implements RealmMigration {
 
             oldVersion++;
         }
-/*
-        if(oldVersion == 5) {
+
+        if(oldVersion == 4) {
 
             schema.get("Category")
                     .setNullable("id", false);
@@ -99,7 +99,7 @@ public class Migration implements RealmMigration {
                     .setNullable("id", false);
 
             oldVersion++;
-        }*/
+        }
 
     }
 }

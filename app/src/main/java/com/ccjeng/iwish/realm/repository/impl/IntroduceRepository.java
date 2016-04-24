@@ -35,7 +35,7 @@ public class IntroduceRepository implements IIntroduceRepository {
         Realm realm =Realm.getInstance(BaseApplication.realmConfiguration);
         realm.beginTransaction();
         Introduce i = realm.where(Introduce.class).equalTo(RealmTable.ID, Id).findFirst();
-        i.removeFromRealm();
+        i.deleteFromRealm();
         realm.commitTransaction();
 
         if (callback != null)
@@ -59,7 +59,7 @@ public class IntroduceRepository implements IIntroduceRepository {
     public void getAllIntroduce(onGetIntroduceCallback callback) {
         Realm realm = Realm.getInstance(BaseApplication.realmConfiguration);
         RealmResults<Introduce> results = realm.where(Introduce.class).findAll();
-        results.sort(RealmTable.Introduce.ORDER);
+        results = results.sort(RealmTable.Introduce.ORDER);
 
         List<Introduce> list = realm.copyFromRealm(results);
 

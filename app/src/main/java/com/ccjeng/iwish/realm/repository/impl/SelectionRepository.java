@@ -35,7 +35,7 @@ public class SelectionRepository implements ISelectionRepository {
         Realm realm =Realm.getInstance(BaseApplication.realmConfiguration);
         realm.beginTransaction();
         Selection s = realm.where(Selection.class).equalTo(RealmTable.ID, Id).findFirst();
-        s.removeFromRealm();
+        s.deleteFromRealm();
         realm.commitTransaction();
 
         if (callback != null)
@@ -59,7 +59,7 @@ public class SelectionRepository implements ISelectionRepository {
     public void getAllSelection(onGetSelectionCallback callback) {
         Realm realm = Realm.getInstance(BaseApplication.realmConfiguration);
         RealmResults<Selection> results = realm.where(Selection.class).findAll();
-        results.sort(RealmTable.Selection.ORDER);
+        results = results.sort(RealmTable.Selection.ORDER);
 
         List<Selection> list = realm.copyFromRealm(results);
 

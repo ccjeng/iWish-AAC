@@ -40,7 +40,7 @@ public class CategoryRepository implements ICategoryRepository {
         Realm realm =Realm.getInstance(BaseApplication.realmConfiguration);
         realm.beginTransaction();
         Category c = realm.where(Category.class).equalTo(RealmTable.ID, Id).findFirst();
-        c.removeFromRealm();
+        c.deleteFromRealm();
         realm.commitTransaction();
 
         if (callback != null)
@@ -53,7 +53,7 @@ public class CategoryRepository implements ICategoryRepository {
         realm.beginTransaction();
         RealmQuery<Category> query = realm.where(Category.class);
         RealmResults<Category> results = query.findAll();
-        results.remove(position);
+        results.deleteFromRealm(position);
         realm.commitTransaction();
 
         if (callback != null)
@@ -77,7 +77,7 @@ public class CategoryRepository implements ICategoryRepository {
     public void getAllCategories(onGetAllCategoryCallback callback) {
         Realm realm = Realm.getInstance(BaseApplication.realmConfiguration);
         RealmResults<Category> results = realm.where(Category.class).findAll();
-        results.sort(RealmTable.Category.ORDER);
+        results = results.sort(RealmTable.Category.ORDER);
 
         List<Category> list = realm.copyFromRealm(results);
 

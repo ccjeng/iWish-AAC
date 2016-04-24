@@ -17,7 +17,7 @@ public class BaseApplication extends Application {
 
         realmConfiguration = new RealmConfiguration
                 .Builder(this)
-                .schemaVersion(4)
+                .schemaVersion(5)
                 .migration(new Migration())
                 .build();
 

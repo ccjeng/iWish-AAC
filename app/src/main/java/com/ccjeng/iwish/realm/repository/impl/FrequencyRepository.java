@@ -27,7 +27,7 @@ public class FrequencyRepository implements IFrequencyRepository {
         Realm realm =Realm.getInstance(BaseApplication.realmConfiguration);
         realm.beginTransaction();
         RealmResults<Frequency> results = realm.where(Frequency.class).equalTo(RealmTable.Frequency.NAME, name).findAll();
-        results.clear();
+        results.deleteAllFromRealm();
         realm.commitTransaction();
 
         if (callback != null)

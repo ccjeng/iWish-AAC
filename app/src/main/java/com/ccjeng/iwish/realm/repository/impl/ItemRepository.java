@@ -41,7 +41,7 @@ public class ItemRepository implements IItemRepository {
         Realm realm =Realm.getInstance(BaseApplication.realmConfiguration);
         realm.beginTransaction();
         Item result = realm.where(Item.class).equalTo(RealmTable.ID, id).findFirst();
-        result.removeFromRealm();
+        result.deleteFromRealm();
         realm.commitTransaction();
 
         if (callback != null)
@@ -54,7 +54,7 @@ public class ItemRepository implements IItemRepository {
         realm.beginTransaction();
         RealmQuery<Item> query = realm.where(Item.class);
         RealmResults<Item> results = query.findAll();
-        results.remove(position);
+        results.deleteFromRealm(position);
         realm.commitTransaction();
 
         if (callback != null)
@@ -88,7 +88,7 @@ public class ItemRepository implements IItemRepository {
     public void getAllItems(onGetAllItemsCallback callback) {
         Realm realm = Realm.getInstance(BaseApplication.realmConfiguration);
         RealmResults<Item> results = realm.where(Item.class).findAll();
-        results.sort(RealmTable.Item.ORDER);
+        results = results.sort(RealmTable.Item.ORDER);
 
         List<Item> list = realm.copyFromRealm(results);
 

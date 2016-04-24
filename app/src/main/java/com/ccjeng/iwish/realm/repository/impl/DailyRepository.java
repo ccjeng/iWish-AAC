@@ -35,7 +35,7 @@ public class DailyRepository implements IDailyRepository {
         Realm realm =Realm.getInstance(BaseApplication.realmConfiguration);
         realm.beginTransaction();
         Daily d = realm.where(Daily.class).equalTo(RealmTable.ID, Id).findFirst();
-        d.removeFromRealm();
+        d.deleteFromRealm();
         realm.commitTransaction();
 
         if (callback != null)
@@ -48,7 +48,7 @@ public class DailyRepository implements IDailyRepository {
         realm.beginTransaction();
         RealmQuery<Daily> query = realm.where(Daily.class);
         RealmResults<Daily> results = query.findAll();
-        results.remove(position);
+        results.deleteFromRealm(position);
         realm.commitTransaction();
 
         if (callback != null)
@@ -73,7 +73,7 @@ public class DailyRepository implements IDailyRepository {
     public void getAllDaily(onGetDailyCallback callback) {
         Realm realm = Realm.getInstance(BaseApplication.realmConfiguration);
         RealmResults<Daily> results = realm.where(Daily.class).findAll();
-        results.sort(RealmTable.Daily.DATETIME, Sort.DESCENDING);
+        results = results.sort(RealmTable.Daily.DATETIME, Sort.DESCENDING);
 
         if (callback != null)
             callback.onSuccess(results);
