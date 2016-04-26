@@ -10,7 +10,7 @@ import io.realm.annotations.Required;
  */
 public class Frequency extends RealmObject {
 
-    @PrimaryKey
+    @PrimaryKey @Required
     private String id;
     @Required @Index
     private String name;

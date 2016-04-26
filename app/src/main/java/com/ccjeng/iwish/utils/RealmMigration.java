@@ -123,7 +123,7 @@ public class RealmMigration  {
         Realm realm = Realm.getInstance(BaseApplication.realmConfiguration);
         realm.beginTransaction();
         RealmResults<Frequency> results = realm.where(Frequency.class).findAll();
-        results.clear();
+        results.deleteAllFromRealm();
         realm.commitTransaction();
 
         Toast.makeText(context, R.string.deleted, Toast.LENGTH_LONG).show();

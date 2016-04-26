@@ -4,7 +4,6 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -13,6 +12,8 @@ import java.util.Locale;
  * Created by andycheng on 2016/3/26.
  */
 public class Speaker implements TextToSpeech.OnInitListener {
+
+    private static final String TAG = Speaker.class.getSimpleName();
 
     private TextToSpeech tts;
     private boolean ready = false;
@@ -38,21 +39,19 @@ public class Speaker implements TextToSpeech.OnInitListener {
         if(status == TextToSpeech.SUCCESS){
             // Change this to match your
             // locale
-            int result = tts.setLanguage(Locale.TRADITIONAL_CHINESE);
+            int result = tts.setLanguage(Locale.getDefault());
 
             if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                 ready = false;
-                //Toast.makeText(context, "This Language is not supported", Toast.LENGTH_SHORT).show();
-                Log.e("Speaker", "This Language is not supported");
+                Log.e(TAG, "This Language is not supported");
             } else {
                 ready = true;
-                //Toast.makeText(context, "TextToSpeech.SUCCESS", Toast.LENGTH_SHORT).show();
-                Log.d("Speaker", "TextToSpeech.SUCCESS");
+                Log.d(TAG, "TextToSpeech.SUCCESS");
             }
 
         }else{
             ready = false;
-            Log.d("Speaker", "TextToSpeech.False");
+            Log.d(TAG, "TextToSpeech.False");
         }
     }
 

@@ -9,7 +9,7 @@ import io.realm.annotations.Required;
  */
 public class Selection extends RealmObject {
 
-    @PrimaryKey
+    @PrimaryKey @Required
     private String id;
     @Required
     private String name;
