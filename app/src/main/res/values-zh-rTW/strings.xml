@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">善善的溝通版</string>
+
+    <string name="edit_mode">編輯</string>
+
+    <string name="aac">溝通</string>
+    <string name="daily">活動(日記)</string>
+    <string name="frequency">常用句</string>
+    <string name="introduce">自我介紹</string>
+    <string name="selection">是不是(選擇)</string>
+
+    <!-- menu -->
+    <string name="action_settings">設定</string>
+    <string name="action_edit">編輯</string>
+    <string name="action_sort">重排順序</string>
+
+    <!-- dialog-->
+    <string name="add">新增</string>
+    <string name="edit">修改</string>
+    <string name="input_hint">輸入名稱</string>
+    <string name="name">名稱</string>
+    <string name="ok">確定</string>
+    <string name="cancel">取消</string>
+
+    <!-- setting -->
+    <string name="ui">介面</string>
+    <string name="fontsize">字體大小(sp)</string>
+    <string name="columnnum">欄數</string>
+
+    <string name="datamgm">資料管理</string>
+    <string name="data_backup">備份</string>
+    <string name="data_restore">還原</string>
+    <string name="frequency_clear">刪除全部常用句</string>
+
+    <!-- message -->
+    <string name="saved">已儲存</string>
+    <string name="deleted">已刪除</string>
+    <string name="error">錯誤</string>
+
+</resources>

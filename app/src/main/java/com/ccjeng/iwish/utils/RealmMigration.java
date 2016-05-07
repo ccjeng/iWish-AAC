@@ -1,6 +1,7 @@
 package com.ccjeng.iwish.utils;
 
 import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -21,10 +22,14 @@ import io.realm.RealmResults;
  */
 public class RealmMigration  {
 
-    private final static String TAG = RealmMigration.class.getName();
+    private final static String TAG = RealmMigration.class.getSimpleName();
 
     private Context context;
     private Realm realm;
+
+    private final String backupPATH = Environment.getExternalStorageDirectory() + File.separator + "iWash/backup/";
+    private final String restorePATH = Environment.getExternalStorageDirectory() + File.separator + "iWash/restore/";
+    private final String realmDataFileName = "default.realm";
 
     public RealmMigration(Context context) {
         this.realm = Realm.getInstance(BaseApplication.realmConfiguration);
@@ -33,28 +38,38 @@ public class RealmMigration  {
 
     public void backup() {
 
-        File exportRealmFile = null;
+        File backupRealmFile = null;
 
-        File exportRealmPATH = context.getExternalFilesDir(null);
-        String exportRealmFileName = "default.realm";
+        File backupRealmPATH = new File(backupPATH);
 
-        Log.d(TAG, "Realm DB Path = "+realm.getPath());
+        File restoreRealmPATH = new File(restorePATH);
+
+        if (!fileExists(backupRealmPATH.toString())) {
+            backupRealmPATH.mkdirs();
+        }
+
+        if (!fileExists(restoreRealmPATH.toString())) {
+            restoreRealmPATH.mkdirs();
+        }
+
 
         try {
             // create a backup file
-            exportRealmFile = new File(exportRealmPATH, exportRealmFileName);
+            backupRealmFile = new File(backupRealmPATH, realmDataFileName);
 
             // if backup file already exists, delete it
-            exportRealmFile.delete();
+            if (backupRealmFile.exists()) {
+                backupRealmFile.delete();
+            }
 
             // copy current realm to backup file
-            realm.writeCopyTo(exportRealmFile);
+            realm.writeCopyTo(backupRealmFile);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        String msg =  "File exported to Path: "+ context.getExternalFilesDir(null);
+        String msg =  "File exported to Path: "+ backupPATH;
             Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
             Log.d(TAG, msg);
 
@@ -65,20 +80,23 @@ public class RealmMigration  {
 
     public void restore() {
 
-        //Restore
-        File exportRealmPATH = context.getExternalFilesDir(null);
-        String FileName = "default.realm";
+        String restoreFullPath = restorePATH + "/"+ realmDataFileName;
 
-        String restoreFilePath = context.getExternalFilesDir(null) + "/"+FileName;
+        Log.d(TAG, "oldFilePath = " + restoreFullPath);
 
-        Log.d(TAG, "oldFilePath = " + restoreFilePath);
+        File restoreRealmPATH = new File(restorePATH);
+        if (!fileExists(restoreRealmPATH.toString())) {
+            restoreRealmPATH.mkdirs();
+        }
 
-        if(fileExists(exportRealmPATH.toString()) != false){
+        if(fileExists(restoreFullPath.toString())){
 
-            copyBundledRealmFile(restoreFilePath, FileName);
+            copyBundledRealmFile(restoreFullPath, realmDataFileName);
 
-            Toast.makeText(context, "Data restore is done", Toast.LENGTH_LONG).show();
-            Log.d(TAG, "Data restore is done");
+            Toast.makeText(context, "Data restore is done, please reopen the app", Toast.LENGTH_LONG).show();
+
+        } else {
+            Toast.makeText(context, "Backup File does not exist", Toast.LENGTH_LONG).show();
 
         }
 

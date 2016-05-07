@@ -147,6 +147,8 @@ public class DailyActivity extends BaseActivity {
                 daily.setName(name);
                 presenter.addDaily(daily);
                 adapter.notifyDataSetChanged();
+                presenter.getAllDaily();
+
             }
         });
     }
