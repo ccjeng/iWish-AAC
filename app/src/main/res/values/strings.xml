@@ -29,7 +29,10 @@
 
     <string name="datamgm">資料管理</string>
     <string name="data_backup">備份</string>
+    <string name="data_backup_summary">備份路徑: \\iWish\\backup</string>
     <string name="data_restore">還原</string>
+    <string name="data_restore_summary">還原路徑: \\iWish\\restore</string>
+
     <string name="frequency_clear">刪除全部常用句</string>
 
     <!-- message -->
