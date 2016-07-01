@@ -6,6 +6,7 @@ import com.ccjeng.iwish.model.Frequency;
 import com.ccjeng.iwish.model.Introduce;
 import com.ccjeng.iwish.model.Item;
 import com.ccjeng.iwish.model.Selection;
+import com.ccjeng.iwish.model.Story;
 import com.ccjeng.iwish.model.SubItem;
 
 import io.realm.annotations.RealmModule;
@@ -20,6 +21,7 @@ import io.realm.annotations.RealmModule;
         , Frequency.class
         , SubItem.class
         , Item.class
-        , Category.class})
+        , Category.class
+        , Story.class})
 public class AppRealmModule {
 }

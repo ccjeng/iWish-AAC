@@ -57,6 +57,12 @@
             android:label="@string/selection"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
+            android:name=".view.activity.StoryActivity"
+            android:label="@string/story"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

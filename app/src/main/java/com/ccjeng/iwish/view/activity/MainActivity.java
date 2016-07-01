@@ -60,6 +60,8 @@ public class MainActivity extends BaseActivity {
         mainItems.add(getString(R.string.daily));
         mainItems.add(getString(R.string.introduce));
         mainItems.add(getString(R.string.selection));
+        mainItems.add(getString(R.string.story));
+
 
         adapter = new MainAdapter(mainItems, getFontSize());
 
@@ -88,6 +90,9 @@ public class MainActivity extends BaseActivity {
                         break;
                     case 4:
                         startActivity(new Intent(MainActivity.this, SelectionActivity.class));
+                        break;
+                    case 5:
+                        startActivity(new Intent(MainActivity.this, StoryActivity.class));
                         break;
                 }
             }

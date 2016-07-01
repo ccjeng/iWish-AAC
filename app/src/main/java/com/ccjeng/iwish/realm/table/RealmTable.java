@@ -22,7 +22,6 @@ public interface RealmTable {
         String NAME = "name";
     }
 
-
     interface Daily {
         String NAME = "name";
         String DATETIME = "datetime";
@@ -41,5 +40,11 @@ public interface RealmTable {
     interface Selection {
         String NAME = "name";
         String ORDER = "order";
+    }
+
+    interface Story {
+        String NAME = "name";
+        String ORDER = "order";
+        String DATETIME = "datetime";
     }
 }

@@ -1,7 +1,5 @@
 package com.ccjeng.iwish.realm.repository.impl;
 
-import android.util.Log;
-
 import com.ccjeng.iwish.model.Frequency;
 import com.ccjeng.iwish.model.FrequencyList;
 import com.ccjeng.iwish.realm.repository.IFrequencyRepository;
@@ -57,7 +55,7 @@ public class FrequencyRepository implements IFrequencyRepository {
             RealmResults<Frequency> s = realm.where(Frequency.class).equalTo(RealmTable.Frequency.NAME, name).findAll();
             long sum = s.sum(RealmTable.Frequency.COUNT).longValue();
 
-            Log.d(TAG, name + " - "+ sum);
+            //Log.d(TAG, name + " - "+ sum);
 
             FrequencyList frequencyList = new FrequencyList(name, sum);
             list.add(frequencyList);

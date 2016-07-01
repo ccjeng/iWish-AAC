@@ -79,8 +79,17 @@ public class Migration implements RealmMigration {
             oldVersion++;
         }
 
-        if(oldVersion == 4) {
-            oldVersion++;
+        if(oldVersion == 5) {
+
+            if (schema.get("Story") == null) {
+                schema.create("Story")
+                        .addField("id", String.class, FieldAttribute.PRIMARY_KEY)
+                        .addField("name", String.class, FieldAttribute.REQUIRED)
+                        .addField("order", int.class)
+                        .addField("datetime", long.class);
+            }
+
+       //     oldVersion++;
         }
 
     }

@@ -8,6 +8,8 @@
     <string name="frequency">常用句</string>
     <string name="introduce">自我介紹(回答)</string>
     <string name="selection">是不是(選擇)</string>
+    <string name="story">文章</string>
+
 
     <!-- menu -->
     <string name="action_settings">設定</string>
