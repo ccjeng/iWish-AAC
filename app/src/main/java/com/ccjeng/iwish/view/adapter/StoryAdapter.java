@@ -2,6 +2,7 @@ package com.ccjeng.iwish.view.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,6 +90,8 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.CustomViewHo
 
             tvName = (TextView) itemView.findViewById(R.id.tv_name);
             tvName.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize);
+            tvName.setGravity(Gravity.START);
+            tvName.setMinLines(1);
             tvAddition = (TextView) itemView.findViewById(R.id.tv_addition);
             tvAddition.setVisibility(View.VISIBLE);
 

@@ -202,7 +202,7 @@ public class StoryActivity extends BaseActivity implements OnStartDragListener {
                 swipeToDismissTouchHelper.attachToRecyclerView(null);
                 dragTouchHelper.attachToRecyclerView(null);
                 toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                toolbar.setTitle(getString(R.string.selection));
+                toolbar.setTitle(getString(R.string.story));
 
                 break;
 

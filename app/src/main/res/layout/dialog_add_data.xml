@@ -16,6 +16,15 @@
         android:text="@string/add"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
+    <Button
+        android:id="@+id/bt_add_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignRight="@+id/tv_text"
+        android:text="@string/add" />
+
     <EditText
         android:layout_marginTop="15dp"
         android:id="@+id/et_name"
@@ -28,12 +37,5 @@
         android:layout_below="@+id/tv_text"
         android:hint="@string/input_hint" />
 
-    <Button
-        android:id="@+id/bt_add_data"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/et_name"
-        android:text="@string/add" />
+
 </RelativeLayout>
