@@ -10,6 +10,7 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**
  * Created by andycheng on 2016/7/1.
@@ -61,7 +62,7 @@ public class StoryRepository implements IStoryRepository{
     public void getAllStory(onGetStoryCallback callback) {
         Realm realm = Realm.getInstance(BaseApplication.realmConfiguration);
         RealmResults<Story> results = realm.where(Story.class).findAll();
-        results = results.sort(RealmTable.Story.ORDER);
+        results = results.sort(RealmTable.Story.DATETIME, Sort.DESCENDING);
 
         List<Story> list = realm.copyFromRealm(results);
 
