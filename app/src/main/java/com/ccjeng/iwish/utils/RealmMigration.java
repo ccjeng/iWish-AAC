@@ -27,8 +27,8 @@ public class RealmMigration  {
     private Context context;
     private Realm realm;
 
-    private final String backupPATH = Environment.getExternalStorageDirectory() + File.separator + "iWash/backup/";
-    private final String restorePATH = Environment.getExternalStorageDirectory() + File.separator + "iWash/restore/";
+    private final String backupPATH =  Environment.getExternalStorageDirectory() + File.separator + "iWash/backup";
+    private final String restorePATH =  Environment.getExternalStorageDirectory() + File.separator + "iWash/restore";
     private final String realmDataFileName = "default.realm";
 
     public RealmMigration(Context context) {

@@ -57,12 +57,21 @@
             android:label="@string/selection"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar"/>
-
         <activity
-            android:name=".view.activity.StoryActivity"
+            android:name=".view.activity.StoryItemListActivity"
             android:label="@string/story"
             android:screenOrientation="landscape"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".view.activity.StoryItemDetailActivity"
+            android:label="@string/title_storyitem_detail"
+            android:parentActivityName=".view.activity.StoryItemListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ccjeng.iwish.view.activity.StoryItemListActivity"/>
+        </activity>
     </application>
 
 </manifest>

@@ -79,7 +79,7 @@ public class Migration implements RealmMigration {
             oldVersion++;
         }
 
-        if(oldVersion == 5) {
+        if(oldVersion == 6) {
 
             if (schema.get("Story") == null) {
                 schema.create("Story")

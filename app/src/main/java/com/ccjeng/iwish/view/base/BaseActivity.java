@@ -7,7 +7,6 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -52,7 +51,7 @@ public class BaseActivity extends AppCompatActivity {
 
     public int getFontSize(){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        return Integer.valueOf(prefs.getString("fontsize", "100"));
+        return Integer.valueOf(prefs.getString("fontsize", "80"));
     }
 
     public int getColumnNum() {

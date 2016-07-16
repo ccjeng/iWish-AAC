@@ -5,7 +5,7 @@ import com.ccjeng.iwish.model.Story;
 import com.ccjeng.iwish.presenter.IStoryPresenter;
 import com.ccjeng.iwish.realm.repository.IStoryRepository;
 import com.ccjeng.iwish.realm.repository.impl.StoryRepository;
-import com.ccjeng.iwish.view.activity.StoryActivity;
+import com.ccjeng.iwish.view.activity.StoryItemListActivity;
 
 import java.util.List;
 
@@ -14,14 +14,14 @@ import java.util.List;
  */
 public class StoryPresenter implements IStoryPresenter {
 
-    private StoryActivity view;
+    private StoryItemListActivity view;
     private IStoryRepository repository;
     private IStoryRepository.onGetStoryCallback onGetStoryCallback;
     private IStoryRepository.onSaveCallback onSaveCallback;
     private IStoryRepository.onDeleteCallback onDeleteCallback;
     private IStoryRepository.onUpdateCallback onUpdateCallback;
 
-    public StoryPresenter(StoryActivity view) {
+    public StoryPresenter(StoryItemListActivity view) {
         this.view = view;
         this.repository = new StoryRepository();
     }

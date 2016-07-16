@@ -18,17 +18,17 @@ import java.util.List;
 /**
  * Created by andycheng on 2016/7/1.
  */
-public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.CustomViewHolder>
+public class StoryItemListAdapter extends RecyclerView.Adapter<StoryItemListAdapter.CustomViewHolder>
         implements ItemTouchHelperAdapter {
 
-    private final static String TAG = StoryAdapter.class.getSimpleName();
+    private final static String TAG = StoryItemListAdapter.class.getSimpleName();
 
     private OnItemClickListener onItemClickListener;
 
     private List<Story> mStories;
     private int fontSize;
 
-    public StoryAdapter(List<Story> stories, int fontSize) {
+    public StoryItemListAdapter(List<Story> stories, int fontSize) {
         this.mStories = stories;
         this.fontSize = fontSize;
     }
@@ -42,9 +42,13 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.CustomViewHo
     }
 
     @Override
-    public void onBindViewHolder(CustomViewHolder holder, int position) {
-        holder.tvName.setText(mStories.get(position).getName());
+    public void onBindViewHolder(final CustomViewHolder holder, int position) {
+
+        String title = mStories.get(position).getName().split("\r\n|\r|\n")[0];
+
+        holder.tvName.setText(title);
         holder.tvAddition.setText(mStories.get(position).getDate());
+
     }
 
     @Override
@@ -80,22 +84,25 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.CustomViewHo
     public class CustomViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
 
-        TextView tvName;
-        TextView tvAddition;
+        public final View view;
+        public final TextView tvName;
+        public final TextView tvAddition;
 
 
         public CustomViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
 
+            view = itemView;
             tvName = (TextView) itemView.findViewById(R.id.tv_name);
-            tvName.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize);
+            tvName.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize/2);
             tvName.setGravity(Gravity.START);
             tvName.setMinLines(1);
             tvAddition = (TextView) itemView.findViewById(R.id.tv_addition);
             tvAddition.setVisibility(View.VISIBLE);
 
         }
+
 
         @Override
         public void onClick(View v) {

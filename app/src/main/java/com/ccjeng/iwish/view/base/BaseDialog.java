@@ -14,6 +14,7 @@ public class BaseDialog extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, R.style.AlertDialogStyle);
+
     }
 
 }

@@ -92,7 +92,9 @@ public class MainActivity extends BaseActivity {
                         startActivity(new Intent(MainActivity.this, SelectionActivity.class));
                         break;
                     case 5:
-                        startActivity(new Intent(MainActivity.this, StoryActivity.class));
+                        //startActivity(new Intent(MainActivity.this, StoryActivity.class));
+                        startActivity(new Intent(MainActivity.this, StoryItemListActivity.class));
+
                         break;
                 }
             }
