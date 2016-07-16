@@ -55,13 +55,13 @@ public class MainActivity extends BaseActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         List<String> mainItems = new ArrayList<String>();
-        mainItems.add(getString(R.string.frequency));
-        mainItems.add(getString(R.string.aac));
-        mainItems.add(getString(R.string.daily));
-        mainItems.add(getString(R.string.introduce));
-        mainItems.add(getString(R.string.selection));
-        mainItems.add(getString(R.string.story));
 
+        mainItems.add(getString(R.string.aac));
+        mainItems.add(getString(R.string.selection));
+        mainItems.add(getString(R.string.daily));
+        mainItems.add(getString(R.string.story));
+        mainItems.add(getString(R.string.introduce));
+        mainItems.add(getString(R.string.frequency));
 
         adapter = new MainAdapter(mainItems, getFontSize());
 
@@ -77,24 +77,22 @@ public class MainActivity extends BaseActivity {
 
                 switch (position) {
                     case 0:
-                        startActivity(new Intent(MainActivity.this, FrequencyActivity.class));
+                        startActivity(new Intent(MainActivity.this, CategoryActivity.class));
                         break;
                     case 1:
-                        startActivity(new Intent(MainActivity.this, CategoryActivity.class));
+                        startActivity(new Intent(MainActivity.this, SelectionActivity.class));
                         break;
                     case 2:
                         startActivity(new Intent(MainActivity.this, DailyActivity.class));
                         break;
                     case 3:
-                        startActivity(new Intent(MainActivity.this, IntroduceActivity.class));
+                        startActivity(new Intent(MainActivity.this, StoryItemListActivity.class));
                         break;
                     case 4:
-                        startActivity(new Intent(MainActivity.this, SelectionActivity.class));
+                        startActivity(new Intent(MainActivity.this, IntroduceActivity.class));
                         break;
                     case 5:
-                        //startActivity(new Intent(MainActivity.this, StoryActivity.class));
-                        startActivity(new Intent(MainActivity.this, StoryItemListActivity.class));
-
+                        startActivity(new Intent(MainActivity.this, FrequencyActivity.class));
                         break;
                 }
             }
