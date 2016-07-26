@@ -55,7 +55,7 @@ public class StoryItemListActivity extends BaseActivity {
     private MenuItem editMenuItem;
     private MenuItem sortMenuItem;
     private ItemTouchHelper swipeToDismissTouchHelper;
-    private ItemTouchHelper dragTouchHelper;
+    //private ItemTouchHelper dragTouchHelper;
 
     private int fontSize;
     /**
@@ -141,7 +141,6 @@ public class StoryItemListActivity extends BaseActivity {
             @Override
             public void onItemClick(int position, String id, String name) {
 
-
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
                     arguments.putString(StoryItemDetailFragment.ARG_CONTENT, name);
@@ -157,10 +156,8 @@ public class StoryItemListActivity extends BaseActivity {
                     Intent intent = new Intent(StoryItemListActivity.this, StoryItemDetailActivity.class);
                     intent.putExtra(StoryItemDetailFragment.ARG_CONTENT, name);
                     intent.putExtra(StoryItemDetailFragment.ARG_FONTSIZE, fontSize);
-
                     startActivity(intent);
                 }
-
 
                 if (mode.equals(Mode.EDIT)) {
                     showEditDialog(position, id, name);
@@ -180,6 +177,17 @@ public class StoryItemListActivity extends BaseActivity {
 
         recyclerView.setAdapter(mAdapter);
 
+        //show first article
+        if (mTwoPane) {
+            Bundle arguments = new Bundle();
+            arguments.putString(StoryItemDetailFragment.ARG_CONTENT, stories.get(0).getName());
+            arguments.putInt(StoryItemDetailFragment.ARG_FONTSIZE, fontSize);
+            StoryItemDetailFragment fragment = new StoryItemDetailFragment();
+            fragment.setArguments(arguments);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.storyitem_detail_container, fragment)
+                    .commit();
+        }
     }
 
     @Override

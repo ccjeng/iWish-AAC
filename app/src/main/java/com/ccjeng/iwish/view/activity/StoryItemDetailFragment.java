@@ -69,7 +69,7 @@ public class StoryItemDetailFragment extends Fragment {
 
         // Show the dummy content as text in a TextView.
         ((TextView) rootView.findViewById(R.id.storyitem_detail)).setText(mName);
-        ((TextView) rootView.findViewById(R.id.storyitem_detail)).setTextSize(TypedValue.COMPLEX_UNIT_SP, mFontSize/2);
+        ((TextView) rootView.findViewById(R.id.storyitem_detail)).setTextSize(TypedValue.COMPLEX_UNIT_SP, mFontSize*2/3);
 
 
         return rootView;
