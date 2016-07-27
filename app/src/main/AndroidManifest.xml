@@ -66,11 +66,12 @@
         <activity
             android:name=".view.activity.StoryItemDetailActivity"
             android:label="@string/title_storyitem_detail"
+            android:screenOrientation="landscape"
             android:parentActivityName=".view.activity.StoryItemListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ccjeng.iwish.view.activity.StoryItemListActivity"/>
+                android:value=".view.activity.StoryItemListActivity"/>
         </activity>
     </application>
 
