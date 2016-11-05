@@ -25,4 +25,13 @@
         <item name="android:windowIsFloating">false</item>
     </style>
 
+    <!-- Modify ripple color with SelectableItemBackground effort -->
+    <style name="SelectableItemTheme">
+        <item name="colorControlHighlight">@color/yellow</item>
+    </style>
+    <style name="SelectableItemBackground">
+        <item name="android:theme">@style/SelectableItemTheme</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+    </style>
+
 </resources>
