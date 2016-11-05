@@ -95,6 +95,8 @@ public class IntroduceAdapter extends RecyclerView.Adapter<IntroduceAdapter.Cust
         }
 
 
+
+
     }
 
     public interface OnItemClickListener{

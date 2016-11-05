@@ -148,6 +148,8 @@ public class IntroduceActivity extends BaseActivity implements OnStartDragListen
                 }
             }
 
+
+
         });
 
         recyclerView.setAdapter(mAdapter);
