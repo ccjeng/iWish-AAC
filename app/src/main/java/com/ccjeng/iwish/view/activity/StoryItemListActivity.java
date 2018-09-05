@@ -26,7 +26,7 @@ import com.ccjeng.iwish.view.dialogs.EditDialog;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -41,10 +41,10 @@ public class StoryItemListActivity extends BaseActivity {
 
     private static final String TAG = StoryItemListActivity.class.getSimpleName();
 
-    @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.fab) FloatingActionButton fab;
-    @Bind(R.id.storyitem_list) RecyclerView recyclerView;
-    @Bind(R.id.coordinatorlayout) public CoordinatorLayout coordinatorlayout;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.fab) FloatingActionButton fab;
+    @BindView(R.id.storyitem_list) RecyclerView recyclerView;
+    @BindView(R.id.coordinatorlayout) public CoordinatorLayout coordinatorlayout;
 
     private IStoryPresenter presenter;
     private List<Story> mStories;

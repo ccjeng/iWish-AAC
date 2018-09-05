@@ -20,8 +20,8 @@ public class IntroduceRepository implements IIntroduceRepository {
     public void addIntroduce(Introduce introduce, onSaveCallback callback) {
         Realm realm =Realm.getInstance(BaseApplication.realmConfiguration);
         realm.beginTransaction();
-        Introduce i = realm.createObject(Introduce.class);
-        i.setId(Utils.getUniqueID());
+        Introduce i = realm.createObject(Introduce.class, Utils.getUniqueID());
+        //i.setId(Utils.getUniqueID());
         i.setName(introduce.getName());
         i.setOrder(introduce.getOrder());
         realm.commitTransaction();

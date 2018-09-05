@@ -20,8 +20,8 @@ public class SelectionRepository implements ISelectionRepository {
     public void addSelection(Selection selection, onSaveCallback callback) {
         Realm realm =Realm.getInstance(BaseApplication.realmConfiguration);
         realm.beginTransaction();
-        Selection s = realm.createObject(Selection.class);
-        s.setId(Utils.getUniqueID());
+        Selection s = realm.createObject(Selection.class, Utils.getUniqueID());
+        //s.setId(Utils.getUniqueID());
         s.setName(selection.getName());
         s.setOrder(selection.getOrder());
         realm.commitTransaction();

@@ -1,5 +1,6 @@
 package com.ccjeng.iwish.view.activity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
@@ -8,27 +9,31 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.ccjeng.iwish.R;
 import com.ccjeng.iwish.controller.Speaker;
 import com.ccjeng.iwish.view.adapter.MainAdapter;
 import com.ccjeng.iwish.view.base.BaseActivity;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.functions.Consumer;
 
 public class MainActivity extends BaseActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.coordinatorlayout) public CoordinatorLayout coordinatorlayout;
-    @Bind(R.id.recyclerView) RecyclerView recyclerView;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.coordinatorlayout) public CoordinatorLayout coordinatorlayout;
+    @BindView(R.id.recyclerView) RecyclerView recyclerView;
 
     private final int CHECK_CODE = 0x1;
     private Speaker speaker;
@@ -101,6 +106,7 @@ public class MainActivity extends BaseActivity {
 
         recyclerView.setAdapter(adapter);
 
+        getPermission();
     }
 
     @Override
@@ -148,6 +154,30 @@ public class MainActivity extends BaseActivity {
                 startActivity(install);
             }
         }
+    }
+
+
+    public void getPermission() {
+
+        RxPermissions rxPermissions = new RxPermissions(this);
+        rxPermissions
+                .request(Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE) // ask single or multiple permission once
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean aBoolean) throws Exception {
+                        if (aBoolean) {
+                            //申請的權限全部允許
+                            Log.d(TAG,"PERMISSION GRANT");
+                        } else {
+                            //只要有一個權限被拒絕，就會執行
+                            Log.d(TAG,"PERMISSION DENY");
+                            Toast.makeText(MainActivity.this, "未授權權限，地圖功能不能使用", Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+
+                });
     }
 
 }

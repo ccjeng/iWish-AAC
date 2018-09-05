@@ -27,8 +27,8 @@ public class RealmMigration  {
     private Context context;
     private Realm realm;
 
-    private final String backupPATH =  Environment.getExternalStorageDirectory() + File.separator + "iWash/backup";
-    private final String restorePATH =  Environment.getExternalStorageDirectory() + File.separator + "iWash/restore";
+    private final String backupPATH =  Environment.getExternalStorageDirectory() + File.separator + "iWish/backup";
+    private final String restorePATH =  Environment.getExternalStorageDirectory() + File.separator + "iWish/restore";
     private final String realmDataFileName = "default.realm";
 
     public RealmMigration(Context context) {
@@ -53,7 +53,7 @@ public class RealmMigration  {
         }
 
 
-        try {
+
             // create a backup file
             backupRealmFile = new File(backupRealmPATH, realmDataFileName);
 
@@ -65,9 +65,7 @@ public class RealmMigration  {
             // copy current realm to backup file
             realm.writeCopyTo(backupRealmFile);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
 
         String msg =  "File exported to Path: "+ backupPATH;
             Toast.makeText(context, msg, Toast.LENGTH_LONG).show();

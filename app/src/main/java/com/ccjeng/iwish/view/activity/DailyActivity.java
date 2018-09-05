@@ -22,18 +22,18 @@ import com.ccjeng.iwish.view.base.BaseActivity;
 import com.ccjeng.iwish.view.dialogs.AddDialog;
 import com.ccjeng.iwish.view.dialogs.EditDialog;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.RealmResults;
 
 public class DailyActivity extends BaseActivity {
 
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.fab)
+    @BindView(R.id.fab)
     FloatingActionButton fab;
-    @Bind(R.id.coordinatorlayout) public CoordinatorLayout coordinatorlayout;
-    @Bind(R.id.recyclerView)
+    @BindView(R.id.coordinatorlayout) public CoordinatorLayout coordinatorlayout;
+    @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
 

@@ -21,8 +21,8 @@ public class StoryRepository implements IStoryRepository{
     public void addStory(Story story, onSaveCallback callback) {
         Realm realm =Realm.getInstance(BaseApplication.realmConfiguration);
         realm.beginTransaction();
-        Story s = realm.createObject(Story.class);
-        s.setId(Utils.getUniqueID());
+        Story s = realm.createObject(Story.class, Utils.getUniqueID());
+        //s.setId(Utils.getUniqueID());
         s.setName(story.getName());
         s.setOrder(story.getOrder());
         s.setDatetime();

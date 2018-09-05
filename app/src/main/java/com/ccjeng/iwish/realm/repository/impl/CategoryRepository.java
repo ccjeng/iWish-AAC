@@ -25,8 +25,8 @@ public class CategoryRepository implements ICategoryRepository {
     public void addCategory(Category category, onSaveCallback callback) {
         Realm realm =Realm.getInstance(BaseApplication.realmConfiguration);
         realm.beginTransaction();
-        Category c = realm.createObject(Category.class);
-        c.setId(Utils.getUniqueID());
+        Category c = realm.createObject(Category.class, Utils.getUniqueID());
+        //c.setId(Utils.getUniqueID());
         c.setName(category.getName());
         c.setOrder(category.getOrder());
         realm.commitTransaction();

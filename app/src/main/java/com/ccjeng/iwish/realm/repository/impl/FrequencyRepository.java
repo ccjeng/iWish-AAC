@@ -46,7 +46,7 @@ public class FrequencyRepository implements IFrequencyRepository {
     @Override
     public void getAllFrequencyDistinctCount(onGetFrequencyDistinctCountCallback callback) {
         Realm realm = Realm.getInstance(BaseApplication.realmConfiguration);
-        RealmResults<Frequency> results = realm.where(Frequency.class).distinct(RealmTable.Frequency.NAME);
+        RealmResults<Frequency> results = realm.where(Frequency.class).distinct(RealmTable.Frequency.NAME).findAll();
 
         List<FrequencyList> list = new ArrayList<FrequencyList>();
 

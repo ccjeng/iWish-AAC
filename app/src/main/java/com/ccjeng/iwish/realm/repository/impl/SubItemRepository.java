@@ -21,8 +21,8 @@ public class SubItemRepository implements ISubItemRepository {
     public void addSubItem(SubItem item, onSaveCallback callback) {
         Realm realm =Realm.getInstance(BaseApplication.realmConfiguration);
         realm.beginTransaction();
-        SubItem s = realm.createObject(SubItem.class);
-        s.setId(Utils.getUniqueID());
+        SubItem s = realm.createObject(SubItem.class, Utils.getUniqueID());
+        //s.setId(Utils.getUniqueID());
         s.setName(item.getName());
         realm.commitTransaction();
 
@@ -35,9 +35,9 @@ public class SubItemRepository implements ISubItemRepository {
         Realm realm =Realm.getInstance(BaseApplication.realmConfiguration);
         realm.beginTransaction();
 
-        SubItem s = realm.createObject(SubItem.class);
+        SubItem s = realm.createObject(SubItem.class, Utils.getUniqueID());
 
-        s.setId(Utils.getUniqueID());
+        //s.setId(Utils.getUniqueID());
         s.setName(item.getName());
 
 
@@ -115,8 +115,8 @@ public class SubItemRepository implements ISubItemRepository {
     public void addFrequency(String name) {
         Realm realm = Realm.getInstance(BaseApplication.realmConfiguration);
         realm.beginTransaction();
-        Frequency f = realm.createObject(Frequency.class);
-        f.setId(Utils.getUniqueID());
+        Frequency f = realm.createObject(Frequency.class, Utils.getUniqueID());
+       // f.setId(Utils.getUniqueID());
         f.setName(name);
         f.setCount();
         realm.commitTransaction();

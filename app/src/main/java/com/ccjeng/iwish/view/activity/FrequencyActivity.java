@@ -1,9 +1,7 @@
 package com.ccjeng.iwish.view.activity;
 
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,11 +9,9 @@ import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.ccjeng.iwish.R;
 import com.ccjeng.iwish.controller.Speaker;
-import com.ccjeng.iwish.model.Frequency;
 import com.ccjeng.iwish.model.FrequencyList;
 import com.ccjeng.iwish.presenter.IFrequencyPresenter;
 import com.ccjeng.iwish.presenter.impl.FrequencyPresenter;
@@ -24,15 +20,14 @@ import com.ccjeng.iwish.view.base.BaseActivity;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.RealmResults;
 
 public class FrequencyActivity extends BaseActivity {
 
-    @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.coordinatorlayout) public CoordinatorLayout coordinatorlayout;
-    @Bind(R.id.recyclerView) RecyclerView recyclerView;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.coordinatorlayout) public CoordinatorLayout coordinatorlayout;
+    @BindView(R.id.recyclerView) RecyclerView recyclerView;
 
     private IFrequencyPresenter presenter;
     private FrequencyAdapter adapter;

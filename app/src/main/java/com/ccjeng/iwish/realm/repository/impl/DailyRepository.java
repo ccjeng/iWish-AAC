@@ -20,8 +20,8 @@ public class DailyRepository implements IDailyRepository {
     public void addDaily(Daily daily, onSaveCallback callback) {
         Realm realm = Realm.getInstance(BaseApplication.realmConfiguration);
         realm.beginTransaction();
-        Daily d = realm.createObject(Daily.class);
-        d.setId(Utils.getUniqueID());
+        Daily d = realm.createObject(Daily.class, Utils.getUniqueID());
+        //d.setId(Utils.getUniqueID());
         d.setName(daily.getName());
         d.setDatetime();
         realm.commitTransaction();

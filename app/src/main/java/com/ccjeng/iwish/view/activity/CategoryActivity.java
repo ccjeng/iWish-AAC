@@ -30,18 +30,18 @@ import com.ccjeng.iwish.view.dialogs.EditDialog;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class CategoryActivity extends BaseActivity implements OnStartDragListener {
 
     private static final String TAG = CategoryActivity.class.getSimpleName();
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.fab)
+    @BindView(R.id.fab)
     FloatingActionButton fab;
-    @Bind(R.id.coordinatorlayout) public CoordinatorLayout coordinatorlayout;
-    @Bind(R.id.recyclerView)
+    @BindView(R.id.coordinatorlayout) public CoordinatorLayout coordinatorlayout;
+    @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
     private ICategoryPresenter presenter;

@@ -3,6 +3,8 @@ package com.ccjeng.iwish.view.base;
 import android.app.Application;
 
 import com.ccjeng.iwish.realm.table.Migration;
+
+import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
 /**
@@ -14,10 +16,10 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        Realm.init(this);
         realmConfiguration = new RealmConfiguration
-                .Builder(this)
-                .schemaVersion(6)
+                .Builder()
+                .schemaVersion(7)
                 .migration(new Migration())
                 .build();
 

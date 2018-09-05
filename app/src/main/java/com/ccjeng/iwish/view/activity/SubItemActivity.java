@@ -26,16 +26,16 @@ import com.ccjeng.iwish.view.base.BaseActivity;
 import com.ccjeng.iwish.view.dialogs.AddDialog;
 import com.ccjeng.iwish.view.dialogs.EditDialog;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.RealmList;
 
 public class SubItemActivity extends BaseActivity implements OnStartDragListener {
 
-    @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.fab) FloatingActionButton fab;
-    @Bind(R.id.recyclerView) RecyclerView recyclerView;
-    @Bind(R.id.coordinatorlayout) public CoordinatorLayout coordinatorlayout;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.fab) FloatingActionButton fab;
+    @BindView(R.id.recyclerView) RecyclerView recyclerView;
+    @BindView(R.id.coordinatorlayout) public CoordinatorLayout coordinatorlayout;
 
     private ISubItemPresenter presenter;
     private SubItemAdapter adapter;

@@ -2,11 +2,14 @@ package com.ccjeng.iwish.realm.table;
 
 import android.util.Log;
 
+import com.ccjeng.iwish.model.Story;
 
 import io.realm.DynamicRealm;
 import io.realm.FieldAttribute;
 import io.realm.RealmMigration;
+import io.realm.RealmObjectSchema;
 import io.realm.RealmSchema;
+
 
 /**
  * Created by andycheng on 2016/4/8.
@@ -89,7 +92,20 @@ public class Migration implements RealmMigration {
                         .addField("datetime", long.class);
             }
 
-       //     oldVersion++;
+            oldVersion++;
+        }
+
+        if(oldVersion == 7) {
+
+            RealmObjectSchema realmStory = schema.get(Story.class.getSimpleName());
+            if (realmStory.hasPrimaryKey() && !realmStory.isRequired("id")) {
+                realmStory.removePrimaryKey();
+                realmStory.setRequired("id", true);
+                realmStory.addPrimaryKey("id");
+            }
+
+
+            oldVersion++;
         }
 
     }
