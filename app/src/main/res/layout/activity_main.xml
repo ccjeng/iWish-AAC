@@ -27,7 +27,7 @@
 
             <ImageView
                 android:id="@+id/bannner"
-                android:src="@mipmap/shan"
+                android:src="@mipmap/shan1"
                 android:fitsSystemWindows="true"
                 app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
                 android:layout_width="match_parent"
